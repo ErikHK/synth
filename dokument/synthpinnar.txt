@@ -1,0 +1,14 @@
+pryl			pinnar
+
+2R-R ladder		8
+skärm			11 7? (3?)
+knappar			3 (clock, data, latch pin)
+pitch/mod		2 ADC
+meny-knappar		3  4?
+oktav-knappar		2
+meny-hjul		1 ADC
+(övriga knappar etc	5?)
+tot			~26-30
+
+
+32 tot?
