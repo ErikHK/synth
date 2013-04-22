@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Atmel Studio Solution File, Format Version 11.00
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Synth", "Synth\Synth.cproj", "{E10EF2CC-B9DB-4EDF-B710-A22CB611720D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AVR = Debug|AVR
+		Release|AVR = Release|AVR
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E10EF2CC-B9DB-4EDF-B710-A22CB611720D}.Debug|AVR.ActiveCfg = Debug|AVR
+		{E10EF2CC-B9DB-4EDF-B710-A22CB611720D}.Debug|AVR.Build.0 = Debug|AVR
+		{E10EF2CC-B9DB-4EDF-B710-A22CB611720D}.Release|AVR.ActiveCfg = Release|AVR
+		{E10EF2CC-B9DB-4EDF-B710-A22CB611720D}.Release|AVR.Build.0 = Release|AVR
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
