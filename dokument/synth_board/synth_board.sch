@@ -857,16 +857,6 @@ Wire Wire Line
 Wire Wire Line
 	2650 4900 2650 4550
 Wire Wire Line
-	1800 5250 1750 5250
-Wire Wire Line
-	1750 5250 1750 4850
-Wire Wire Line
-	1750 4850 2700 4850
-Wire Wire Line
-	2700 4850 2700 4350
-Wire Wire Line
-	2700 4350 2650 4350
-Wire Wire Line
 	1800 5550 1800 5700
 Wire Wire Line
 	1800 5700 3000 5700
@@ -878,12 +868,6 @@ Wire Wire Line
 	2950 4600 2950 3850
 Wire Wire Line
 	2950 3850 2650 3850
-Wire Wire Line
-	2700 5050 2750 5050
-Wire Wire Line
-	2750 5050 2750 3950
-Wire Wire Line
-	2750 3950 2650 3950
 Wire Wire Line
 	2700 5150 3050 5150
 Wire Wire Line
@@ -1386,4 +1370,20 @@ Wire Wire Line
 Connection ~ 5150 3400
 Wire Wire Line
 	6200 2400 6800 2400
+Wire Wire Line
+	2700 5050 2750 5050
+Wire Wire Line
+	2750 3950 2650 3950
+Wire Wire Line
+	2750 5050 2750 3950
+Wire Wire Line
+	2700 4350 2650 4350
+Wire Wire Line
+	2700 4850 2700 4350
+Wire Wire Line
+	1750 4850 2700 4850
+Wire Wire Line
+	1750 5250 1750 4850
+Wire Wire Line
+	1800 5250 1750 5250
 $EndSCHEMATC

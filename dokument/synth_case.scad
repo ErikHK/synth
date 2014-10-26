@@ -50,7 +50,7 @@ module atmega()
 {
 color("yellow")
 //cube([53, 16, 5]);
-cube([85, 30, 1.6]);
+cube([85, 33, 1.6]);
 }
 
 
