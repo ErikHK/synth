@@ -1,556 +1,763 @@
-Cmp-Mod V01 Created by CvPcb (2013-07-07 BZR 4022)-stable date = 2014-10-27 00:05:06
+Cmp-Mod V01 Genere par PcbNew le 2014-10-27 00:21:11
 
 BeginCmp
-TimeStamp = /544C9B51;
-Reference = C1;
-ValeurCmp = CP1;
-IdModule  = CP4;
-EndCmp
-
-BeginCmp
-TimeStamp = /544C995C;
-Reference = C2;
-ValeurCmp = CP1;
-IdModule  = CP4;
-EndCmp
-
-BeginCmp
-TimeStamp = /544C9C69;
-Reference = C3;
-ValeurCmp = CP1;
-IdModule  = CP4;
-EndCmp
-
-BeginCmp
-TimeStamp = /544CA27E;
-Reference = C4;
-ValeurCmp = C;
-IdModule  = C1;
-EndCmp
-
-BeginCmp
-TimeStamp = /544CFEF9;
-Reference = C5;
-ValeurCmp = CP1;
-IdModule  = CP4;
-EndCmp
-
-BeginCmp
-TimeStamp = /544CFEEA;
-Reference = C6;
-ValeurCmp = CP1;
-IdModule  = CP4;
-EndCmp
-
-BeginCmp
-TimeStamp = /544D6FCC;
-Reference = C7;
-ValeurCmp = C;
-IdModule  = C1;
-EndCmp
-
-BeginCmp
-TimeStamp = /54480CB5;
-Reference = IC1;
-ValeurCmp = ATMEGA1284-P;
-IdModule  = DIP-40__600;
-EndCmp
-
-BeginCmp
-TimeStamp = /54495641;
-Reference = ISP1;
-ValeurCmp = ISP;
-IdModule  = ISP;
-EndCmp
-
-BeginCmp
-TimeStamp = /544CFD93;
-Reference = Q1;
-ValeurCmp = BC547;
-IdModule  = TO92;
-EndCmp
-
-BeginCmp
-TimeStamp = /5447EA24;
-Reference = R1;
-ValeurCmp = R;
-IdModule  = R1;
-EndCmp
-
-BeginCmp
-TimeStamp = /5447EA33;
-Reference = R2;
-ValeurCmp = R;
-IdModule  = R1;
-EndCmp
-
-BeginCmp
-TimeStamp = /5447EA42;
-Reference = R3;
-ValeurCmp = R;
-IdModule  = R1;
-EndCmp
-
-BeginCmp
-TimeStamp = /5447EA51;
-Reference = R4;
-ValeurCmp = R;
-IdModule  = R1;
-EndCmp
-
-BeginCmp
-TimeStamp = /5447EA60;
-Reference = R5;
-ValeurCmp = R;
-IdModule  = R1;
-EndCmp
-
-BeginCmp
-TimeStamp = /5447EA6F;
-Reference = R6;
-ValeurCmp = R;
-IdModule  = R1;
-EndCmp
-
-BeginCmp
-TimeStamp = /5447EAF4;
-Reference = R7;
-ValeurCmp = R;
-IdModule  = R1;
-EndCmp
-
-BeginCmp
-TimeStamp = /5447EB03;
-Reference = R8;
-ValeurCmp = R;
-IdModule  = R1;
-EndCmp
-
-BeginCmp
-TimeStamp = /5447E9BB;
+TimeStamp = 5448079A
+Path = /5447E9BB
 Reference = R9;
 ValeurCmp = R;
 IdModule  = R1;
 EndCmp
 
 BeginCmp
-TimeStamp = /5448A3E2;
-Reference = R10;
-ValeurCmp = R;
-IdModule  = R1;
-EndCmp
-
-BeginCmp
-TimeStamp = /5447E9D9;
+TimeStamp = 544807A2
+Path = /5447E9D9
 Reference = R11;
 ValeurCmp = R;
 IdModule  = R1;
 EndCmp
 
 BeginCmp
-TimeStamp = /5447E9E8;
+TimeStamp = 544807AA
+Path = /5447E9E8
 Reference = R12;
 ValeurCmp = R;
 IdModule  = R1;
 EndCmp
 
 BeginCmp
-TimeStamp = /5447E9F7;
+TimeStamp = 544807B2
+Path = /5447E9F7
 Reference = R13;
 ValeurCmp = R;
 IdModule  = R1;
 EndCmp
 
 BeginCmp
-TimeStamp = /5447EA06;
+TimeStamp = 544807BA
+Path = /5447EA06
 Reference = R14;
 ValeurCmp = R;
 IdModule  = R1;
 EndCmp
 
 BeginCmp
-TimeStamp = /5447EA15;
+TimeStamp = 544807C2
+Path = /5447EA15
 Reference = R15;
 ValeurCmp = R;
 IdModule  = R1;
 EndCmp
 
 BeginCmp
-TimeStamp = /5447EAE5;
+TimeStamp = 544807CA
+Path = /5447EA24
+Reference = R1;
+ValeurCmp = R;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = 544807D2
+Path = /5447EA33
+Reference = R2;
+ValeurCmp = R;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = 544807DA
+Path = /5447EA42
+Reference = R3;
+ValeurCmp = R;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = 544807E2
+Path = /5447EA51
+Reference = R4;
+ValeurCmp = R;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = 544807EA
+Path = /5447EA60
+Reference = R5;
+ValeurCmp = R;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = 544807F2
+Path = /5447EA6F
+Reference = R6;
+ValeurCmp = R;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = 544807FA
+Path = /5447EAE5
 Reference = R16;
 ValeurCmp = R;
 IdModule  = R1;
 EndCmp
 
 BeginCmp
-TimeStamp = /544C89E5;
-Reference = R17;
+TimeStamp = 54480802
+Path = /5447EAF4
+Reference = R7;
 ValeurCmp = R;
 IdModule  = R1;
 EndCmp
 
 BeginCmp
-TimeStamp = /544C8FA1;
-Reference = R18;
+TimeStamp = 5448080A
+Path = /5447EB03
+Reference = R8;
 ValeurCmp = R;
 IdModule  = R1;
 EndCmp
 
 BeginCmp
-TimeStamp = /544C94E2;
-Reference = R19;
+TimeStamp = 54480D7F
+Path = /54480CB5
+Reference = IC1;
+ValeurCmp = ATMEGA1284-P;
+IdModule  = DIP-40__600;
+EndCmp
+
+BeginCmp
+TimeStamp = 5448A3D4
+Path = /5448A3E2
+Reference = R10;
 ValeurCmp = R;
 IdModule  = R1;
 EndCmp
 
 BeginCmp
-TimeStamp = /544C7E1C;
-Reference = R20;
-ValeurCmp = POT;
-IdModule  = PIN_ARRAY_3X1;
+TimeStamp = 54494E4B
+Path = /54495641
+Reference = ISP1;
+ValeurCmp = ISP;
+IdModule  = ISP;
 EndCmp
 
 BeginCmp
-TimeStamp = /544CB61F;
-Reference = R21;
-ValeurCmp = R;
-IdModule  = R1;
-EndCmp
-
-BeginCmp
-TimeStamp = /544CB525;
-Reference = R22;
-ValeurCmp = R;
-IdModule  = R1;
-EndCmp
-
-BeginCmp
-TimeStamp = /544CB516;
-Reference = R23;
-ValeurCmp = R;
-IdModule  = R1;
-EndCmp
-
-BeginCmp
-TimeStamp = /544CC703;
-Reference = R24;
-ValeurCmp = R;
-IdModule  = R1;
-EndCmp
-
-BeginCmp
-TimeStamp = /544CB507;
-Reference = R25;
-ValeurCmp = R;
-IdModule  = R1;
-EndCmp
-
-BeginCmp
-TimeStamp = /544CC6F4;
-Reference = R26;
-ValeurCmp = R;
-IdModule  = R1;
-EndCmp
-
-BeginCmp
-TimeStamp = /544CB4F8;
-Reference = R27;
-ValeurCmp = R;
-IdModule  = R1;
-EndCmp
-
-BeginCmp
-TimeStamp = /544CC6E5;
-Reference = R28;
-ValeurCmp = R;
-IdModule  = R1;
-EndCmp
-
-BeginCmp
-TimeStamp = /544CB4E9;
-Reference = R29;
-ValeurCmp = R;
-IdModule  = R1;
-EndCmp
-
-BeginCmp
-TimeStamp = /544CC6D6;
-Reference = R30;
-ValeurCmp = R;
-IdModule  = R1;
-EndCmp
-
-BeginCmp
-TimeStamp = /544CB4DA;
-Reference = R31;
-ValeurCmp = R;
-IdModule  = R1;
-EndCmp
-
-BeginCmp
-TimeStamp = /544CB4CB;
-Reference = R32;
-ValeurCmp = R;
-IdModule  = R1;
-EndCmp
-
-BeginCmp
-TimeStamp = /544D283E;
-Reference = R33;
-ValeurCmp = R;
-IdModule  = R1;
-EndCmp
-
-BeginCmp
-TimeStamp = /544D284D;
-Reference = R34;
-ValeurCmp = R;
-IdModule  = R1;
-EndCmp
-
-BeginCmp
-TimeStamp = /544D86AD;
-Reference = RV1;
-ValeurCmp = POT;
-IdModule  = PIN_ARRAY_3X1;
-EndCmp
-
-BeginCmp
-TimeStamp = /544C96B9;
-Reference = SP1;
-ValeurCmp = SPEAKER;
-IdModule  = PIN_ARRAY_2X1;
-EndCmp
-
-BeginCmp
-TimeStamp = /544D455C;
-Reference = SP2;
-ValeurCmp = SPEAKER;
-IdModule  = PIN_ARRAY_2X1;
-EndCmp
-
-BeginCmp
-TimeStamp = /54495982;
+TimeStamp = 5449C933
+Path = /54495982
 Reference = U1;
 ValeurCmp = 74LS165;
 IdModule  = DIP-16__300;
 EndCmp
 
 BeginCmp
-TimeStamp = /5449599A;
+TimeStamp = 5449C94F
+Path = /5449599A
 Reference = U2;
 ValeurCmp = 74LS165;
 IdModule  = DIP-16__300;
 EndCmp
 
 BeginCmp
-TimeStamp = /54499B07;
+TimeStamp = 5449FB9E
+Path = /54499B07
 Reference = U3;
 ValeurCmp = BUTTONS;
 IdModule  = buttons_conn;
 EndCmp
 
 BeginCmp
-TimeStamp = /5449A3DF;
+TimeStamp = 5449FC7A
+Path = /5449A3DF
 Reference = U4;
 ValeurCmp = DISPLAY_;
 IdModule  = display;
 EndCmp
 
 BeginCmp
-TimeStamp = /544A1A77;
+TimeStamp = 544A14A6
+Path = /544A1A77
 Reference = U5;
 ValeurCmp = BUTTONS;
 IdModule  = buttons_conn;
 EndCmp
 
 BeginCmp
-TimeStamp = /544A1A86;
+TimeStamp = 544A1C97
+Path = /544A1A86
 Reference = U6;
 ValeurCmp = BUTTON;
 IdModule  = buttons;
 EndCmp
 
 BeginCmp
-TimeStamp = /544A1A95;
+TimeStamp = 544A1C9D
+Path = /544A1A95
 Reference = U7;
 ValeurCmp = BUTTON;
 IdModule  = buttons;
 EndCmp
 
 BeginCmp
-TimeStamp = /544A1AA4;
+TimeStamp = 544A1CA3
+Path = /544A1AA4
 Reference = U8;
 ValeurCmp = BUTTON;
 IdModule  = buttons;
 EndCmp
 
 BeginCmp
-TimeStamp = /544A1AB3;
+TimeStamp = 544A1CA9
+Path = /544A1AB3
 Reference = U9;
 ValeurCmp = BUTTON;
 IdModule  = buttons;
 EndCmp
 
 BeginCmp
-TimeStamp = /544A1AC2;
+TimeStamp = 544A1CAF
+Path = /544A1AC2
 Reference = U10;
 ValeurCmp = BUTTON;
 IdModule  = buttons;
 EndCmp
 
 BeginCmp
-TimeStamp = /544A1AD1;
+TimeStamp = 544A1CB5
+Path = /544A1AD1
 Reference = U11;
 ValeurCmp = BUTTON;
 IdModule  = buttons;
 EndCmp
 
 BeginCmp
-TimeStamp = /544A1AE0;
+TimeStamp = 544A1CBB
+Path = /544A1AE0
 Reference = U12;
 ValeurCmp = BUTTON;
 IdModule  = buttons;
 EndCmp
 
 BeginCmp
-TimeStamp = /544A1AEF;
+TimeStamp = 544A1CC1
+Path = /544A1AEF
 Reference = U13;
 ValeurCmp = BUTTON;
 IdModule  = buttons;
 EndCmp
 
 BeginCmp
-TimeStamp = /544A1AFE;
+TimeStamp = 544A1CC7
+Path = /544A1AFE
 Reference = U14;
 ValeurCmp = BUTTON;
 IdModule  = buttons;
 EndCmp
 
 BeginCmp
-TimeStamp = /544A1B0D;
+TimeStamp = 544A1CCD
+Path = /544A1B0D
 Reference = U15;
 ValeurCmp = BUTTON;
 IdModule  = buttons;
 EndCmp
 
 BeginCmp
-TimeStamp = /544A1B1C;
+TimeStamp = 544A1CD3
+Path = /544A1B1C
 Reference = U16;
 ValeurCmp = BUTTON;
 IdModule  = buttons;
 EndCmp
 
 BeginCmp
-TimeStamp = /544A1B2B;
+TimeStamp = 544A1CD9
+Path = /544A1B2B
 Reference = U17;
 ValeurCmp = BUTTON;
 IdModule  = buttons;
 EndCmp
 
 BeginCmp
-TimeStamp = /544C6BBD;
-Reference = U18;
-ValeurCmp = BUTTON;
-IdModule  = pcbbutton;
+TimeStamp = 544C7893
+Path = /544C89E5
+Reference = R17;
+ValeurCmp = R;
+IdModule  = R1;
 EndCmp
 
 BeginCmp
-TimeStamp = /544C6B90;
-Reference = U19;
-ValeurCmp = BUTTON;
-IdModule  = pcbbutton;
+TimeStamp = 544C789B
+Path = /544C8FA1
+Reference = R18;
+ValeurCmp = R;
+IdModule  = R1;
 EndCmp
 
 BeginCmp
-TimeStamp = /544C6B9F;
-Reference = U20;
-ValeurCmp = BUTTON;
-IdModule  = pcbbutton;
+TimeStamp = 544C78A3
+Path = /544C94E2
+Reference = R19;
+ValeurCmp = R;
+IdModule  = R1;
 EndCmp
 
 BeginCmp
-TimeStamp = /544C6BAE;
-Reference = U21;
-ValeurCmp = BUTTON;
-IdModule  = pcbbutton;
-EndCmp
-
-BeginCmp
-TimeStamp = /544C70DE;
-Reference = U22;
-ValeurCmp = 4BUTTON;
-IdModule  = 4buttons;
-EndCmp
-
-BeginCmp
-TimeStamp = /544C86AF;
-Reference = U23;
-ValeurCmp = SPANNING_SIGNAL;
+TimeStamp = 544C78AF
+Path = /544C7E1C
+Reference = R20;
+ValeurCmp = POT;
 IdModule  = PIN_ARRAY_3X1;
 EndCmp
 
 BeginCmp
-TimeStamp = /544C77C9;
+TimeStamp = 544C78C3
+Path = /544C96B9
+Reference = SP1;
+ValeurCmp = SPEAKER;
+IdModule  = PIN_ARRAY_2X1;
+EndCmp
+
+BeginCmp
+TimeStamp = 544C78D6
+Path = /544C77C9
 Reference = U24;
 ValeurCmp = LM386;
 IdModule  = DIP-8__300;
 EndCmp
 
 BeginCmp
-TimeStamp = /544CF6E6;
-Reference = U25;
-ValeurCmp = MIC;
-IdModule  = PIN_ARRAY_2X1;
+TimeStamp = 544C78E6
+Path = /544C995C
+Reference = C2;
+ValeurCmp = CP1;
+IdModule  = CP4;
 EndCmp
 
 BeginCmp
-TimeStamp = /544D426E;
+TimeStamp = 544C78F6
+Path = /544C9B51
+Reference = C1;
+ValeurCmp = CP1;
+IdModule  = CP4;
+EndCmp
+
+BeginCmp
+TimeStamp = 544C7906
+Path = /544C9C69
+Reference = C3;
+ValeurCmp = CP1;
+IdModule  = CP4;
+EndCmp
+
+BeginCmp
+TimeStamp = 544C7911
+Path = /544CA27E
+Reference = C4;
+ValeurCmp = C;
+IdModule  = C1;
+EndCmp
+
+BeginCmp
+TimeStamp = 544C79F7
+Path = /544C86AF
+Reference = U23;
+ValeurCmp = SPANNING_SIGNAL;
+IdModule  = PIN_ARRAY_3X1;
+EndCmp
+
+BeginCmp
+TimeStamp = 544C7F36
+Path = /544CB4CB
+Reference = R32;
+ValeurCmp = R;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = 544C7F3E
+Path = /544CB4DA
+Reference = R31;
+ValeurCmp = R;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = 544C7F46
+Path = /544CB4E9
+Reference = R29;
+ValeurCmp = R;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = 544C7F4E
+Path = /544CB4F8
+Reference = R27;
+ValeurCmp = R;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = 544C7F56
+Path = /544CB507
+Reference = R25;
+ValeurCmp = R;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = 544C7F5E
+Path = /544CB516
+Reference = R23;
+ValeurCmp = R;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = 544C7F66
+Path = /544CB525
+Reference = R22;
+ValeurCmp = R;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = 544C7F6E
+Path = /544CB61F
+Reference = R21;
+ValeurCmp = R;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = 544C7F76
+Path = /544CC6D6
+Reference = R30;
+ValeurCmp = R;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = 544C7F7E
+Path = /544CC6E5
+Reference = R28;
+ValeurCmp = R;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = 544C7F86
+Path = /544CC6F4
+Reference = R26;
+ValeurCmp = R;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = 544C7F8E
+Path = /544CC703
+Reference = R24;
+ValeurCmp = R;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = 544D2CB4
+Path = /544D426E
 Reference = U26;
 ValeurCmp = VCCGND;
 IdModule  = vccgnd;
 EndCmp
 
 BeginCmp
-TimeStamp = /544D49D4;
+TimeStamp = 544D2CC3
+Path = /544CFD93
+Reference = Q1;
+ValeurCmp = BC547;
+IdModule  = TO92;
+EndCmp
+
+BeginCmp
+TimeStamp = 544D2CCB
+Path = /544D283E
+Reference = R33;
+ValeurCmp = R;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = 544D2CD3
+Path = /544D284D
+Reference = R34;
+ValeurCmp = R;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = 544D2CDD
+Path = /544CF6E6
+Reference = U25;
+ValeurCmp = MIC;
+IdModule  = PIN_ARRAY_2X1;
+EndCmp
+
+BeginCmp
+TimeStamp = 544D2CE7
+Path = /544D455C
+Reference = SP2;
+ValeurCmp = SPEAKER;
+IdModule  = PIN_ARRAY_2X1;
+EndCmp
+
+BeginCmp
+TimeStamp = 544D2CF7
+Path = /544CFEEA
+Reference = C6;
+ValeurCmp = CP1;
+IdModule  = CP4;
+EndCmp
+
+BeginCmp
+TimeStamp = 544D2D07
+Path = /544CFEF9
+Reference = C5;
+ValeurCmp = CP1;
+IdModule  = CP4;
+EndCmp
+
+BeginCmp
+TimeStamp = 544D3045
+Path = /544D49D4
 Reference = U27;
 ValeurCmp = SPANNING_SIGNAL;
 IdModule  = PIN_ARRAY_3X1;
 EndCmp
 
 BeginCmp
-TimeStamp = /544D4FEF;
+TimeStamp = 544D31FB
+Path = /544D4FEF
 Reference = U28;
 ValeurCmp = VCCGND;
 IdModule  = vccgnd;
 EndCmp
 
 BeginCmp
-TimeStamp = /544D72E5;
+TimeStamp = 544E6EF6
+Path = /544C6B90
+Reference = U19;
+ValeurCmp = BUTTON;
+IdModule  = pcbbutton;
+EndCmp
+
+BeginCmp
+TimeStamp = 544E6F02
+Path = /544C6B9F
+Reference = U20;
+ValeurCmp = BUTTON;
+IdModule  = pcbbutton;
+EndCmp
+
+BeginCmp
+TimeStamp = 544E6F0E
+Path = /544C6BAE
+Reference = U21;
+ValeurCmp = BUTTON;
+IdModule  = pcbbutton;
+EndCmp
+
+BeginCmp
+TimeStamp = 544E6F1A
+Path = /544C6BBD
+Reference = U18;
+ValeurCmp = BUTTON;
+IdModule  = pcbbutton;
+EndCmp
+
+BeginCmp
+TimeStamp = 544E6F2A
+Path = /544C70DE
+Reference = U22;
+ValeurCmp = 4BUTTON;
+IdModule  = 4buttons;
+EndCmp
+
+BeginCmp
+TimeStamp = 544E7030
+Path = /544D6FCC
+Reference = C7;
+ValeurCmp = C;
+IdModule  = C1;
+EndCmp
+
+BeginCmp
+TimeStamp = 544E7056
+Path = /544D7B55
+Reference = X1;
+ValeurCmp = CRYSTAL;
+IdModule  = PIN_ARRAY_2X1;
+EndCmp
+
+BeginCmp
+TimeStamp = 544E7066
+Path = /544D72E5
 Reference = U29;
 ValeurCmp = 4BUTTON;
 IdModule  = 4buttons;
 EndCmp
 
 BeginCmp
-TimeStamp = /544D8FB0;
+TimeStamp = 544E7714
+Path = 
+Reference = 1pin;
+ValeurCmp = VAL**;
+IdModule  = 1pin;
+EndCmp
+
+BeginCmp
+TimeStamp = 544E771D
+Path = 
+Reference = 1pin;
+ValeurCmp = VAL**;
+IdModule  = 1pin;
+EndCmp
+
+BeginCmp
+TimeStamp = 544E7755
+Path = 
+Reference = bigpin;
+ValeurCmp = VAL**;
+IdModule  = bigpin;
+EndCmp
+
+BeginCmp
+TimeStamp = 544E775E
+Path = 
+Reference = bigpin;
+ValeurCmp = VAL**;
+IdModule  = bigpin;
+EndCmp
+
+BeginCmp
+TimeStamp = 544E7767
+Path = 
+Reference = bigpin;
+ValeurCmp = VAL**;
+IdModule  = bigpin;
+EndCmp
+
+BeginCmp
+TimeStamp = 544E7770
+Path = 
+Reference = 1pin;
+ValeurCmp = VAL**;
+IdModule  = 1pin;
+EndCmp
+
+BeginCmp
+TimeStamp = 544E7790
+Path = 
+Reference = 1pin;
+ValeurCmp = VAL**;
+IdModule  = 1pin;
+EndCmp
+
+BeginCmp
+TimeStamp = 544E77A3
+Path = 
+Reference = 1pin;
+ValeurCmp = VAL**;
+IdModule  = 1pin;
+EndCmp
+
+BeginCmp
+TimeStamp = 544E77B6
+Path = 
+Reference = 1pin;
+ValeurCmp = VAL**;
+IdModule  = 1pin;
+EndCmp
+
+BeginCmp
+TimeStamp = 544E77BF
+Path = 
+Reference = 1pin;
+ValeurCmp = VAL**;
+IdModule  = 1pin;
+EndCmp
+
+BeginCmp
+TimeStamp = 544E7801
+Path = 
+Reference = 1pin;
+ValeurCmp = VAL**;
+IdModule  = 1pin;
+EndCmp
+
+BeginCmp
+TimeStamp = 544E780A
+Path = 
+Reference = 1pin;
+ValeurCmp = VAL**;
+IdModule  = 1pin;
+EndCmp
+
+BeginCmp
+TimeStamp = 544E788D
+Path = /544D86AD
+Reference = RV1;
+ValeurCmp = POT;
+IdModule  = PIN_ARRAY_3X1;
+EndCmp
+
+BeginCmp
+TimeStamp = 544E7897
+Path = /544D8FB0
 Reference = U30;
 ValeurCmp = VCCGND;
 IdModule  = PIN_ARRAY_2X1;
 EndCmp
 
 BeginCmp
-TimeStamp = /544D9C93;
+TimeStamp = 544E7944
+Path = /544D9C93
 Reference = U31;
 ValeurCmp = MIC_INPUT;
 IdModule  = PIN_ARRAY_1;
 EndCmp
 
 BeginCmp
-TimeStamp = /544D7B55;
-Reference = X1;
-ValeurCmp = CRYSTAL;
-IdModule  = PIN_ARRAY_2X1;
+TimeStamp = 544E79B4
+Path = 
+Reference = bigpin;
+ValeurCmp = VAL**;
+IdModule  = bigpin;
+EndCmp
+
+BeginCmp
+TimeStamp = 544E79C4
+Path = 
+Reference = bigpin;
+ValeurCmp = VAL**;
+IdModule  = bigpin;
+EndCmp
+
+BeginCmp
+TimeStamp = 544E79CD
+Path = 
+Reference = bigpin;
+ValeurCmp = VAL**;
+IdModule  = bigpin;
+EndCmp
+
+BeginCmp
+TimeStamp = 544E79D6
+Path = 
+Reference = bigpin;
+ValeurCmp = VAL**;
+IdModule  = bigpin;
 EndCmp
 
 EndListe
