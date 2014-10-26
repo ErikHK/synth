@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2013-07-07 BZR 4022)-stable date = 2014-10-26 18:36:29
+Cmp-Mod V01 Created by CvPcb (2013-07-07 BZR 4022)-stable date = 2014-10-26 22:44:29
 
 BeginCmp
 TimeStamp = /544C9B51;
@@ -40,6 +40,13 @@ TimeStamp = /544CFEEA;
 Reference = C6;
 ValeurCmp = CP1;
 IdModule  = CP4;
+EndCmp
+
+BeginCmp
+TimeStamp = /544D6FCC;
+Reference = C7;
+ValeurCmp = C;
+IdModule  = C1;
 EndCmp
 
 BeginCmp
@@ -438,28 +445,28 @@ BeginCmp
 TimeStamp = /544C6BBD;
 Reference = U18;
 ValeurCmp = BUTTON;
-IdModule  = PIN_ARRAY_2X2;
+IdModule  = pcbbutton;
 EndCmp
 
 BeginCmp
 TimeStamp = /544C6B90;
 Reference = U19;
 ValeurCmp = BUTTON;
-IdModule  = PIN_ARRAY_2X2;
+IdModule  = pcbbutton;
 EndCmp
 
 BeginCmp
 TimeStamp = /544C6B9F;
 Reference = U20;
 ValeurCmp = BUTTON;
-IdModule  = PIN_ARRAY_2X2;
+IdModule  = pcbbutton;
 EndCmp
 
 BeginCmp
 TimeStamp = /544C6BAE;
 Reference = U21;
 ValeurCmp = BUTTON;
-IdModule  = PIN_ARRAY_2X2;
+IdModule  = pcbbutton;
 EndCmp
 
 BeginCmp
@@ -509,6 +516,20 @@ TimeStamp = /544D4FEF;
 Reference = U28;
 ValeurCmp = VCCGND;
 IdModule  = vccgnd;
+EndCmp
+
+BeginCmp
+TimeStamp = /544D72E5;
+Reference = U29;
+ValeurCmp = 4BUTTON;
+IdModule  = 4buttons;
+EndCmp
+
+BeginCmp
+TimeStamp = /544D7B55;
+Reference = X1;
+ValeurCmp = CRYSTAL;
+IdModule  = PIN_ARRAY_2X1;
 EndCmp
 
 EndListe
