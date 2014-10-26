@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2013-07-07 BZR 4022)-stable date = 2014-10-26 05:57:12
+Cmp-Mod V01 Created by CvPcb (2013-07-07 BZR 4022)-stable date = 2014-10-26 18:36:29
 
 BeginCmp
 TimeStamp = /544C9B51;
@@ -29,6 +29,20 @@ IdModule  = C1;
 EndCmp
 
 BeginCmp
+TimeStamp = /544CFEF9;
+Reference = C5;
+ValeurCmp = CP1;
+IdModule  = CP4;
+EndCmp
+
+BeginCmp
+TimeStamp = /544CFEEA;
+Reference = C6;
+ValeurCmp = CP1;
+IdModule  = CP4;
+EndCmp
+
+BeginCmp
 TimeStamp = /54480CB5;
 Reference = IC1;
 ValeurCmp = ATMEGA1284-P;
@@ -40,6 +54,13 @@ TimeStamp = /54495641;
 Reference = ISP1;
 ValeurCmp = ISP;
 IdModule  = ISP;
+EndCmp
+
+BeginCmp
+TimeStamp = /544CFD93;
+Reference = Q1;
+ValeurCmp = BC547;
+IdModule  = TO92;
 EndCmp
 
 BeginCmp
@@ -267,8 +288,29 @@ IdModule  = R1;
 EndCmp
 
 BeginCmp
+TimeStamp = /544D283E;
+Reference = R33;
+ValeurCmp = R;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = /544D284D;
+Reference = R34;
+ValeurCmp = R;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
 TimeStamp = /544C96B9;
 Reference = SP1;
+ValeurCmp = SPEAKER;
+IdModule  = PIN_ARRAY_2X1;
+EndCmp
+
+BeginCmp
+TimeStamp = /544D455C;
+Reference = SP2;
 ValeurCmp = SPEAKER;
 IdModule  = PIN_ARRAY_2X1;
 EndCmp
@@ -439,6 +481,34 @@ TimeStamp = /544C77C9;
 Reference = U24;
 ValeurCmp = LM386;
 IdModule  = DIP-8__300;
+EndCmp
+
+BeginCmp
+TimeStamp = /544CF6E6;
+Reference = U25;
+ValeurCmp = MIC;
+IdModule  = PIN_ARRAY_2X1;
+EndCmp
+
+BeginCmp
+TimeStamp = /544D426E;
+Reference = U26;
+ValeurCmp = VCCGND;
+IdModule  = vccgnd;
+EndCmp
+
+BeginCmp
+TimeStamp = /544D49D4;
+Reference = U27;
+ValeurCmp = SPANNING_SIGNAL;
+IdModule  = PIN_ARRAY_3X1;
+EndCmp
+
+BeginCmp
+TimeStamp = /544D4FEF;
+Reference = U28;
+ValeurCmp = VCCGND;
+IdModule  = vccgnd;
 EndCmp
 
 EndListe
