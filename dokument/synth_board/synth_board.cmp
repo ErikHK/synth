@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2013-07-07 BZR 4022)-stable date = 2014-10-26 22:44:29
+Cmp-Mod V01 Created by CvPcb (2013-07-07 BZR 4022)-stable date = 2014-10-27 00:05:06
 
 BeginCmp
 TimeStamp = /544C9B51;
@@ -309,6 +309,13 @@ IdModule  = R1;
 EndCmp
 
 BeginCmp
+TimeStamp = /544D86AD;
+Reference = RV1;
+ValeurCmp = POT;
+IdModule  = PIN_ARRAY_3X1;
+EndCmp
+
+BeginCmp
 TimeStamp = /544C96B9;
 Reference = SP1;
 ValeurCmp = SPEAKER;
@@ -523,6 +530,20 @@ TimeStamp = /544D72E5;
 Reference = U29;
 ValeurCmp = 4BUTTON;
 IdModule  = 4buttons;
+EndCmp
+
+BeginCmp
+TimeStamp = /544D8FB0;
+Reference = U30;
+ValeurCmp = VCCGND;
+IdModule  = PIN_ARRAY_2X1;
+EndCmp
+
+BeginCmp
+TimeStamp = /544D9C93;
+Reference = U31;
+ValeurCmp = MIC_INPUT;
+IdModule  = PIN_ARRAY_1;
 EndCmp
 
 BeginCmp
