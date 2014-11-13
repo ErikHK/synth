@@ -6,10 +6,10 @@ include <roundCornersCube.scad>
 
 /////CASE SIZE/////
 //case length (outer)
-cl = 190;
+cl = 175;
 
 //case width (outer)
-cw = 105;
+cw = 90;
 
 //case bottom thickness
 cbth = 2;
@@ -94,11 +94,31 @@ holder(h=3);
 
 }
 
+module corner_holders()
+{
+translate([6,6,-cbh+cbth])
+holder(h=10);
+
+
+translate([6,85-1,-cbh+cbth])
+holder(h=10);
+
+
+translate([170-1,5+1,-cbh+cbth])
+holder(h=10);
+
+
+translate([170-1,85-1,-cbh+cbth])
+holder(h=10);
+
+
+}
+
 module holder(r=1.5, h=5)
 {
 difference()
 {
-cylinder(r=r+3, h=h);
+cylinder(r=r+4, h=h);
 cylinder(r=r, h=h);
 }
 }
@@ -218,20 +238,9 @@ module case_top()
 
 }
 
-//translate([cwth*2,50,-2.4+2])
-//display();
-
-//translate([0,0,20])
-//small_display();
-//case_top();
-translate([0,0,-cbh])
-case_bottom();
-//translate([96,55,10])
-//atmega();
-
 module batteries()
 {
-translate([50,94,-6])
+translate([50,90,-6])
 {
 rotate([-90,0,90])
 //translate([190,0,0])
@@ -254,12 +263,59 @@ AAA_battery();
 }
 }
 
+//translate([cwth*2,50,-2.4+2])
+//display();
+
+//translate([0,0,20])
+//small_display();
+//case_top();
+
+//translate([96,55,10])
+//atmega();
+
 //batteries();
+/*
+translate([20,85,0])
+rotate([90,0,0])
+AAA_battery();
+
+translate([32,85,0])
+rotate([90,0,0])
+AAA_battery();
 
 
-translate([18,20,-cbh+cbth])
+translate([44,85,0])
+rotate([90,0,0])
+AAA_battery();
+
+
+translate([56,85,0])
+rotate([90,0,0])
+AAA_battery();
+*/
+
+difference()
+{
+union()
+{
+translate([0,0,-cbh])
+case_bottom();
+
+translate([18,16,-cbh+cbth])
 button_holders();
 
 
-translate([100,80,-cbh+cbth])
+translate([88,76,-cbh+cbth])
 pcb_holders();
+
+
+corner_holders();
+}
+
+translate([80,-2,-30])
+cube([.5,200,200]);
+
+}
+//speaker
+//translate([140,0,0])
+//cylinder(d=50, h=25);
