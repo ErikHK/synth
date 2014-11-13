@@ -3,6 +3,7 @@ $fn = 20;
 include <roundCornersCube.scad>
 
 
+
 /////CASE SIZE/////
 //case length (outer)
 cl = 190;
@@ -10,18 +11,19 @@ cl = 190;
 //case width (outer)
 cw = 105;
 
-//case bottom height
-cbh = 10;
-
 //case bottom thickness
 cbth = 2;
 
-//case top height
-cth = 10;
 
+//case bottom height
+cbh = 10+cbth;
 
 //case top thickness
 ctth = 2;
+
+
+//case top height
+cth = 15+ctth;
 
 //case roundness radius
 crr = 2.5;
@@ -46,11 +48,66 @@ cdhr = 2;
 
 
 
+
+module button_holders()
+{
+holder(r=1.20,h=10-1.6);
+
+translate([91.44,0,0])
+holder(r=1.20,h=10-1.6);
+
+
+translate([91.44,15.875,0])
+holder(h=10-1.6);
+
+
+translate([0,15.875,0])
+holder(h=10-1.6);
+
+
+
+translate([44.45,0,0])
+holder(r=1.2,h=10-1.6);
+
+
+translate([44.45,7.62,0])
+holder(h=10-1.6);
+
+
+}
+
+
+module pcb_holders()
+{
+holder(h=3);
+
+translate([78.74,-28.575,0])
+holder(h=3);
+
+translate([0,-28.575,0])
+holder(h=3);
+
+
+translate([78.74,0,0])
+holder(h=3);
+
+
+}
+
+module holder(r=1.5, h=5)
+{
+difference()
+{
+cylinder(r=r+3, h=h);
+cylinder(r=r, h=h);
+}
+}
+
 module atmega()
 {
 color("yellow")
 //cube([53, 16, 5]);
-cube([85, 33, 1.6]);
+cube([85, 35, 1.6]);
 }
 
 
@@ -161,18 +218,48 @@ module case_top()
 
 }
 
-translate([cwth*2,50,-2.4+2])
-display();
+//translate([cwth*2,50,-2.4+2])
+//display();
 
 //translate([0,0,20])
 //small_display();
-case_top();
+//case_top();
 translate([0,0,-cbh])
 case_bottom();
-translate([96,55,10])
-atmega();
-translate([0,94,15])
+//translate([96,55,10])
+//atmega();
 
+module batteries()
+{
+translate([50,94,-6])
+{
 rotate([-90,0,90])
 //translate([190,0,0])
+{
 AAA_battery();
+
+translate([0,0,-46])
+AAA_battery();
+
+
+translate([0,0,-46*2])
+AAA_battery();
+
+
+translate([0,0,-46*3])
+AAA_battery();
+
+
+}
+}
+}
+
+//batteries();
+
+
+translate([18,20,-cbh+cbth])
+button_holders();
+
+
+translate([100,80,-cbh+cbth])
+pcb_holders();
