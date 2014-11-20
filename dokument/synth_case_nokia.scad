@@ -38,10 +38,10 @@ ckhw = 45;
 ckhl = 110;
 
 //case display hole length
-cdhl = 34;
+cdhl = 37;
 
 //case display hole width
-cdhw = 30;
+cdhw = 32;
 
 //case display hole radius
 cdhr = 2;
@@ -276,21 +276,12 @@ module key_holder()
   {
   cube([106,5,3]);
 
-  translate([4,2.5,-2])
-  cylinder(r=1.4, h=12);
 
-  translate([25,2.5,-2])
+  for(i=[0:6])
+  {
+  translate([8+i*106/7,2.5,-2])
   cylinder(r=1.4, h=12);
-
-  translate([50,2.5,-2])
-  cylinder(r=1.4, h=12);
-
-  translate([75,2.5,-2])
-  cylinder(r=1.4, h=12);
-
-
-  translate([100,2.5,-2])
-  cylinder(r=1.4, h=12);
+  }
   }
 }
 
@@ -298,17 +289,17 @@ module case_top()
 {
 
   //spacers
-  translate([cwth*2+40,53,10])
+  //translate([cwth*2+40,43,10])
+  //holder(h=5, w=2, r=.9);
+
+  translate([cwth*2+2,46,10])
   holder(h=5, w=2, r=.9);
 
-  translate([cwth*2,53,10])
+
+  translate([cwth*2+2,46+40,10])
   holder(h=5, w=2, r=.9);
 
-
-  translate([cwth*2+0,53+31,10])
-  holder(h=5, w=2, r=.9);
-
-  translate([cwth*2+40,53+31,10])
+  translate([cwth*2+40+2,46+40,10])
   holder(h=5, w=2, r=.9);
 
 
@@ -345,6 +336,11 @@ module case_top()
     color("red")
     //cylinder(r=25, h=10);
     speaker_hole();
+
+
+    //pot hole
+    translate([100, 68, 10])
+    cylinder(r=4, h=10);
 
     //4 buttons holes
   translate([90-8.255,55,10])
