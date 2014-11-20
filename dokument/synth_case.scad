@@ -382,6 +382,7 @@ rotate([90,0,0])
 AAA_battery();
 */
 
+/*
 difference()
 {
 union()
@@ -400,12 +401,13 @@ pcb_holders();
 corner_holders();
 }
 
+
 //translate([80,-2,-30])
 //cube([.5,200,200]);
 
 }
+*/
 
-/*
 rotate([0,180,0])
 difference()
 {
@@ -415,12 +417,12 @@ translate([0,0,10])
 corner_holders_top();
 case_top();
 }
-translate([80+10,-2,-30])
-cube([.5,100,100]);
+//translate([80+10,-2,-30])
+//cube([.5,100,100]);
 
 
 }
-*/
+
 
 
 
