@@ -114,11 +114,32 @@ holder(h=10);
 
 }
 
-module holder(r=1.5, h=5)
+
+module corner_holders_top()
+{
+translate([6,6,-cbh+cbth])
+holder(h=15,w=2);
+
+
+//translate([6,85-1,-cbh+cbth])
+//holder(h=10, w=3);
+
+
+translate([170-1,5+1,-cbh+cbth])
+holder(h=15, w=3);
+
+
+translate([170-1,85-1,-cbh+cbth])
+holder(h=15, w=3);
+
+
+}
+
+module holder(r=1.5, h=5, w=4)
 {
 difference()
 {
-cylinder(r=r+4, h=h);
+cylinder(r=r+w, h=h);
 cylinder(r=r, h=h);
 }
 }
@@ -208,8 +229,51 @@ module case_bottom()
   
 }
 
+module key_holder()
+{
+  difference()
+  {
+  cube([106,5,5]);
+
+  translate([4,2.5,-2])
+  cylinder(r=1.4, h=12);
+
+  translate([25,2.5,-2])
+  cylinder(r=1.4, h=12);
+
+  translate([50,2.5,-2])
+  cylinder(r=1.4, h=12);
+
+  translate([75,2.5,-2])
+  cylinder(r=1.4, h=12);
+
+
+  translate([100,2.5,-2])
+  cylinder(r=1.4, h=12);
+  }
+}
+
 module case_top()
 {
+
+  //spacers
+  translate([cwth*2+2,53,5])
+  holder(h=10, w=2, r=1.3);
+
+  translate([cwth*2+2+75,53,5])
+  holder(h=10, w=2, r=1.3);
+
+
+  translate([cwth*2+2,53+31,5])
+  holder(h=10, w=2, r=1.3);
+
+  translate([cwth*2+2+75,53+31,5])
+  holder(h=10, w=2, r=1.3);
+
+
+  //holders for keys
+  translate([cwth*2+4,45,10])
+  key_holder();
 
   difference()
   {
@@ -228,13 +292,16 @@ module case_top()
     translate([cwth*3,55,0])
     rCube(cdhl, cdhw, 22, cdhr);
 
+    //speaker hole
+    translate([cl-25-cwth,cwth*1+25,8])
+    color("red")
+    //cylinder(r=25, h=10);
+    speaker_hole();
+
   }
 
 
-  //speaker hole
-  translate([cl-25-cwth,cwth*1+25,4])
-  color("red")
-  cylinder(r=25, h=10);
+  
 
 }
 
@@ -262,6 +329,27 @@ AAA_battery();
 }
 }
 }
+
+module speaker_hole(d=50)
+{
+//cylinder(d=d, h=5);
+
+rotate([0,0,-45])
+translate([-3-15,-15,-1])
+{
+rCube(6,30,10,3);
+
+translate([15,0,0])
+rCube(6,30,10,3);
+
+translate([15*2,0,0])
+rCube(6,30,10,3);
+
+}
+
+}
+
+//speaker_hole();
 
 //translate([cwth*2,50,-2.4+2])
 //display();
@@ -312,10 +400,30 @@ pcb_holders();
 corner_holders();
 }
 
-translate([80,-2,-30])
-cube([.5,200,200]);
+//translate([80,-2,-30])
+//cube([.5,200,200]);
 
 }
+
+/*
+rotate([0,180,0])
+difference()
+{
+union()
+{
+translate([0,0,10])
+corner_holders_top();
+case_top();
+}
+translate([80+10,-2,-30])
+cube([.5,100,100]);
+
+
+}
+*/
+
+
+
 //speaker
 //translate([140,0,0])
 //cylinder(d=50, h=25);
