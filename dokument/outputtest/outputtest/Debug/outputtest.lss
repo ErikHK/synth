@@ -3,29 +3,29 @@ outputtest.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000102  00800100  00000262  000002f6  2**0
+  0 .data         00000102  00800100  000001b4  00000248  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000262  00000000  00000000  00000094  2**1
+  1 .text         000001b4  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000009  00800202  00800202  000003f8  2**0
+  2 .bss          00000017  00800202  00800202  0000034a  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  000003f8  2**0
+  3 .comment      00000030  00000000  00000000  0000034a  2**0
                   CONTENTS, READONLY
-  4 .debug_aranges 00000050  00000000  00000000  00000428  2**0
+  4 .debug_aranges 00000060  00000000  00000000  0000037a  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000415  00000000  00000000  00000478  2**0
+  5 .debug_info   00000415  00000000  00000000  000003da  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 0000027d  00000000  00000000  0000088d  2**0
+  6 .debug_abbrev 0000029a  00000000  00000000  000007ef  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000002b3  00000000  00000000  00000b0a  2**0
+  7 .debug_line   00000299  00000000  00000000  00000a89  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  0000009c  00000000  00000000  00000dc0  2**2
+  8 .debug_frame  000000ac  00000000  00000000  00000d24  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000242  00000000  00000000  00000e5c  2**0
+  9 .debug_str    00000226  00000000  00000000  00000dd0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000196  00000000  00000000  0000109e  2**0
+ 10 .debug_loc    000001e3  00000000  00000000  00000ff6  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000020  00000000  00000000  00001234  2**0
+ 11 .debug_ranges 00000040  00000000  00000000  000011d9  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -47,9 +47,9 @@ Disassembly of section .text:
   34:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
   38:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
   3c:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
-  40:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
+  40:	0c 94 98 00 	jmp	0x130	; 0x130 <__vector_16>
   44:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
-  48:	0c 94 b1 00 	jmp	0x162	; 0x162 <__vector_18>
+  48:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
   4c:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
   50:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
   54:	0c 94 65 00 	jmp	0xca	; 0xca <__bad_interrupt>
@@ -79,8 +79,8 @@ Disassembly of section .text:
   98:	12 e0       	ldi	r17, 0x02	; 2
   9a:	a0 e0       	ldi	r26, 0x00	; 0
   9c:	b1 e0       	ldi	r27, 0x01	; 1
-  9e:	e2 e6       	ldi	r30, 0x62	; 98
-  a0:	f2 e0       	ldi	r31, 0x02	; 2
+  9e:	e4 eb       	ldi	r30, 0xB4	; 180
+  a0:	f1 e0       	ldi	r31, 0x01	; 1
   a2:	00 e0       	ldi	r16, 0x00	; 0
   a4:	0b bf       	out	0x3b, r16	; 59
   a6:	02 c0       	rjmp	.+4      	; 0xac <__do_copy_data+0x14>
@@ -100,11 +100,11 @@ Disassembly of section .text:
   ba:	1d 92       	st	X+, r1
 
 000000bc <.do_clear_bss_start>:
-  bc:	ab 30       	cpi	r26, 0x0B	; 11
+  bc:	a9 31       	cpi	r26, 0x19	; 25
   be:	b2 07       	cpc	r27, r18
   c0:	e1 f7       	brne	.-8      	; 0xba <.do_clear_bss_loop>
-  c2:	0e 94 06 01 	call	0x20c	; 0x20c <main>
-  c6:	0c 94 2f 01 	jmp	0x25e	; 0x25e <_exit>
+  c2:	0e 94 ba 00 	call	0x174	; 0x174 <main>
+  c6:	0c 94 d8 00 	jmp	0x1b0	; 0x1b0 <_exit>
 
 000000ca <__bad_interrupt>:
   ca:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -127,352 +127,228 @@ void l74hc165_init() {
   d4:	2c 98       	cbi	0x05, 4	; 5
 	L74HC165_PORT &= ~(1 << L74HC165_LOADPIN);
   d6:	28 98       	cbi	0x05, 0	; 5
-}
   d8:	08 95       	ret
 
 000000da <l74hc165_shiftin>:
+}
+
 /*
  * shift in data
  */
 void l74hc165_shiftin(uint8_t *bytearray) {
+  da:	cf 93       	push	r28
 	//parallel load to freeze the state of the data lines
 	L74HC165_PORT &= ~(1 << L74HC165_LOADPIN);
-  da:	28 98       	cbi	0x05, 0	; 5
+  dc:	28 98       	cbi	0x05, 0	; 5
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-  dc:	20 e1       	ldi	r18, 0x10	; 16
-  de:	2a 95       	dec	r18
-  e0:	f1 f7       	brne	.-4      	; 0xde <l74hc165_shiftin+0x4>
-  e2:	00 c0       	rjmp	.+0      	; 0xe4 <l74hc165_shiftin+0xa>
+  de:	40 e1       	ldi	r20, 0x10	; 16
+  e0:	4a 95       	dec	r20
+  e2:	f1 f7       	brne	.-4      	; 0xe0 <l74hc165_shiftin+0x6>
+  e4:	00 c0       	rjmp	.+0      	; 0xe6 <l74hc165_shiftin+0xc>
 	_delay_us(50);
 	L74HC165_PORT |= (1 << L74HC165_LOADPIN);
-  e4:	28 9a       	sbi	0x05, 0	; 5
-  e6:	e8 2f       	mov	r30, r24
-  e8:	f9 2f       	mov	r31, r25
-	for(uint8_t i = 0; i < L74HC165_ICNUMBER; i++){
-  ea:	50 e0       	ldi	r21, 0x00	; 0
+  e6:	28 9a       	sbi	0x05, 0	; 5
+  e8:	e8 2f       	mov	r30, r24
+  ea:	f9 2f       	mov	r31, r25
+  ec:	72 e0       	ldi	r23, 0x02	; 2
 }
 
 /*
  * shift in data
  */
 void l74hc165_shiftin(uint8_t *bytearray) {
-  ec:	a7 e0       	ldi	r26, 0x07	; 7
-  ee:	b0 e0       	ldi	r27, 0x00	; 0
-  f0:	60 e0       	ldi	r22, 0x00	; 0
-  f2:	21 c0       	rjmp	.+66     	; 0x136 <l74hc165_shiftin+0x5c>
+  ee:	c7 e0       	ldi	r28, 0x07	; 7
+  f0:	b0 e0       	ldi	r27, 0x00	; 0
+  f2:	a0 e0       	ldi	r26, 0x00	; 0
+  f4:	17 c0       	rjmp	.+46     	; 0x124 <l74hc165_shiftin+0x4a>
 	L74HC165_PORT |= (1 << L74HC165_LOADPIN);
 	for(uint8_t i = 0; i < L74HC165_ICNUMBER; i++){
 		//iterate through the bits in each registers
 		uint8_t currentbyte = 0;
 		for(uint8_t j = 0; j < 8; j++){
 			currentbyte |= ((L74HC165_PIN & (1 << L74HC165_DATAPIN))>>L74HC165_DATAPIN)<<(7-j);
-  f4:	23 b1       	in	r18, 0x03	; 3
-  f6:	30 e0       	ldi	r19, 0x00	; 0
-  f8:	20 74       	andi	r18, 0x40	; 64
-  fa:	30 70       	andi	r19, 0x00	; 0
-  fc:	02 2e       	mov	r0, r18
-  fe:	23 2f       	mov	r18, r19
- 100:	00 0c       	add	r0, r0
- 102:	22 1f       	adc	r18, r18
- 104:	33 0b       	sbc	r19, r19
- 106:	00 0c       	add	r0, r0
- 108:	22 1f       	adc	r18, r18
- 10a:	33 1f       	adc	r19, r19
- 10c:	08 2e       	mov	r0, r24
- 10e:	02 c0       	rjmp	.+4      	; 0x114 <l74hc165_shiftin+0x3a>
- 110:	22 0f       	add	r18, r18
- 112:	33 1f       	adc	r19, r19
- 114:	0a 94       	dec	r0
- 116:	e2 f7       	brpl	.-8      	; 0x110 <l74hc165_shiftin+0x36>
- 118:	42 2b       	or	r20, r18
+  f6:	43 b1       	in	r20, 0x03	; 3
+  f8:	46 fb       	bst	r20, 6
+  fa:	22 27       	eor	r18, r18
+  fc:	20 f9       	bld	r18, 0
+  fe:	30 e0       	ldi	r19, 0x00	; 0
+ 100:	a9 01       	movw	r20, r18
+ 102:	08 2e       	mov	r0, r24
+ 104:	02 c0       	rjmp	.+4      	; 0x10a <l74hc165_shiftin+0x30>
+ 106:	44 0f       	add	r20, r20
+ 108:	55 1f       	adc	r21, r21
+ 10a:	0a 94       	dec	r0
+ 10c:	e2 f7       	brpl	.-8      	; 0x106 <l74hc165_shiftin+0x2c>
+ 10e:	64 2b       	or	r22, r20
 	        //get next
 			L74HC165_PORT |= (1 << L74HC165_CLOCKPIN);
- 11a:	2c 9a       	sbi	0x05, 4	; 5
- 11c:	00 c0       	rjmp	.+0      	; 0x11e <l74hc165_shiftin+0x44>
- 11e:	00 c0       	rjmp	.+0      	; 0x120 <l74hc165_shiftin+0x46>
- 120:	00 00       	nop
+ 110:	2c 9a       	sbi	0x05, 4	; 5
+ 112:	00 c0       	rjmp	.+0      	; 0x114 <l74hc165_shiftin+0x3a>
+ 114:	00 c0       	rjmp	.+0      	; 0x116 <l74hc165_shiftin+0x3c>
+ 116:	00 00       	nop
 	        _delay_us(5);
 	        L74HC165_PORT &= ~(1 << L74HC165_CLOCKPIN);
- 122:	2c 98       	cbi	0x05, 4	; 5
- 124:	01 97       	sbiw	r24, 0x01	; 1
-	_delay_us(50);
-	L74HC165_PORT |= (1 << L74HC165_LOADPIN);
-	for(uint8_t i = 0; i < L74HC165_ICNUMBER; i++){
-		//iterate through the bits in each registers
-		uint8_t currentbyte = 0;
-		for(uint8_t j = 0; j < 8; j++){
- 126:	2f ef       	ldi	r18, 0xFF	; 255
- 128:	8f 3f       	cpi	r24, 0xFF	; 255
- 12a:	92 07       	cpc	r25, r18
- 12c:	19 f7       	brne	.-58     	; 0xf4 <l74hc165_shiftin+0x1a>
-	        //get next
-			L74HC165_PORT |= (1 << L74HC165_CLOCKPIN);
-	        _delay_us(5);
-	        L74HC165_PORT &= ~(1 << L74HC165_CLOCKPIN);
+ 118:	2c 98       	cbi	0x05, 4	; 5
+ 11a:	01 97       	sbiw	r24, 0x01	; 1
+ 11c:	60 f7       	brcc	.-40     	; 0xf6 <l74hc165_shiftin+0x1c>
 		}
 		memcpy(&bytearray[i], &currentbyte, 1);
- 12e:	41 93       	st	Z+, r20
+ 11e:	61 93       	st	Z+, r22
+ 120:	71 50       	subi	r23, 0x01	; 1
 void l74hc165_shiftin(uint8_t *bytearray) {
 	//parallel load to freeze the state of the data lines
 	L74HC165_PORT &= ~(1 << L74HC165_LOADPIN);
 	_delay_us(50);
 	L74HC165_PORT |= (1 << L74HC165_LOADPIN);
 	for(uint8_t i = 0; i < L74HC165_ICNUMBER; i++){
- 130:	5f 5f       	subi	r21, 0xFF	; 255
- 132:	52 30       	cpi	r21, 0x02	; 2
- 134:	19 f0       	breq	.+6      	; 0x13c <l74hc165_shiftin+0x62>
+ 122:	21 f0       	breq	.+8      	; 0x12c <l74hc165_shiftin+0x52>
 }
 
 /*
  * shift in data
  */
 void l74hc165_shiftin(uint8_t *bytearray) {
- 136:	cd 01       	movw	r24, r26
- 138:	46 2f       	mov	r20, r22
- 13a:	dc cf       	rjmp	.-72     	; 0xf4 <l74hc165_shiftin+0x1a>
- 13c:	08 95       	ret
-
-0000013e <lfsr>:
-uint8_t inc = 8;
-
-
-void lfsr()
-{
-	uint16_t lfsr = 0xACE1u;
- 13e:	81 ee       	ldi	r24, 0xE1	; 225
- 140:	9c ea       	ldi	r25, 0xAC	; 172
-    unsigned period = 0;
-    char s[16];
-
-    do {
-          unsigned lsb = lfsr & 1;  /* Get lsb (i.e., the output bit). */
- 142:	9c 01       	movw	r18, r24
- 144:	21 70       	andi	r18, 0x01	; 1
- 146:	33 27       	eor	r19, r19
-          lfsr >>= 1;               /* Shift register */
- 148:	96 95       	lsr	r25
- 14a:	87 95       	ror	r24
-          if (lsb == 1)             /* Only apply toggle mask if output bit is 1. */
- 14c:	21 30       	cpi	r18, 0x01	; 1
- 14e:	31 05       	cpc	r19, r1
- 150:	11 f4       	brne	.+4      	; 0x156 <lfsr+0x18>
-            lfsr ^= 0xB400u;        /* Apply toggle mask, value has 1 at bits corresponding
- 152:	24 eb       	ldi	r18, 0xB4	; 180
- 154:	92 27       	eor	r25, r18
-                                    /* to taps, 0 elsewhere. */
-          ++period;
-		  PORTC = lfsr;
- 156:	88 b9       	out	0x08, r24	; 8
-          {
-             s[15 - i] = (lfsr & (1 << i)) ? '1' : '0';
-          }
-          //s[16] = '\0';
-          //printf("\n%10d: %s", period, s);
-    } while(lfsr != 0xACE1u);
- 158:	81 3e       	cpi	r24, 0xE1	; 225
- 15a:	2c ea       	ldi	r18, 0xAC	; 172
- 15c:	92 07       	cpc	r25, r18
- 15e:	89 f7       	brne	.-30     	; 0x142 <lfsr+0x4>
-	
+ 124:	8c 2f       	mov	r24, r28
+ 126:	9b 2f       	mov	r25, r27
+ 128:	6a 2f       	mov	r22, r26
+ 12a:	e5 cf       	rjmp	.-54     	; 0xf6 <l74hc165_shiftin+0x1c>
+	        _delay_us(5);
+	        L74HC165_PORT &= ~(1 << L74HC165_CLOCKPIN);
+		}
+		memcpy(&bytearray[i], &currentbyte, 1);
+	}
 }
- 160:	08 95       	ret
+ 12c:	cf 91       	pop	r28
+ 12e:	08 95       	ret
 
-00000162 <__vector_18>:
+00000130 <__vector_16>:
 
 
-ISR(TIMER0_OVF_vect)
+
+//ISR(TIMER0_OVF_vect)
+ISR(TIMER0_COMPA_vect)
 {
- 162:	1f 92       	push	r1
- 164:	0f 92       	push	r0
- 166:	0f b6       	in	r0, 0x3f	; 63
- 168:	0f 92       	push	r0
- 16a:	11 24       	eor	r1, r1
- 16c:	0b b6       	in	r0, 0x3b	; 59
- 16e:	0f 92       	push	r0
- 170:	2f 93       	push	r18
- 172:	8f 93       	push	r24
- 174:	9f 93       	push	r25
- 176:	ef 93       	push	r30
- 178:	ff 93       	push	r31
-	//This is the interrupt service routine for TIMER0 OVERFLOW Interrupt.
-	//CPU automatically call this when TIMER0 overflows.
-
-	//Increment our variable
+ 130:	1f 92       	push	r1
+ 132:	0f 92       	push	r0
+ 134:	0f b6       	in	r0, 0x3f	; 63
+ 136:	0f 92       	push	r0
+ 138:	11 24       	eor	r1, r1
+ 13a:	0b b6       	in	r0, 0x3b	; 59
+ 13c:	0f 92       	push	r0
+ 13e:	8f 93       	push	r24
+ 140:	ef 93       	push	r30
+ 142:	ff 93       	push	r31
+	
 	count += inc;
- 17a:	e0 91 00 01 	lds	r30, 0x0100
- 17e:	80 91 0a 02 	lds	r24, 0x020A
- 182:	8e 0f       	add	r24, r30
- 184:	80 93 0a 02 	sts	0x020A, r24
-	
-	
-	if(data[0]>>1==1)
- 188:	e0 91 08 02 	lds	r30, 0x0208
- 18c:	f0 91 09 02 	lds	r31, 0x0209
- 190:	90 81       	ld	r25, Z
- 192:	96 95       	lsr	r25
- 194:	91 30       	cpi	r25, 0x01	; 1
- 196:	19 f4       	brne	.+6      	; 0x19e <__vector_18+0x3c>
-		inc = 4;
- 198:	94 e0       	ldi	r25, 0x04	; 4
- 19a:	90 93 00 01 	sts	0x0100, r25
-		
-	if(data[0]>>2==1)
- 19e:	90 81       	ld	r25, Z
- 1a0:	96 95       	lsr	r25
- 1a2:	96 95       	lsr	r25
- 1a4:	91 30       	cpi	r25, 0x01	; 1
- 1a6:	19 f4       	brne	.+6      	; 0x1ae <__vector_18+0x4c>
-		inc = 8;
- 1a8:	98 e0       	ldi	r25, 0x08	; 8
- 1aa:	90 93 00 01 	sts	0x0100, r25
-		
-	if(data[0]>>3==1)
- 1ae:	90 81       	ld	r25, Z
- 1b0:	96 95       	lsr	r25
- 1b2:	96 95       	lsr	r25
- 1b4:	96 95       	lsr	r25
- 1b6:	91 30       	cpi	r25, 0x01	; 1
- 1b8:	19 f4       	brne	.+6      	; 0x1c0 <__vector_18+0x5e>
-		inc = 12;
- 1ba:	9c e0       	ldi	r25, 0x0C	; 12
- 1bc:	90 93 00 01 	sts	0x0100, r25
-		
-	if(data[0] == 0)
- 1c0:	90 81       	ld	r25, Z
- 1c2:	91 11       	cpse	r25, r1
- 1c4:	06 c0       	rjmp	.+12     	; 0x1d2 <__vector_18+0x70>
-		inc = 8;
- 1c6:	98 e0       	ldi	r25, 0x08	; 8
- 1c8:	90 93 00 01 	sts	0x0100, r25
-	
-	
-	if(data[0] > 0)
- 1cc:	90 81       	ld	r25, Z
- 1ce:	99 23       	and	r25, r25
- 1d0:	39 f0       	breq	.+14     	; 0x1e0 <__vector_18+0x7e>
-		PORTC = sine[count];
- 1d2:	e8 2f       	mov	r30, r24
- 1d4:	f0 e0       	ldi	r31, 0x00	; 0
- 1d6:	ef 5f       	subi	r30, 0xFF	; 255
- 1d8:	fe 4f       	sbci	r31, 0xFE	; 254
- 1da:	80 81       	ld	r24, Z
- 1dc:	88 b9       	out	0x08, r24	; 8
- 1de:	0a c0       	rjmp	.+20     	; 0x1f4 <__vector_18+0x92>
+ 144:	e0 91 00 01 	lds	r30, 0x0100
+ 148:	80 91 18 02 	lds	r24, 0x0218
+ 14c:	e8 0f       	add	r30, r24
+ 14e:	e0 93 18 02 	sts	0x0218, r30
+		OCR0A = 1;
+	}
 	else
 		PORTC = 127*PORTC/128;
- 1e0:	88 b1       	in	r24, 0x08	; 8
- 1e2:	2f e7       	ldi	r18, 0x7F	; 127
- 1e4:	82 9f       	mul	r24, r18
- 1e6:	c0 01       	movw	r24, r0
- 1e8:	11 24       	eor	r1, r1
- 1ea:	88 0f       	add	r24, r24
- 1ec:	89 2f       	mov	r24, r25
- 1ee:	88 1f       	adc	r24, r24
- 1f0:	99 0b       	sbc	r25, r25
- 1f2:	88 b9       	out	0x08, r24	; 8
+	*/
+	PORTC = sine[count];
+ 152:	f0 e0       	ldi	r31, 0x00	; 0
+ 154:	ef 5f       	subi	r30, 0xFF	; 255
+ 156:	fe 4f       	sbci	r31, 0xFE	; 254
+ 158:	80 81       	ld	r24, Z
+ 15a:	88 b9       	out	0x08, r24	; 8
+	OCR0A = 15;
+ 15c:	8f e0       	ldi	r24, 0x0F	; 15
+ 15e:	87 bd       	out	0x27, r24	; 39
 	//else
 	//PORTC = 0x00;
 	//PORTC = 0xFF;
 	//if(count == 0)
 	//l74hc165_shiftin(data);
 }
- 1f4:	ff 91       	pop	r31
- 1f6:	ef 91       	pop	r30
- 1f8:	9f 91       	pop	r25
- 1fa:	8f 91       	pop	r24
- 1fc:	2f 91       	pop	r18
- 1fe:	0f 90       	pop	r0
- 200:	0b be       	out	0x3b, r0	; 59
- 202:	0f 90       	pop	r0
- 204:	0f be       	out	0x3f, r0	; 63
- 206:	0f 90       	pop	r0
- 208:	1f 90       	pop	r1
- 20a:	18 95       	reti
+ 160:	ff 91       	pop	r31
+ 162:	ef 91       	pop	r30
+ 164:	8f 91       	pop	r24
+ 166:	0f 90       	pop	r0
+ 168:	0b be       	out	0x3b, r0	; 59
+ 16a:	0f 90       	pop	r0
+ 16c:	0f be       	out	0x3f, r0	; 63
+ 16e:	0f 90       	pop	r0
+ 170:	1f 90       	pop	r1
+ 172:	18 95       	reti
 
-0000020c <main>:
-
-
-int main(void)
-{
-	lfsr();
- 20c:	0e 94 9f 00 	call	0x13e	; 0x13e <lfsr>
-	lfsr();
- 210:	0e 94 9f 00 	call	0x13e	; 0x13e <lfsr>
-	lfsr();
- 214:	0e 94 9f 00 	call	0x13e	; 0x13e <lfsr>
-	lfsr();
- 218:	0e 94 9f 00 	call	0x13e	; 0x13e <lfsr>
-	lfsr();
- 21c:	0e 94 9f 00 	call	0x13e	; 0x13e <lfsr>
-	lfsr();
- 220:	0e 94 9f 00 	call	0x13e	; 0x13e <lfsr>
-	lfsr();
- 224:	0e 94 9f 00 	call	0x13e	; 0x13e <lfsr>
-	lfsr();
- 228:	0e 94 9f 00 	call	0x13e	; 0x13e <lfsr>
+00000174 <main>:
 	*/
 	
 	//printf ("%d",buffer);
 	
 	
 	l74hc165_init();
- 22c:	0e 94 67 00 	call	0xce	; 0xce <l74hc165_init>
+ 174:	0e 94 67 00 	call	0xce	; 0xce <l74hc165_init>
 	
 	DDRC = 0b11111111;
- 230:	8f ef       	ldi	r24, 0xFF	; 255
- 232:	87 b9       	out	0x07, r24	; 7
+ 178:	8f ef       	ldi	r24, 0xFF	; 255
+ 17a:	87 b9       	out	0x07, r24	; 7
 	PORTC = 0xFF;
- 234:	88 b9       	out	0x08, r24	; 8
+ 17c:	88 b9       	out	0x08, r24	; 8
 	
 	DDRD |= 0xFF;
- 236:	9a b1       	in	r25, 0x0a	; 10
- 238:	8a b9       	out	0x0a, r24	; 10
+ 17e:	9a b1       	in	r25, 0x0a	; 10
+ 180:	8a b9       	out	0x0a, r24	; 10
 	PORTD = 0b11111111;
- 23a:	8b b9       	out	0x0b, r24	; 11
+ 182:	8b b9       	out	0x0b, r24	; 11
 	
+	
+	TCCR0A = 0;
+ 184:	14 bc       	out	0x24, r1	; 36
+	TCCR0B = 0;
+ 186:	15 bc       	out	0x25, r1	; 37
+	TCNT0 = 0;
+ 188:	16 bc       	out	0x26, r1	; 38
+	OCR0A = 100;
+ 18a:	84 e6       	ldi	r24, 0x64	; 100
+ 18c:	87 bd       	out	0x27, r24	; 39
+	
+	TCCR0A |= (1<<WGM01);// | (1<<WGM00);
+ 18e:	84 b5       	in	r24, 0x24	; 36
+ 190:	82 60       	ori	r24, 0x02	; 2
+ 192:	84 bd       	out	0x24, r24	; 36
 	// Prescaler = FCPU
 	TCCR0B |= (1<<CS00);
- 23c:	85 b5       	in	r24, 0x25	; 37
- 23e:	81 60       	ori	r24, 0x01	; 1
- 240:	85 bd       	out	0x25, r24	; 37
-	//prescaler FCPU/1024
-	//TCCR0B |= (1<<CS00) | (1<<CS02);
+ 194:	85 b5       	in	r24, 0x25	; 37
+ 196:	81 60       	ori	r24, 0x01	; 1
+ 198:	85 bd       	out	0x25, r24	; 37
+	//TCCR0B |= (1<<FOC0B);
+	
 	
 	 //Enable Overflow Interrupt Enable
-	TIMSK0 |=(1<<TOIE0);
- 242:	ee e6       	ldi	r30, 0x6E	; 110
- 244:	f0 e0       	ldi	r31, 0x00	; 0
- 246:	80 81       	ld	r24, Z
- 248:	81 60       	ori	r24, 0x01	; 1
- 24a:	80 83       	st	Z, r24
-
-	 //Initialize Counter
-	 TCNT0=0;
- 24c:	16 bc       	out	0x26, r1	; 38
-	 
+	//TIMSK0 |=(1<<TOIE0);
+	TIMSK0 =(1<<OCIE0A);
+ 19a:	82 e0       	ldi	r24, 0x02	; 2
+ 19c:	80 93 6e 00 	sts	0x006E, r24
+	//TIMSK0 |=(1<<OCIE0B);
+	
 	 count=0;
- 24e:	10 92 0a 02 	sts	0x020A, r1
+ 1a0:	10 92 18 02 	sts	0x0218, r1
 	 
 	 sei();
- 252:	78 94       	sei
+ 1a4:	78 94       	sei
 	 //_delay_ms(1000);
 	 //lcd_clrscr();
 	
     while(1)
     {
 		l74hc165_shiftin(&data);
- 254:	88 e0       	ldi	r24, 0x08	; 8
- 256:	92 e0       	ldi	r25, 0x02	; 2
- 258:	0e 94 6d 00 	call	0xda	; 0xda <l74hc165_shiftin>
- 25c:	fb cf       	rjmp	.-10     	; 0x254 <main+0x48>
+ 1a6:	88 e0       	ldi	r24, 0x08	; 8
+ 1a8:	92 e0       	ldi	r25, 0x02	; 2
+ 1aa:	0e 94 6d 00 	call	0xda	; 0xda <l74hc165_shiftin>
+ 1ae:	fb cf       	rjmp	.-10     	; 0x1a6 <main+0x32>
 
-0000025e <_exit>:
- 25e:	f8 94       	cli
+000001b0 <_exit>:
+ 1b0:	f8 94       	cli
 
-00000260 <__stop_program>:
- 260:	ff cf       	rjmp	.-2      	; 0x260 <__stop_program>
+000001b2 <__stop_program>:
+ 1b2:	ff cf       	rjmp	.-2      	; 0x1b2 <__stop_program>
