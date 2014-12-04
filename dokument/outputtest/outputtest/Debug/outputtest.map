@@ -10,11 +10,11 @@ c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolcha
 Allocating common symbols
 Common symbol       size              file
 
+osc1                0x2               outputtest.o
 adc_value           0x2               outputtest.o
 buffer              0x4               outputtest.o
 data                0x4               outputtest.o
 buttons             0xc               outputtest.o
-count               0x1               outputtest.o
 
 Discarded input sections
 
@@ -23,6 +23,20 @@ Discarded input sections
  .text          0x00000000        0x0 l74hc165.o
  .data          0x00000000        0x0 l74hc165.o
  .bss           0x00000000        0x0 l74hc165.o
+ .text.l74hc165_init
+                0x00000000        0xc l74hc165.o
+ .text.l74hc165_shiftin
+                0x00000000       0x56 l74hc165.o
+ .debug_info    0x00000000      0x1b8 l74hc165.o
+ .debug_abbrev  0x00000000      0x131 l74hc165.o
+ .debug_loc     0x00000000      0x12f l74hc165.o
+ .debug_aranges
+                0x00000000       0x28 l74hc165.o
+ .debug_ranges  0x00000000       0x18 l74hc165.o
+ .debug_line    0x00000000      0x164 l74hc165.o
+ .debug_str     0x00000000      0x1db l74hc165.o
+ .comment       0x00000000       0x31 l74hc165.o
+ .debug_frame   0x00000000       0x3c l74hc165.o
  .text          0x00000000        0x0 lcd.o
  .data          0x00000000        0x0 lcd.o
  .bss           0x00000000        0x0 lcd.o
@@ -67,12 +81,21 @@ Discarded input sections
  .text          0x00000000        0x0 outputtest.o
  .data          0x00000000        0x0 outputtest.o
  .bss           0x00000000        0x0 outputtest.o
- .text.populate_buttons
-                0x00000000       0xca outputtest.o
+ .text.send_bit
+                0x00000000       0x20 outputtest.o
  .text.lfsr     0x00000000       0x24 outputtest.o
+ .text.setup_timer1
+                0x00000000       0x44 outputtest.o
+ .text.setup_timer0
+                0x00000000       0x1a outputtest.o
  .bss.output    0x00000000        0x1 outputtest.o
- .data.note_vals
-                0x00000000        0xc outputtest.o
+ .data.inc      0x00000000        0x1 outputtest.o
+ .rodata.prutt  0x00000000      0xd10 outputtest.o
+ .rodata.triangle
+                0x00000000      0x100 outputtest.o
+ .rodata.square_
+                0x00000000      0x100 outputtest.o
+ .rodata.sine   0x00000000      0x100 outputtest.o
  .text          0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
  .data          0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
  .bss           0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
@@ -240,7 +263,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x1b4
+.text           0x00000000      0x4b4
  *(.vectors)
  .vectors       0x00000000       0x8c c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51/crtm1284p.o
                 0x00000000                __vector_default
@@ -312,7 +335,6 @@ END GROUP
                 0x000000ca                __vector_30
                 0x000000ca                __vector_25
                 0x000000ca                __vector_11
-                0x000000ca                __vector_13
                 0x000000ca                __vector_17
                 0x000000ca                __vector_19
                 0x000000ca                __vector_7
@@ -333,22 +355,34 @@ END GROUP
                 0x000000ca                __vector_20
                 0x000000ce                . = ALIGN (0x2)
  *(.text.*)
- .text.l74hc165_init
-                0x000000ce        0xc l74hc165.o
-                0x000000ce                l74hc165_init
- .text.l74hc165_shiftin
-                0x000000da       0x56 l74hc165.o
-                0x000000da                l74hc165_shiftin
+ .text.LCD_Write
+                0x000000ce       0x2a outputtest.o
+                0x000000ce                LCD_Write
+ .text.LCD_write_char
+                0x000000f8       0x3a outputtest.o
+                0x000000f8                LCD_write_char
+ .text.LCD_clear
+                0x00000132       0x38 outputtest.o
+                0x00000132                LCD_clear
+ .text.Init_LCD
+                0x0000016a       0x70 outputtest.o
+                0x0000016a                Init_LCD
+ .text.populate_buttons
+                0x000001da       0xca outputtest.o
+                0x000001da                populate_buttons
+ .text.__vector_13
+                0x000002a4       0x50 outputtest.o
+                0x000002a4                __vector_13
  .text.__vector_16
-                0x00000130       0x44 outputtest.o
-                0x00000130                __vector_16
- .text.main     0x00000174       0x3c outputtest.o
-                0x00000174                main
-                0x000001b0                . = ALIGN (0x2)
+                0x000002f4      0x1a0 outputtest.o
+                0x000002f4                __vector_16
+ .text.main     0x00000494       0x1c outputtest.o
+                0x00000494                main
+                0x000004b0                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000001b0        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
-                0x000001b0                _exit
-                0x000001b0                exit
+ .fini9         0x000004b0        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
+                0x000004b0                _exit
+                0x000004b0                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -367,47 +401,47 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000001b0        0x4 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
+ .fini0         0x000004b0        0x4 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
  *(.fini0)
-                0x000001b4                _etext = .
+                0x000004b4                _etext = .
 
-.data           0x00800100      0x102 load address 0x000001b4
+.data           0x00800100      0x228 load address 0x000004b4
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
- .data.inc      0x00800100        0x1 outputtest.o
-                0x00800100                inc
- .data.sine     0x00800101      0x100 outputtest.o
-                0x00800101                sine
  *(.rodata)
  *(.rodata*)
+ .rodata.font6x8
+                0x00800100      0x228 outputtest.o
+                0x00800100                font6x8
  *(.gnu.linkonce.d*)
-                0x00800202                . = ALIGN (0x2)
- *fill*         0x00800201        0x1 
-                0x00800202                _edata = .
-                0x00800202                PROVIDE (__data_end, .)
+                0x00800328                . = ALIGN (0x2)
+                0x00800328                _edata = .
+                0x00800328                PROVIDE (__data_end, .)
 
-.bss            0x00800202       0x17
-                0x00800202                PROVIDE (__bss_start, .)
+.bss            0x00800328       0x19
+                0x00800328                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
+ .bss.count     0x00800328        0x1 outputtest.o
+                0x00800328                count
  *(COMMON)
- COMMON         0x00800202       0x17 outputtest.o
-                0x00800202                adc_value
-                0x00800204                buffer
-                0x00800208                data
-                0x0080020c                buttons
-                0x00800218                count
-                0x00800219                PROVIDE (__bss_end, .)
-                0x000001b4                __data_load_start = LOADADDR (.data)
-                0x000002b6                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x00800329       0x18 outputtest.o
+                0x00800329                osc1
+                0x0080032b                adc_value
+                0x0080032d                buffer
+                0x00800331                data
+                0x00800335                buttons
+                0x00800341                PROVIDE (__bss_end, .)
+                0x000004b4                __data_load_start = LOADADDR (.data)
+                0x000006dc                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800219        0x0
-                0x00800219                PROVIDE (__noinit_start, .)
+.noinit         0x00800341        0x0
+                0x00800341                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x00800219                PROVIDE (__noinit_end, .)
-                0x00800219                _end = .
-                0x00800219                PROVIDE (__heap_start, .)
+                0x00800341                PROVIDE (__noinit_end, .)
+                0x00800341                _end = .
+                0x00800341                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -448,9 +482,8 @@ END GROUP
 
 .comment        0x00000000       0x30
  *(.comment)
- .comment       0x00000000       0x30 l74hc165.o
+ .comment       0x00000000       0x30 outputtest.o
                                  0x31 (size before relaxing)
- .comment       0x00000000       0x31 outputtest.o
 
 .note.gnu.build-id
  *(.note.gnu.build-id)
@@ -467,47 +500,38 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000       0x60
+.debug_aranges  0x00000000       0x78
  *(.debug_aranges)
  .debug_aranges
-                0x00000000       0x28 l74hc165.o
- .debug_aranges
-                0x00000028       0x38 outputtest.o
+                0x00000000       0x78 outputtest.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0x415
+.debug_info     0x00000000      0x70f
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000      0x1b8 l74hc165.o
- .debug_info    0x000001b8      0x25d outputtest.o
+ .debug_info    0x00000000      0x70f outputtest.o
 
-.debug_abbrev   0x00000000      0x29a
+.debug_abbrev   0x00000000      0x27c
  *(.debug_abbrev)
- .debug_abbrev  0x00000000      0x131 l74hc165.o
- .debug_abbrev  0x00000131      0x169 outputtest.o
+ .debug_abbrev  0x00000000      0x27c outputtest.o
 
-.debug_line     0x00000000      0x299
+.debug_line     0x00000000      0x2b6
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x00000000      0x164 l74hc165.o
- .debug_line    0x00000164      0x135 outputtest.o
+ .debug_line    0x00000000      0x2b6 outputtest.o
 
-.debug_frame    0x00000000       0xac
+.debug_frame    0x00000000      0x158
  *(.debug_frame)
- .debug_frame   0x00000000       0x3c l74hc165.o
- .debug_frame   0x0000003c       0x70 outputtest.o
+ .debug_frame   0x00000000      0x158 outputtest.o
 
-.debug_str      0x00000000      0x226
+.debug_str      0x00000000      0x27a
  *(.debug_str)
- .debug_str     0x00000000      0x1a2 l74hc165.o
-                                0x1db (size before relaxing)
- .debug_str     0x000001a2       0x84 outputtest.o
-                                0x1f6 (size before relaxing)
+ .debug_str     0x00000000      0x27a outputtest.o
+                                0x2bb (size before relaxing)
 
-.debug_loc      0x00000000      0x1e3
+.debug_loc      0x00000000      0x353
  *(.debug_loc)
- .debug_loc     0x00000000      0x12f l74hc165.o
- .debug_loc     0x0000012f       0xb4 outputtest.o
+ .debug_loc     0x00000000      0x353 outputtest.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -527,10 +551,9 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000       0x40
+.debug_ranges   0x00000000       0x68
  *(.debug_ranges)
- .debug_ranges  0x00000000       0x18 l74hc165.o
- .debug_ranges  0x00000018       0x28 outputtest.o
+ .debug_ranges  0x00000000       0x68 outputtest.o
 
 .debug_macro
  *(.debug_macro)
