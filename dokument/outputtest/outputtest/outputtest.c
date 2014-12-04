@@ -19,7 +19,7 @@
 //#define F_CPU 20000000L
 #define F_CPU 8000000L
 #include "l74hc165.h"
-#include "lcd.h"
+//#include "lcd.h"
 //#include "lcd.c"
 #include <avr/io.h>
 #include <util/delay.h>
@@ -141,14 +141,93 @@ uint8_t buttons[12]; //pressed buttons, 1 is C, 2 is C# etc, 13-16 = 0
 uint8_t output = 0;
 uint8_t * osc1;
 
+
+void LCD_Write(uint8_t data_or_command, uint8_t byte)
+{
+	uint8_t i;
+	
+	//set CE low (chip enable, inverted input)
+	LCD_PORT &= ~(1<<CE);
+	
+	//tell the display it's a command or data
+	//if(data_or_command == LCD_COMMAND)
+	if(data_or_command==LCD_DATA)
+	LCD_PORT |= (1<<DC);
+	else
+	LCD_PORT &= ~(1<<DC);
+	
+	
+	for (i = 0; i < 8; i++)
+	{
+
+		// consider leftmost bit
+		// set line high if bit is 1, low if bit is 0
+		if (byte & 0x80)
+		LCD_PORT |= (1<<DIN);
+		else
+		LCD_PORT &= ~(1<<DIN);
+		
+		// pulse clock to indicate that bit value should be read
+		LCD_PORT &= ~(1<<CLK);
+		// shift byte left so next bit will be leftmost
+		byte <<= 1;
+		LCD_PORT |= (1<<CLK);
+	}
+	
+	//reset DC
+	//if(data_or_command!=LCD_DATA)
+	//	LCD_PORT |= (1<<DC);
+	//else
+	//	LCD_PORT &= ~(1<<DC);
+	
+	
+	//set CE high
+	LCD_PORT |= (1<<CE);
+}
+
+void LCD_Write_data(uint8_t byte)
+{
+	uint8_t i;
+	
+	//set CE low (chip enable, inverted input)
+	LCD_PORT &= ~(1<<CE);
+	
+	LCD_PORT |= (1<<DC);	
+	
+	for (i = 0; i < 8; i++)
+	{
+		// consider leftmost bit
+		// set line high if bit is 1, low if bit is 0
+		if (byte & 0x80)
+		LCD_PORT |= (1<<DIN);
+		else
+		LCD_PORT &= ~(1<<DIN);
+		
+		// pulse clock to indicate that bit value should be read
+		LCD_PORT &= ~(1<<CLK);
+		// shift byte left so next bit will be leftmost
+		byte <<= 1;
+		//_delay_us(10);
+		asm("nop");
+		LCD_PORT |= (1<<CLK);
+	}
+	
+	//set CE high
+	LCD_PORT |= (1<<CE);
+}
+
+
 void LCD_write_char(uint8_t c)
 {
+	//LCD_Write(LCD_DATA, 0x00);
 	uint8_t line;
 
-	c -= 32;
-
 	for (line=0; line<6; line++)
-	LCD_Write(LCD_DATA, font6x8[c][line]);
+	{
+		LCD_Write(LCD_DATA, font6x8[c-0x20][line]);
+	}
+	
+	//LCD_Write(LCD_DATA, 0x00);
 }
 
 void LCD_set_XY(unsigned char X, unsigned char Y)
@@ -172,22 +251,41 @@ void LCD_clear(void)          // clear the LCD
 {
 	uint16_t i;
 
-	LCD_Write(0, 0x0c);
-	LCD_Write(0, 0x80);
+	//LCD_Write(0, 0x0C);
+	//LCD_Write(0, 0x80);		//set address of RAM, 0x80 is 0,0
 
-	for (i=0; i<504; i++)
+	for (i=0; i<504; i++)	//504 = 84*48/8
 	{
-		LCD_Write(1, 0);
+		LCD_Write(LCD_DATA, 0x00);
 	}
+}
+
+void Disable_LCD()
+{
+	//LCD_PORT |= (1<<RST);
+	LCD_PORT |= (1<<CE);
 }
 
 void Init_LCD()
 {
+	//try some shit
+	LCD_DDR = 0xFF;
+	LCD_PORT &= ~(1<<RST);
+	_delay_ms(100);
+	LCD_PORT |= (1<<RST);
+	LCD_PORT &= ~(1<<CE);
+	_delay_ms(5);
+	LCD_PORT &= ~(1<<RST);
+	asm("nop");
+	LCD_PORT |= (1<<RST);
+	
+	
+	
 	//set output
-	LCD_DDR = (1<<CLK)|(1<<DIN)|(1<<DC)|(1<<CE)|(1<<RST);
+	//LCD_DDR = (1<<CLK)|(1<<DIN)|(1<<DC)|(1<<CE)|(1<<RST);
 	//DDRD |= 0xff;
 	
-	//LCD_PORT = 0;
+	LCD_PORT = 0;
 	
 	//reset
 	LCD_PORT &= ~(1<<RST);
@@ -199,9 +297,10 @@ void Init_LCD()
 	LCD_PORT |= (1<<CE);
 	_delay_us(1);
 	
+	LCD_PORT |= (1<<RST);
 	
 	LCD_Write(LCD_COMMAND, 0x21);	//Tell LCD that extended commands follow
-	LCD_Write(LCD_COMMAND, 0xB1);	//Set LCD Vop (Contrast): Try 0xB1(good @ 3.3V) or 0xBF if your display is too dark
+	LCD_Write(LCD_COMMAND, 0xC1);	//Set LCD Vop (Contrast): Try 0xB1(good @ 3.3V) or 0xBF if your display is too dark
 	LCD_Write(LCD_COMMAND, 0x04);	//Set temp coeff
 	LCD_Write(LCD_COMMAND, 0x14);	//LCD bias mode 1:48: Try 0x13 or 0x14
 	
@@ -229,78 +328,6 @@ void send_bit(uint8_t bit)
 	_delay_us(20);
 	LCD_PORT |= (1<<CLK); //set CLK high
 }
-
-void LCD_Write(uint8_t data_or_command, uint8_t byte)
-{
-	uint8_t i;
-	
-	//tell the display it's a command or data
-	if(data_or_command == LCD_COMMAND)
-	  LCD_PORT &= ~(1<<DC);
-	else
-	  LCD_PORT |= (1<<DC);
-	
-	//set CE low (chip enable, inverted input)
-	LCD_PORT &= ~(1<<CE);
-	
-	
-	//_delay_us(20);
-	
-	//LCD_PORT |= (1<<CE);
-	//_delay_us(20);
-	
-	/*
-	send_bit(byte>>7);
-	send_bit(byte>>6);
-	send_bit(byte>>5);
-	send_bit(byte>>4);
-	send_bit(byte>>3);
-	send_bit(byte>>2);
-	send_bit(byte>>1);
-	send_bit(byte>>0);
-	*/
-	
-	/*
-	send_bit((byte>>7) == 1);
-	send_bit((byte>>6) == 1);
-	send_bit((byte>>5) == 1);
-	send_bit((byte>>4) == 1);
-	send_bit((byte>>3) == 1);
-	send_bit((byte>>2) == 1);
-	send_bit((byte>>1) == 1);
-	send_bit((byte>>0) == 1);
-	*/
-	
-	
-	for (i = 0; i < 8; i++)
-	{
-
-		// consider leftmost bit
-		// set line high if bit is 1, low if bit is 0
-		if (byte & 0x80)
-		  LCD_PORT |= (1<<DIN);
-		else
-		  LCD_PORT &= ~(1<<DIN);
-		
-		// pulse clock to indicate that bit value should be read
-		LCD_PORT &= ~(1<<CLK);
-		// shift byte left so next bit will be leftmost
-		byte <<= 1;
-		_delay_us(250);
-		LCD_PORT |= (1<<CLK);
-	}
-	//_delay_us(20);
-	
-	//reset
-	//if(data_or_command == LCD_COMMAND)
-	//  LCD_PORT &= ~(1<<DC);
-	//else
-	//  LCD_PORT |= (1<<DC);
-	
-	//set CE high
-	LCD_PORT |= (1<<CE);
-}
-
 
 
 void populate_buttons()
@@ -379,6 +406,7 @@ void populate_buttons()
 	  
 }
 
+/*
 void lfsr()
 {
 	uint16_t lfsr = 0xACE1u;
@@ -386,11 +414,11 @@ void lfsr()
     char s[16];
 
     do {
-          unsigned lsb = lfsr & 1;  /* Get lsb (i.e., the output bit). */
-          lfsr >>= 1;               /* Shift register */
-          if (lsb == 1)             /* Only apply toggle mask if output bit is 1. */
-            lfsr ^= 0xB400u;        /* Apply toggle mask, value has 1 at bits corresponding
-                                    /* to taps, 0 elsewhere. */
+          unsigned lsb = lfsr & 1;  // Get lsb (i.e., the output bit).
+          lfsr >>= 1;               // Shift register 
+          if (lsb == 1)             // Only apply toggle mask if output bit is 1. 
+            lfsr ^= 0xB400u;        // Apply toggle mask, value has 1 at bits corresponding
+                                    // to taps, 0 elsewhere. 
           ++period;
 		  PORTC = lfsr;
           for (int i = 0; i < 16; i++)
@@ -402,6 +430,7 @@ void lfsr()
     } while(lfsr != 0xACE1u);
 	
 }
+*/
 
 ISR(TIMER1_COMPA_vect)
 {
@@ -417,18 +446,7 @@ ISR(TIMER0_COMPA_vect)
 	count += 4;
 	//if(count > 255)
 	//  count = 0;
-	/*
-	for (uint8_t i=0;i<12;i++)
-	{
-		if(buttons[i])
-		{
-			PORTC = sine[count];
-			OCR0A = note_vals[i];
-		}
-		else
-			PORTC = 0;
-	}
-	*/
+	
 	
 	if(buttons[0])
 	{
@@ -559,51 +577,88 @@ void setup_timer0()
 
 int main(void)
 {
+	sei();
+	/*
+	//try some shit
+	LCD_DDR = 0xFF;
+	LCD_PORT &= ~(1<<RST);
+	_delay_ms(100);
+	LCD_PORT |= (1<<RST);
+	LCD_PORT &= ~(1<<CE);
+	_delay_ms(5);
+	LCD_PORT &= ~(1<<RST);
+	asm("nop");
+	LCD_PORT |= (1<<RST);
+	*/
+	
+	Init_LCD();
+	LCD_clear();
+	
+	LCD_write_string(0,0,"Erik <3 Klara!");
+	//Disable_LCD();
+	
 	//osc1 = sine;
 	//osc1 = square_;
 	//osc1 = triangle;
 	//osc1 = prutt;
 	//int n;
 	
-	//setup_timer1();
-	//setup_timer0();
-	//l74hc165_init();
+	setup_timer1();
+	setup_timer0();
+	l74hc165_init();
 	
-	Init_LCD();
+	//Init_LCD();
+	//LCD_clear();
+	//LCD_write_string(0,20,"<3<3<3");
 	
+	
+	//_delay_ms(3000);
+	//_delay_ms(3000);
 	//_delay_ms(100);
-	LCD_clear();
-	
-	LCD_write_string(0,0,"Erik <3 Klara");
-	_delay_ms(1000);
-	
-	//_delay_ms(100);
-	//LCD_write_char('?');
 	//_delay_ms(1000);
 	//DDRC = 0b11111111;
 	//PORTC = 0xFF;
 	
 	
-	 //sei();
 	 
-	 //_delay_ms(1000);
+	//_delay_ms(1000);
 	 //lcd_init(LCD_DISP_ON);
 	 //_delay_ms(1000);
 	 //lcd_clrscr();
-	
+	//LCD_Write_data(0x55);
+	//LCD_Write_data(0xAA);
     while(1)
     {
-		//l74hc165_shiftin(&data);
-		LCD_clear();
-		_delay_ms(1000);
 		
-		
-		//LCD_Write(LCD_DATA, 0x55);
 		//_delay_ms(1000);
-		//LCD_Write(LCD_DATA, 0xAA);
+		asm("nop");
+		//LCD_write_string(0,20,"<3<3<3");
+		LCD_Write(LCD_DATA, 0xAA);
+		//Init_LCD();
+		//LCD_clear();
+		//LCD_write_string(20,20,"<3");
+		
+		//_delay_ms(4000);
+		//LCD_PORT |= (1<<DC);
+		//_delay_ms(4000);
+		//LCD_PORT &= ~(1<<DC);
+		
+		//_delay_ms(1000);
+		//LCD_write_string(0,0,"Erik <3 Klara");
+		//asm("nop");
+		//LCD_write_string(10,10,"HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEJ!!!");
+		//LCD_write_char('E');
+		
+		l74hc165_shiftin(&data);
 		//LCD_clear();
 		//_delay_ms(1000);
 		
+		//LCD_Write_data(0xAA);
+		//_delay_ms(1000);
+		//LCD_Write_data(0x00);
+		//asm("nop");
+		//LCD_clear();
+		//_delay_ms(1000);
     }
 }
 
