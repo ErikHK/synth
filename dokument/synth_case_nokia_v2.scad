@@ -169,7 +169,7 @@ translate([170-1,5+1,-cbh+cbth])
 holder(h=15, w=3);
 
 
-translate([170-1,85-1,-cbh+cbth])
+translate([170-1,85-1+5,-cbh+cbth])
 holder(h=15, w=3);
 
 
@@ -318,7 +318,7 @@ module case_top()
 
 
   //spacers for 4 buttons
-  translate([90,55,10])
+  translate([90,55+2,10])
   rotate([0,0,90])
   4_buttons();
 
@@ -369,7 +369,7 @@ module case_top()
 
 
     //4 buttons holes
-  translate([90-8.255,55,10])
+  translate([90-8.255,55+2,10])
   rotate([0,0,90])
   4_buttons_holes();
 

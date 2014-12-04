@@ -151,6 +151,22 @@ void LCD_write_char(uint8_t c)
 	LCD_Write(LCD_DATA, font6x8[c][line]);
 }
 
+void LCD_set_XY(unsigned char X, unsigned char Y)
+{
+	LCD_Write(0, 0x40 | Y);		// column
+	LCD_Write(0, 0x80 | X);          	// row
+}
+
+void LCD_write_string(unsigned char X,unsigned char Y,char *s)
+{
+	LCD_set_XY(X,Y);
+	while (*s)
+	{
+		LCD_write_char(*s);
+		s++;
+	}
+}
+
 
 void LCD_clear(void)          // clear the LCD
 {
@@ -185,11 +201,12 @@ void Init_LCD()
 	
 	
 	LCD_Write(LCD_COMMAND, 0x21);	//Tell LCD that extended commands follow
-	LCD_Write(LCD_COMMAND, 0xC8);	//Set LCD Vop (Contrast): Try 0xB1(good @ 3.3V) or 0xBF if your display is too dark
-	LCD_Write(LCD_COMMAND, 0x06);	//Set temp coeff
-	LCD_Write(LCD_COMMAND, 0x13);	//LCD bias mode 1:48: Try 0x13 or 0x14
+	LCD_Write(LCD_COMMAND, 0xB1);	//Set LCD Vop (Contrast): Try 0xB1(good @ 3.3V) or 0xBF if your display is too dark
+	LCD_Write(LCD_COMMAND, 0x04);	//Set temp coeff
+	LCD_Write(LCD_COMMAND, 0x14);	//LCD bias mode 1:48: Try 0x13 or 0x14
 	
 	LCD_Write(LCD_COMMAND, 0x20);	//We must send 0x20 before modifying the display control mode
+	LCD_clear();
 	LCD_Write(LCD_COMMAND, 0x0C);	//Set display control, normal mode. 0x0D for inverse, 0x0C for non-inverse
 	//LCD_Write(LCD_COMMAND, 0x09);	//all segments on
 	
@@ -216,14 +233,16 @@ void send_bit(uint8_t bit)
 void LCD_Write(uint8_t data_or_command, uint8_t byte)
 {
 	uint8_t i;
-	//set CE low (chip enable, inverted input)
-	LCD_PORT &= ~(1<<CE);
 	
 	//tell the display it's a command or data
 	if(data_or_command == LCD_COMMAND)
 	  LCD_PORT &= ~(1<<DC);
 	else
 	  LCD_PORT |= (1<<DC);
+	
+	//set CE low (chip enable, inverted input)
+	LCD_PORT &= ~(1<<CE);
+	
 	
 	//_delay_us(20);
 	
@@ -255,6 +274,7 @@ void LCD_Write(uint8_t data_or_command, uint8_t byte)
 	
 	for (i = 0; i < 8; i++)
 	{
+
 		// consider leftmost bit
 		// set line high if bit is 1, low if bit is 0
 		if (byte & 0x80)
@@ -263,11 +283,10 @@ void LCD_Write(uint8_t data_or_command, uint8_t byte)
 		  LCD_PORT &= ~(1<<DIN);
 		
 		// pulse clock to indicate that bit value should be read
-		//_delay_us(15);
 		LCD_PORT &= ~(1<<CLK);
-		//_delay_us(15);
 		// shift byte left so next bit will be leftmost
 		byte <<= 1;
+		_delay_us(250);
 		LCD_PORT |= (1<<CLK);
 	}
 	//_delay_us(20);
@@ -551,14 +570,21 @@ int main(void)
 	//l74hc165_init();
 	
 	Init_LCD();
-	LCD_clear();
-	LCD_write_char('?');
 	
+	//_delay_ms(100);
+	LCD_clear();
+	
+	LCD_write_string(0,0,"Erik <3 Klara");
+	_delay_ms(1000);
+	
+	//_delay_ms(100);
+	//LCD_write_char('?');
+	//_delay_ms(1000);
 	//DDRC = 0b11111111;
 	//PORTC = 0xFF;
 	
 	
-	 sei();
+	 //sei();
 	 
 	 //_delay_ms(1000);
 	 //lcd_init(LCD_DISP_ON);
@@ -569,7 +595,14 @@ int main(void)
     {
 		//l74hc165_shiftin(&data);
 		LCD_clear();
-		LCD_write_char('?');
+		_delay_ms(1000);
+		
+		
+		//LCD_Write(LCD_DATA, 0x55);
+		//_delay_ms(1000);
+		//LCD_Write(LCD_DATA, 0xAA);
+		//LCD_clear();
+		//_delay_ms(1000);
 		
     }
 }

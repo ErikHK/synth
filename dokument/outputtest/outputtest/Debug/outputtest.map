@@ -263,7 +263,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x4b4
+.text           0x00000000      0x526
  *(.vectors)
  .vectors       0x00000000       0x8c c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51/crtm1284p.o
                 0x00000000                __vector_default
@@ -356,33 +356,39 @@ END GROUP
                 0x000000ce                . = ALIGN (0x2)
  *(.text.*)
  .text.LCD_Write
-                0x000000ce       0x2a outputtest.o
+                0x000000ce       0x32 outputtest.o
                 0x000000ce                LCD_Write
  .text.LCD_write_char
-                0x000000f8       0x3a outputtest.o
-                0x000000f8                LCD_write_char
+                0x00000100       0x3a outputtest.o
+                0x00000100                LCD_write_char
+ .text.LCD_set_XY
+                0x0000013a       0x22 outputtest.o
+                0x0000013a                LCD_set_XY
+ .text.LCD_write_string
+                0x0000015c       0x22 outputtest.o
+                0x0000015c                LCD_write_string
  .text.LCD_clear
-                0x00000132       0x38 outputtest.o
-                0x00000132                LCD_clear
+                0x0000017e       0x38 outputtest.o
+                0x0000017e                LCD_clear
  .text.Init_LCD
-                0x0000016a       0x70 outputtest.o
-                0x0000016a                Init_LCD
+                0x000001b6       0x74 outputtest.o
+                0x000001b6                Init_LCD
  .text.populate_buttons
-                0x000001da       0xca outputtest.o
-                0x000001da                populate_buttons
+                0x0000022a       0xca outputtest.o
+                0x0000022a                populate_buttons
  .text.__vector_13
-                0x000002a4       0x50 outputtest.o
-                0x000002a4                __vector_13
+                0x000002f4       0x50 outputtest.o
+                0x000002f4                __vector_13
  .text.__vector_16
-                0x000002f4      0x1a0 outputtest.o
-                0x000002f4                __vector_16
- .text.main     0x00000494       0x1c outputtest.o
-                0x00000494                main
-                0x000004b0                . = ALIGN (0x2)
+                0x00000344      0x1a0 outputtest.o
+                0x00000344                __vector_16
+ .text.main     0x000004e4       0x3e outputtest.o
+                0x000004e4                main
+                0x00000522                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000004b0        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
-                0x000004b0                _exit
-                0x000004b0                exit
+ .fini9         0x00000522        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
+                0x00000522                _exit
+                0x00000522                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -401,47 +407,49 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000004b0        0x4 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
+ .fini0         0x00000522        0x4 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
  *(.fini0)
-                0x000004b4                _etext = .
+                0x00000526                _etext = .
 
-.data           0x00800100      0x228 load address 0x000004b4
+.data           0x00800100      0x236 load address 0x00000526
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
  *(.rodata)
  *(.rodata*)
+ .rodata.str1.1
+                0x00800100        0xe outputtest.o
  .rodata.font6x8
-                0x00800100      0x228 outputtest.o
-                0x00800100                font6x8
+                0x0080010e      0x228 outputtest.o
+                0x0080010e                font6x8
  *(.gnu.linkonce.d*)
-                0x00800328                . = ALIGN (0x2)
-                0x00800328                _edata = .
-                0x00800328                PROVIDE (__data_end, .)
+                0x00800336                . = ALIGN (0x2)
+                0x00800336                _edata = .
+                0x00800336                PROVIDE (__data_end, .)
 
-.bss            0x00800328       0x19
-                0x00800328                PROVIDE (__bss_start, .)
+.bss            0x00800336       0x19
+                0x00800336                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
- .bss.count     0x00800328        0x1 outputtest.o
-                0x00800328                count
+ .bss.count     0x00800336        0x1 outputtest.o
+                0x00800336                count
  *(COMMON)
- COMMON         0x00800329       0x18 outputtest.o
-                0x00800329                osc1
-                0x0080032b                adc_value
-                0x0080032d                buffer
-                0x00800331                data
-                0x00800335                buttons
-                0x00800341                PROVIDE (__bss_end, .)
-                0x000004b4                __data_load_start = LOADADDR (.data)
-                0x000006dc                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x00800337       0x18 outputtest.o
+                0x00800337                osc1
+                0x00800339                adc_value
+                0x0080033b                buffer
+                0x0080033f                data
+                0x00800343                buttons
+                0x0080034f                PROVIDE (__bss_end, .)
+                0x00000526                __data_load_start = LOADADDR (.data)
+                0x0000075c                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800341        0x0
-                0x00800341                PROVIDE (__noinit_start, .)
+.noinit         0x0080034f        0x0
+                0x0080034f                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x00800341                PROVIDE (__noinit_end, .)
-                0x00800341                _end = .
-                0x00800341                PROVIDE (__heap_start, .)
+                0x0080034f                PROVIDE (__noinit_end, .)
+                0x0080034f                _end = .
+                0x0080034f                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -500,38 +508,38 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000       0x78
+.debug_aranges  0x00000000       0x88
  *(.debug_aranges)
  .debug_aranges
-                0x00000000       0x78 outputtest.o
+                0x00000000       0x88 outputtest.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0x70f
+.debug_info     0x00000000      0x8e2
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000      0x70f outputtest.o
+ .debug_info    0x00000000      0x8e2 outputtest.o
 
-.debug_abbrev   0x00000000      0x27c
+.debug_abbrev   0x00000000      0x2ae
  *(.debug_abbrev)
- .debug_abbrev  0x00000000      0x27c outputtest.o
+ .debug_abbrev  0x00000000      0x2ae outputtest.o
 
-.debug_line     0x00000000      0x2b6
+.debug_line     0x00000000      0x2ee
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x00000000      0x2b6 outputtest.o
+ .debug_line    0x00000000      0x2ee outputtest.o
 
-.debug_frame    0x00000000      0x158
+.debug_frame    0x00000000      0x18c
  *(.debug_frame)
- .debug_frame   0x00000000      0x158 outputtest.o
+ .debug_frame   0x00000000      0x18c outputtest.o
 
-.debug_str      0x00000000      0x27a
+.debug_str      0x00000000      0x2a5
  *(.debug_str)
- .debug_str     0x00000000      0x27a outputtest.o
-                                0x2bb (size before relaxing)
+ .debug_str     0x00000000      0x2a5 outputtest.o
+                                0x2e6 (size before relaxing)
 
-.debug_loc      0x00000000      0x353
+.debug_loc      0x00000000      0x46c
  *(.debug_loc)
- .debug_loc     0x00000000      0x353 outputtest.o
+ .debug_loc     0x00000000      0x46c outputtest.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -551,9 +559,9 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000       0x68
+.debug_ranges   0x00000000       0x78
  *(.debug_ranges)
- .debug_ranges  0x00000000       0x68 outputtest.o
+ .debug_ranges  0x00000000       0x78 outputtest.o
 
 .debug_macro
  *(.debug_macro)
