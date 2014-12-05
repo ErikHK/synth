@@ -55,10 +55,10 @@ wktl = 42;
 bktl = 20;
 
 //white key total width
-wktw = 10;
+wktw = 12.5;
 
 //black key total width
-bktw = 4;
+bktw = 7;
 
 //distance between keys
 dbk = 8;
@@ -388,9 +388,9 @@ module foil_holder(width=wktw)
   translate([wktw-width,0,0])
   difference()
   {
-  cube([width,5,3]);
+  cube([width,8,3]);
   translate([1,1,0])
-  cube([width-2,3,6]);
+  cube([width-2,6,6]);
   }
 }
 
@@ -409,12 +409,12 @@ module white_key_1(notch=true)
   //notch for black key
   if(notch)
   translate([-.01,wktl-bktl-key_tol/2+.01,-.1])
-  cube([bktw+key_tol/2,bktl+key_tol/2,5]);
+  cube([bktw/2+key_tol/2,bktl+key_tol/2,5]);
 
   }
   
   color("red")
-  translate([0,38-23,2])
+  translate([0,38-23-2,2])
   if(!notch)
     foil_holder();
   else
