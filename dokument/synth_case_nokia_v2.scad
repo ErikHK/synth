@@ -506,6 +506,32 @@ module lcd_housing_bottom()
 }
 
 
+module battery_holder(width=56)
+{
+cube([3,52,5]);
+translate([width+3,0,0])
+
+translate([0,52-20,0])
+cube([3,20,14+4]);
+
+translate([width+3,52-20,16])
+rotate([-90,0,0])
+cylinder(r=2,h=20, $fn=4);
+
+difference()
+{
+translate([width+3+3,52-20,0])
+rotate([-90,0,0])
+cylinder(r=3,h=20, $fn=4);
+
+translate([width,52-21,-5])
+cube([20,25,5]);
+}
+
+
+}
+
+
 //lcd_housing();
 
 //speaker_hole();
@@ -590,3 +616,7 @@ case_top();
 //translate([140,0,0])
 //cylinder(d=50, h=25);
 */
+
+
+translate([20,35,-10])
+battery_holder();
