@@ -47,7 +47,30 @@ cdhw = 32;
 cdhr = 2;
 
 
+/////KEY SIZES/////
+//white key total length
+wktl = 42;
 
+//black key total length
+bktl = 20;
+
+//white key total width
+wktw = 10;
+
+//black key total width
+bktw = 4;
+
+//distance between keys
+dbk = 8;
+
+//white key thickness
+wkth = 2;
+
+//white key lip height
+wklh = 5;
+
+//key tolerance
+key_tol = 1;
 
 module button_holders()
 {
@@ -317,7 +340,6 @@ module case_bottom()
   translate([3+48/2,100.5,-.01])
   cylinder(r=3.5, h=5);
   }
-  
 }
 
 module key_holder()
@@ -328,11 +350,8 @@ module key_holder()
   translate([0,0,-3])
   cube([106,8,8]);
 
-
-
   translate([0,0,3])
   cube([108,5,2]);
-
 
   translate([0,3,0])
   cube([108,2,4]);  
@@ -349,6 +368,96 @@ module key_holder()
   cube([106,.25,3]);
 
 
+}
+
+module holder_at_key(width=wktw)
+{
+  translate([wktw-width,0,0])
+  {
+  cube([width,5,1.4]);
+
+  translate([0,3.4,0])
+  cube([width,1.6,3.5]);
+
+  }
+  
+}
+
+module foil_holder(width=wktw)
+{
+  translate([wktw-width,0,0])
+  difference()
+  {
+  cube([width,5,3]);
+  translate([1,1,0])
+  cube([width-2,3,6]);
+  }
+}
+
+
+module white_key_1(notch=true)
+{
+  difference()
+  {
+  union()
+  {
+  cube([wktw,wktl,wkth]);
+  translate([0,-wkth,0])
+  cube([wktw,wkth,wklh]);
+  }
+
+  //notch for black key
+  if(notch)
+  translate([-.01,wktl-bktl-key_tol/2+.01,-.1])
+  cube([bktw+key_tol/2,bktl+key_tol/2,5]);
+
+  }
+  
+  color("red")
+  translate([0,38-23,2])
+  if(!notch)
+    foil_holder();
+  else
+    foil_holder(width=wktw-bktw);
+
+  translate([0,wktl,2])
+  color("brown")
+  if(!notch)
+    holder_at_key();
+  else
+    holder_at_key(width=wktw-bktw-key_tol/2);
+
+  if(notch)
+    translate([bktw+key_tol/2,wktl-2,2])
+    cube([wktw-bktw-key_tol/2,2,1.4]);
+  else
+    translate([0,wktl-2,2])
+    cube([wktw,2,1.4]);
+}
+
+rotate([0,-90,0])
+white_key_2();
+
+translate([20,0,0])
+rotate([0,90,0])
+white_key_1();
+
+
+translate([40,0,0])
+rotate([0,90,0])
+white_key_3();
+
+
+module white_key_2()
+{
+mirror([1,0,0])
+white_key_1();
+
+}
+
+module white_key_3()
+{
+white_key_1(false);
 }
 
 module case_top()
@@ -567,6 +676,9 @@ rotate([90,0,0])
 AAA_battery();
 */
 
+/*
+translate([20,35,-10])
+battery_holder();
 
 difference()
 {
@@ -590,7 +702,7 @@ pcb_holders();
 //cube([.5,200,200]);
 
 }
-
+*/
 /*
 rotate([0,180,0])
 difference()
@@ -616,7 +728,3 @@ case_top();
 //translate([140,0,0])
 //cylinder(d=50, h=25);
 */
-
-
-translate([20,35,-10])
-battery_holder();
