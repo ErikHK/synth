@@ -58,7 +58,7 @@ bktl = 20;
 wktw = 12.5;
 
 //black key total width
-bktw = 7;
+bktw = 6;
 
 //distance between keys
 dbk = 8;
@@ -388,7 +388,7 @@ module foil_holder(width=wktw)
   translate([wktw-width,0,0])
   difference()
   {
-  cube([width,8,3]);
+  cube([width,8,4]);
   translate([1,1,0])
   cube([width-2,6,6]);
   }
@@ -418,18 +418,18 @@ module white_key_1(notch=true)
   if(!notch)
     foil_holder();
   else
-    foil_holder(width=wktw-bktw);
+    foil_holder(width=wktw-bktw/2-key_tol/2);
 
   translate([0,wktl,2])
   color("brown")
   if(!notch)
     holder_at_key();
   else
-    holder_at_key(width=wktw-bktw-key_tol/2);
+    holder_at_key(width=wktw-bktw/2-key_tol/2);
 
   if(notch)
-    translate([bktw+key_tol/2,wktl-2,2])
-    cube([wktw-bktw-key_tol/2,2,1.4]);
+    translate([bktw/2+key_tol/2,wktl-2,2])
+    cube([wktw-bktw/2-key_tol/2,2,1.4]);
   else
     translate([0,wktl-2,2])
     cube([wktw,2,1.4]);
