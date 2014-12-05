@@ -238,11 +238,11 @@ void LCD_set_XY(unsigned char X, unsigned char Y)
 
 void LCD_write_string(unsigned char X,unsigned char Y,char *s)
 {
-	LCD_set_XY(X,Y);
+	//LCD_set_XY(X,Y);
 	while (*s)
 	{
-		LCD_write_char(*s);
-		s++;
+		LCD_write_char(*s++);
+		//s++;
 	}
 }
 
@@ -285,7 +285,7 @@ void Init_LCD()
 	//LCD_DDR = (1<<CLK)|(1<<DIN)|(1<<DC)|(1<<CE)|(1<<RST);
 	//DDRD |= 0xff;
 	
-	LCD_PORT = 0;
+	//LCD_PORT = 0;
 	
 	//reset
 	LCD_PORT &= ~(1<<RST);
@@ -301,8 +301,8 @@ void Init_LCD()
 	
 	LCD_Write(LCD_COMMAND, 0x21);	//Tell LCD that extended commands follow
 	LCD_Write(LCD_COMMAND, 0xC1);	//Set LCD Vop (Contrast): Try 0xB1(good @ 3.3V) or 0xBF if your display is too dark
-	LCD_Write(LCD_COMMAND, 0x04);	//Set temp coeff
-	LCD_Write(LCD_COMMAND, 0x14);	//LCD bias mode 1:48: Try 0x13 or 0x14
+	LCD_Write(LCD_COMMAND, 0x06);	//Set temp coeff
+	LCD_Write(LCD_COMMAND, 0x13);	//LCD bias mode 1:48: Try 0x13 or 0x14
 	
 	LCD_Write(LCD_COMMAND, 0x20);	//We must send 0x20 before modifying the display control mode
 	LCD_clear();
@@ -435,7 +435,15 @@ void lfsr()
 ISR(TIMER1_COMPA_vect)
 {
 	//count += 1;
-	populate_buttons();
+	//populate_buttons();
+	//asm("nop");
+	//LCD_write_string(0,20,"<3<3<3");
+	LCD_Write(LCD_DATA, 0xaa);
+	LCD_Write(LCD_DATA, 0xab);
+	LCD_Write(LCD_DATA, 0x10);
+	LCD_Write(LCD_DATA, 0x14);
+	LCD_Write(LCD_DATA, 0x03);
+	
 }
 
 
@@ -540,9 +548,11 @@ void setup_timer1()
 	TCCR1C = 0;
 	TCNT1 = 0;
 	
-	TCCR1A |= (1<<COM1A1) | (1<<COM1A0) | (1<<WGM11);
+	//TCCR1A |= (1<<COM1A1) | (1<<COM1A0) | (1<<WGM11);
 	TCCR1B |= (1<<WGM13) | (1<<WGM12) | (1<<CS10);
-	OCR1A = 0xC000;	//set
+	//OCR1A = 0xC000;	//set
+	//OCR1A = 0xA000;
+	OCR1A = 100;
 	ICR1 = 0xF000;	//clear
 	TIMSK1 =(1<<OCIE1A);
 	//TIFR1 &= ~(1<<OCF1A);
@@ -577,63 +587,38 @@ void setup_timer0()
 
 int main(void)
 {
-	sei();
-	/*
-	//try some shit
-	LCD_DDR = 0xFF;
-	LCD_PORT &= ~(1<<RST);
-	_delay_ms(100);
-	LCD_PORT |= (1<<RST);
-	LCD_PORT &= ~(1<<CE);
-	_delay_ms(5);
-	LCD_PORT &= ~(1<<RST);
-	asm("nop");
-	LCD_PORT |= (1<<RST);
-	*/
 	
-	Init_LCD();
-	LCD_clear();
-	
-	LCD_write_string(0,0,"Erik <3 Klara!");
-	//Disable_LCD();
-	
+	l74hc165_init();
 	//osc1 = sine;
 	//osc1 = square_;
 	//osc1 = triangle;
 	//osc1 = prutt;
 	//int n;
+	Init_LCD();
+	LCD_clear();
+	LCD_write_string(0,0,"Erik <3 Klara!");
+	LCD_write_string(0,0,"Erik <3 Klara!");
+	
+	LCD_write_string(0,0,"Erik <3 Klara!");
+	
+	LCD_write_string(0,0,"Erik <3 Klara!");
+	LCD_write_string(0,0,"Erik <3 Klara!");
+	LCD_write_string(0,0,"Erik <3 Klara!");
+	LCD_write_string(0,0,"Erik <3 Klara!");
+	
 	
 	setup_timer1();
 	setup_timer0();
-	l74hc165_init();
+	sei();
 	
-	//Init_LCD();
-	//LCD_clear();
-	//LCD_write_string(0,20,"<3<3<3");
-	
-	
-	//_delay_ms(3000);
-	//_delay_ms(3000);
-	//_delay_ms(100);
-	//_delay_ms(1000);
-	//DDRC = 0b11111111;
-	//PORTC = 0xFF;
-	
-	
-	 
-	//_delay_ms(1000);
-	 //lcd_init(LCD_DISP_ON);
-	 //_delay_ms(1000);
-	 //lcd_clrscr();
-	//LCD_Write_data(0x55);
-	//LCD_Write_data(0xAA);
     while(1)
     {
+		populate_buttons();
+		//Init_LCD();
 		
+		//LCD_clear();
 		//_delay_ms(1000);
-		asm("nop");
-		//LCD_write_string(0,20,"<3<3<3");
-		LCD_Write(LCD_DATA, 0xAA);
+		//LCD_Write(LCD_DATA, 0xAA);
 		//Init_LCD();
 		//LCD_clear();
 		//LCD_write_string(20,20,"<3");

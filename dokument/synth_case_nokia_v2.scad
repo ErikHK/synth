@@ -66,11 +66,13 @@ holder(h=10-1.6);
 
 
 
-translate([44.45,0,0])
+//translate([44.45,0,0])
+translate([46.99,0,0])
 holder(r=1.2,h=10-1.6);
 
 
-translate([44.45,7.62,0])
+//translate([44.45,7.62,0])
+translate([46.99,7.62,0])
 holder(h=10-1.6);
 
 
@@ -79,17 +81,17 @@ holder(h=10-1.6);
 
 module pcb_holders()
 {
-holder(h=3);
+holder(h=4, r=0.95);
 
 translate([78.74,-28.575,0])
-holder(h=3);
+holder(h=4, r=0.95);
 
 translate([0,-28.575,0])
-holder(h=3);
+holder(h=4, r=.95);
 
 
 translate([78.74,0,0])
-holder(h=3);
+holder(h=4, r=.95);
 
 
 }
@@ -100,15 +102,15 @@ translate([6,6,-cbh+cbth])
 holder(h=10);
 
 
-translate([6,85-1,-cbh+cbth])
-holder(h=10);
+//translate([6,85-1+5,-cbh+cbth])
+//holder(h=10);
 
 
 translate([170-1,5+1,-cbh+cbth])
 holder(h=10);
 
 
-translate([170-1,85-1,-cbh+cbth])
+translate([170-1,85-1+5,-cbh+cbth])
 holder(h=10);
 
 
@@ -258,13 +260,62 @@ module white_key()
 
 module case_bottom()
 {
+  
+
+  difference()
+  {
+  union()
+  {
+  translate([0,60,0])
+  lcd_housing_bottom();
+
+  //holder in lcd housing
+  translate([3+48/2,100.5,2])
+  holder(h=10);
+
+
+  //headphone jack holders
+  translate([155,6,2])
+  holder(r=1.4,h=3);
+
+  translate([155-2.54*10,6,2])
+  holder(r=1.4,h=3);
+
   difference()
   {
   rCube(cl, cw, cbh,crr);
+  
 
   translate([cwth,cwth,ctth])
   cube([cl-cwth*2, cw-cwth*2, cbh]);
 
+  //lcd housing hole
+  translate([3,90,2])
+  cube([48,6,12]);
+
+  //headphone jack hole
+  translate([155-2.54*5,5,10])
+  rotate([90,0,0])
+  cylinder(d=6, h=10);
+  }
+
+  translate([0,0,cbh])
+  corner_holders();
+  }
+
+  //sunk holes
+  translate([6,6,-.01])
+  cylinder(r=3.5, h=5);
+
+  translate([170-1,5+1,-.01])
+  cylinder(r=3.5, h=5);
+
+  translate([170-1,85-1+5,-.01])
+  cylinder(r=3.5, h=5);
+  
+  //lcd housing sunk hole
+  translate([3+48/2,100.5,-.01])
+  cylinder(r=3.5, h=5);
   }
   
 }
@@ -438,8 +489,20 @@ module lcd_housing()
   cube([55,34,40]);
 
   }
+}
 
 
+module lcd_housing_bottom()
+{
+  difference()
+  {
+    rCube(48+cwth*2,40+cwth*2,cbh,8);
+    translate([cwth, cwth, cbth])
+    rCube(48, 40,cbh, 8);
+  translate([0,-2,-2])
+  cube([55,34,40]);
+
+  }
 }
 
 
@@ -478,7 +541,7 @@ rotate([90,0,0])
 AAA_battery();
 */
 
-/*
+
 difference()
 {
 union()
@@ -493,8 +556,7 @@ button_holders();
 translate([88,76,-cbh+cbth])
 pcb_holders();
 
-
-corner_holders();
+//corner_holders();
 }
 
 
@@ -502,8 +564,8 @@ corner_holders();
 //cube([.5,200,200]);
 
 }
-*/
 
+/*
 rotate([0,180,0])
 difference()
 {
@@ -515,6 +577,7 @@ translate([0,0,10])
 corner_holders_top();
 case_top();
 }
+
 //translate([80+10,-2,-30])
 //cube([.5,100,100]);
 
@@ -526,3 +589,4 @@ case_top();
 //speaker
 //translate([140,0,0])
 //cylinder(d=50, h=25);
+*/
