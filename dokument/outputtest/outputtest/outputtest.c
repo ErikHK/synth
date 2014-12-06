@@ -435,15 +435,16 @@ void lfsr()
 ISR(TIMER1_COMPA_vect)
 {
 	//count += 1;
-	//populate_buttons();
+	populate_buttons();
 	//asm("nop");
 	//LCD_write_string(0,20,"<3<3<3");
+	/*
 	LCD_Write(LCD_DATA, 0xaa);
 	LCD_Write(LCD_DATA, 0xab);
 	LCD_Write(LCD_DATA, 0x10);
 	LCD_Write(LCD_DATA, 0x14);
 	LCD_Write(LCD_DATA, 0x03);
-	
+	*/
 }
 
 
@@ -454,6 +455,8 @@ ISR(TIMER0_COMPA_vect)
 	count += 4;
 	//if(count > 255)
 	//  count = 0;
+	
+	//PORTC = osc1[count];
 	
 	
 	if(buttons[0])
@@ -535,24 +538,21 @@ ISR(TIMER0_COMPA_vect)
 	else
 		PORTC = 0;
 	
-	
 	//TCNT0=0;
 }
 
-
 void setup_timer1()
 {
-	
 	TCCR1A = 0;
 	TCCR1B = 0;
 	TCCR1C = 0;
 	TCNT1 = 0;
 	
-	//TCCR1A |= (1<<COM1A1) | (1<<COM1A0) | (1<<WGM11);
+	TCCR1A |= (1<<COM1A1) | (1<<COM1A0) | (1<<WGM11);
 	TCCR1B |= (1<<WGM13) | (1<<WGM12) | (1<<CS10);
-	//OCR1A = 0xC000;	//set
+	OCR1A = 0xC000;	//set
 	//OCR1A = 0xA000;
-	OCR1A = 100;
+	//OCR1A = 100;
 	ICR1 = 0xF000;	//clear
 	TIMSK1 =(1<<OCIE1A);
 	//TIFR1 &= ~(1<<OCF1A);
@@ -587,13 +587,16 @@ void setup_timer0()
 
 int main(void)
 {
-	
+	sei();
 	l74hc165_init();
-	//osc1 = sine;
+	osc1 = sine;
 	//osc1 = square_;
 	//osc1 = triangle;
 	//osc1 = prutt;
 	//int n;
+	
+	DDRC = 0xff;
+	
 	Init_LCD();
 	LCD_clear();
 	LCD_write_string(0,0,"Erik <3 Klara!");
@@ -609,11 +612,10 @@ int main(void)
 	
 	setup_timer1();
 	setup_timer0();
-	sei();
 	
     while(1)
     {
-		populate_buttons();
+		//populate_buttons();
 		//Init_LCD();
 		
 		//LCD_clear();
