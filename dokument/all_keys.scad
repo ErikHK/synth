@@ -100,6 +100,10 @@ module white_key(leftnotch=true, rightnotch=true)
   translate([wktw/2-sw/2,wktl,wkth-sth])
   cube([sw,sl,sth]);
 
+
+  //translate([wktw/2,wktl-bktl,wkth])
+  //foil_holder();
+
 }
 
 
@@ -111,6 +115,26 @@ module black_key()
   translate([0,bktl,wkth-sth])
   cube([bktw,sl,sth]);
 
+
+  //translate([bktw/2,0,bkth])
+  //foil_holder();
+
+}
+
+module foil_holder()
+{
+  height=2;
+  diameter=5;
+  thickness=1;
+
+  translate([0,diameter/2,0])
+  difference()
+  {
+    cylinder(d=diameter, h=height);
+    cylinder(d=diameter-thickness*2, h=height);
+  }
+
+
 }
 
 
@@ -119,7 +143,7 @@ module holder_bar(length=dbwk*7-key_tol)
   width = 8;
   ridge_width=3;
   ridge_height=1;
-  tol = .6;
+  tol = .8;
 
   square_width=3;
 
@@ -221,6 +245,6 @@ white_key(true,true);
 translate([6*dbwk, 0,0])
 white_key(true,false);
 }
-translate([dbwk-bktw/2-key_tol/2,wktl-bktl,-2])
+translate([dbwk-bktw/2-key_tol/2,wktl-bktl,-3])
 all_black_keys();
 all_white_keys();
