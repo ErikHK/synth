@@ -52,13 +52,13 @@ cdhr = 2;
 wktl = 42;
 
 //black key total length
-bktl = 20;
+bktl = 19;
 
 //white key total width
 wktw = 12.5;
 
 //black key total width
-bktw = 6;
+bktw = 4;
 
 //distance between keys
 dbk = 8;
@@ -374,11 +374,28 @@ module holder_at_key(width=wktw)
 {
   translate([wktw-width,0,0])
   {
-  cube([width,5,1.4]);
+  cube([width,5+1,1.4]);
 
-  translate([0,3.4,0])
+  translate([0,3.4+1,0])
   cube([width,1.6,3.5]);
 
+  }
+  
+}
+
+
+module holder_at_key_v2(width=wktw-bktw/2-key_tol/2)
+{
+  translate([wktw-width,0,0])
+  {
+
+
+  difference()
+  {
+  cube([width,8,1.4]);
+  translate([width/2,4,-2])
+  cylinder(r=1.6, h=10);
+  }
   }
   
 }
@@ -435,18 +452,124 @@ module white_key_1(notch=true)
     cube([wktw,2,1.4]);
 }
 
-rotate([0,-90,0])
-white_key_2();
 
+module white_key_v2_1(notch=true)
+{
+  //slim width
+  sw = wktw-bktw-key_tol;
+
+  
+
+  difference()
+  {
+  union()
+  {
+  cube([wktw,wktl,wkth]);
+  translate([0,-wkth,0])
+  cube([wktw,wkth,wklh]);
+  }
+
+  //notch for black key
+  if(notch)
+  {
+  translate([-.01,wktl-bktl-key_tol/2+.01,-.1])
+  cube([bktw/2+key_tol/2,bktl+key_tol/2,5]);
+
+translate([.01+wktw-bktw/2-key_tol/2,wktl-bktl-key_tol/2+.01,-.1])
+  cube([bktw/2+key_tol/2,bktl+key_tol/2,5]);
+  }
+
+  else
+  {
+translate([-.01,wktl-bktl-key_tol/2+.01,-.1])
+  cube([bktw/2+key_tol/2,bktl+key_tol/2,5]);
+
+
+
+  }
+
+
+  }
+  
+  color("red")
+  translate([0,38-23-2+1,2])
+  if(!notch)
+    foil_holder();
+  else
+    {
+    translate([-bktw/2-key_tol/2,0,0])
+    foil_holder(width=wktw-bktw-key_tol);
+    }
+
+  translate([0,wktl+2,0])
+  color("brown")
+translate([bktw/2+key_tol/2,0,0])
+  {
+
+
+  difference()
+  {
+  cube([sw,8,1.4]);
+  translate([sw/2,4,-2])
+  cylinder(r=1.6, h=10);
+  }
+  }
+
+
+  //spring connection
+  translate([bktw/2+key_tol/2,wktl-.95,.25])
+  rotate([-15,0,0])
+  cube([sw,1,4.4]);
+
+
+  translate([bktw/2+key_tol/2,wktl+2,0])
+  rotate([15,0,0])
+  cube([sw,1,4.4]);
+
+ 
+  translate([bktw/2+key_tol/2,wktl+1,4.3])
+  rotate([0,90,0])
+  cylinder(r=.84, h=sw);
+
+
+  //support
+  translate([0,wktl-.5,0])
+  cube([3,1,1]);
+
+  translate([0,wktl-.5+2.5,0])
+  cube([3,1,1]);
+
+  translate([0,wktl-.5+1,4.2])
+  cube([3,1,1]);
+
+  translate([0,wktl+9.5,0])
+  cube([3,1,1.4]);
+
+
+  //foil holder support
+  translate([0,wktl/2+.5,5])
+  cube([3,1,1]);
+
+  translate([0,wktl/2+.5-7.5,5])
+  cube([3,1,1]);
+
+}
+
+
+
+
+rotate([0,-90,0])
+white_key_v2_2();
+/*
 translate([20,0,0])
 rotate([0,90,0])
-white_key_1();
+white_key_v2_1(notch=false);
 
 
 translate([40,0,0])
 rotate([0,90,0])
-white_key_3();
-
+white_key_v2_3();
+*/
 
 module white_key_2()
 {
@@ -459,6 +582,62 @@ module white_key_3()
 {
 white_key_1(false);
 }
+
+
+module white_key_v2_2()
+{
+white_key_v2_1();
+
+}
+
+module white_key_v2_3()
+{
+mirror([1,0,0])
+white_key_v2_1(false);
+}
+
+
+module black_key()
+{
+
+
+}
+
+module button_cap()
+{
+  //button diameter
+  bd = 8.5;
+
+  //button height
+  bh = 2;
+
+  //button flange diameter
+  bfd = 11;
+
+  //button flange height
+  bfh = 1;
+
+  //button inset diameter
+  bid = 4.5;
+
+  //button inset depth
+  bide = 0;
+
+
+  difference()
+  {
+    union()
+    {
+      cylinder(d=bfd, h=bfh);
+      translate([0,0,bfh])
+      cylinder(d=bd, h=bh);
+    }
+    
+    cylinder(d=bid, h=bide);
+  }
+  
+}
+
 
 module case_top()
 {
