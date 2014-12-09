@@ -236,6 +236,29 @@ void LCD_set_XY(unsigned char X, unsigned char Y)
 	LCD_Write(0, 0x80 | X);          	// row
 }
 
+void LCD_set_pixel(uint8_t X, uint8_t Y)
+{
+	//set Y address
+	LCD_Write(LCD_COMMAND, 0x40 | (Y>>3));
+	//set X address
+	LCD_Write(LCD_COMMAND, 0x80 | X);
+	LCD_Write(LCD_DATA, 0x01<<(Y-(Y>>3)*8));
+}
+
+void LCD_draw_square(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2)
+{
+	
+	for (uint8_t i=y1;i<y2;i++)
+	{
+	  for (uint8_t j=x1;j<x2;j++)
+	  {
+	    LCD_set_pixel(j,i);
+	  }
+	
+	}
+	
+}
+
 void LCD_write_string(unsigned char X,unsigned char Y,char *s)
 {
 	//LCD_set_XY(X,Y);
@@ -599,6 +622,7 @@ int main(void)
 	
 	Init_LCD();
 	LCD_clear();
+	/*
 	LCD_write_string(0,0,"Erik <3 Klara!");
 	LCD_write_string(0,0,"Erik <3 Klara!");
 	
@@ -608,13 +632,27 @@ int main(void)
 	LCD_write_string(0,0,"Erik <3 Klara!");
 	LCD_write_string(0,0,"Erik <3 Klara!");
 	LCD_write_string(0,0,"Erik <3 Klara!");
-	
+	*/
+	/*
+	for (uint8_t j=0;j<4;j++)
+	{
+	for(uint8_t i=0;i<84;i++)
+	{
+		int8_t t = (sine[3*i]-0x80)>>3;
+		LCD_set_pixel(i,24+t);
+	}
+	//LCD_clear();
+	}
+	*/
+	LCD_draw_square(1,1,40,40);
 	
 	setup_timer1();
-	setup_timer0();
+	//setup_timer0();
 	
     while(1)
     {
+		
+			
 		//populate_buttons();
 		//Init_LCD();
 		

@@ -6,7 +6,7 @@ wktl = 42;
 bktl = 28;
 
 //white key total width
-wktw = 12.5;
+wktw = 12.8;
 
 //black key total width
 bktw = 5.5;
@@ -124,7 +124,7 @@ module black_key()
 module foil_holder()
 {
   height=2;
-  diameter=5;
+  diameter=6;
   thickness=1;
 
   translate([0,diameter/2,0])
@@ -223,6 +223,32 @@ module all_white_keys()
   holder_bar();
 
 
+  translate([wktw/2-2,15,2])
+  foil_holder();
+
+
+  translate([wktw/2-2+2*8,15,2])
+  foil_holder();
+
+
+  translate([wktw/2-2+4*8-2.5,15,2])
+  foil_holder();
+
+
+  translate([wktw/2-2+6*8-2.5,15,2])
+  foil_holder();
+
+  translate([wktw/2-2+7*8-1,15,2])
+  foil_holder();
+
+  translate([wktw/2-2+9*8-1.5,15,2])
+  foil_holder();
+
+
+  translate([wktw/2-2+11*8-1.5,15,2])
+  foil_holder();
+
+
 white_key(false,true);
 translate([dbwk, 0,0])
 white_key();
@@ -245,6 +271,7 @@ white_key(true,true);
 translate([6*dbwk, 0,0])
 white_key(true,false);
 }
-translate([dbwk-bktw/2-key_tol/2,wktl-bktl,-3])
-all_black_keys();
+
+//translate([dbwk-bktw/2-key_tol/2,wktl-bktl,-3])
+//all_black_keys();
 all_white_keys();
