@@ -1,12 +1,12 @@
 $fn = 20;
 //white key total length
-wktl = 42;
+wktl = 38-3;
 
 //black key total length
-bktl = 28;
+bktl = 26-3;
 
 //white key total width
-wktw = 12.5;
+wktw = 14.23;
 
 //black key total width
 bktw = 5.5;
@@ -25,16 +25,16 @@ bkth = 4;
 wklh = 5;
 
 //spring length
-sl = 3;
+sl = 1.5;
 
 //spring width
 sw = 10;
 
 //spring thickness
-sth = .5;
+sth = .75;
 
 //key tolerance
-key_tol = .8;
+key_tol = .9;
 
 //distance between white keys
 dbwk = wktw+key_tol;
@@ -142,10 +142,11 @@ module holder_bar(length=dbwk*7-key_tol)
 {
   width = 8;
   ridge_width=3;
-  ridge_height=1;
+  ridge_height=.75;
   tol = .8;
+  hole_diameter=2.6;
 
-  square_width=3;
+  square_width=4;
 
   difference()
   {
@@ -160,7 +161,7 @@ module holder_bar(length=dbwk*7-key_tol)
 
   for(i=[0:4])
   translate([wktw/2+i*(length-wktw)/4,width/2,-1])
-  cylinder(d=2.5,h=10);
+  cylinder(d=hole_diameter,h=10);
 
 
   //cubes
@@ -185,7 +186,7 @@ module holder_bar(length=dbwk*7-key_tol)
   {
   cube([square_width,ridge_width+tol,ridge_height], center=true);
   translate([0,0,-5])
-  cylinder(d=2.5,h=10);
+  cylinder(d=hole_diameter,h=10);
   }
 
   }
@@ -245,6 +246,6 @@ white_key(true,true);
 translate([6*dbwk, 0,0])
 white_key(true,false);
 }
-translate([dbwk-bktw/2-key_tol/2,wktl-bktl,-3])
+//translate([dbwk-bktw/2-key_tol/2,wktl-bktl,-3])
 all_black_keys();
-all_white_keys();
+//all_white_keys();
