@@ -108,7 +108,20 @@ module white_key(leftnotch=true, rightnotch=true)
 
 module black_key()
 {
-  cube([bktw, bktl, bkth]);
+
+  difference()
+  {
+  minkowski()
+  {
+    translate([.5,0,0])
+    cube([bktw-1, bktl-.4, bkth-1]);
+    sphere(r=.5, $fn=6);
+  }
+
+  //foil hole
+  translate([1,1,bkth-2])
+  cube([bktw-2,bktw,5]);
+  }
 
   //spring
   translate([0,bktl,wkth-sth])
@@ -223,27 +236,27 @@ module all_white_keys()
   holder_bar();
 
 
-  translate([2,0,0])
+  translate([2,-7+3,0])
   {
-  translate([wktw/2-2,15,2])
+  translate([wktw/2-2,15,wkth])
   foil_holder();
 
 
-  translate([wktw/2-2+2*8,15,2])
+  translate([wktw/2-2+2*8-1.5,15,wkth])
   foil_holder();
 
 
-  translate([wktw/2-2+4*8-1,15,2])
+  translate([wktw/2-2+4*8-1.5,15,wkth])
   foil_holder();
 
 
-  translate([wktw/2-2+6*8,15,2])
+  translate([wktw/2-2+6*8,15,wkth])
   foil_holder();
 
-  translate([wktw/2-2+7*8+2,15,2])
+  translate([wktw/2-2+7*8+2,15,wkth])
   foil_holder();
 
-  translate([wktw/2-2+9*8+2.5,15,2])
+  translate([wktw/2-2+9*8+2.5+1.5,15,wkth])
   foil_holder();
 
 
@@ -274,6 +287,6 @@ translate([6*dbwk, 0,0])
 white_key(true,false);
 }
 
-//translate([dbwk-bktw/2-key_tol/2,wktl-bktl,-3])
-//all_black_keys();
-all_white_keys();
+translate([dbwk-bktw/2-key_tol/2,wktl-bktl,-3])
+all_black_keys();
+//all_white_keys();
