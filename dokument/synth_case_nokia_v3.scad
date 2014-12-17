@@ -41,7 +41,7 @@ ckhl = 110;
 cdhl = 37;
 
 //case display hole width
-cdhw = 32;
+cdhw = 32-4;
 
 //case display hole radius
 cdhr = 2;
