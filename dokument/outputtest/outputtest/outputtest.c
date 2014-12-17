@@ -589,7 +589,7 @@ ISR(TIMER2_COMPA_vect)
 	{
 		//increase attack!
 		if(attack_value < 254-25)
-		  attack_value+=25;
+		  attack_value+=1;
 		  
 		//reset release_value
 		release_value = attack_value;
@@ -627,12 +627,21 @@ ISR(TIMER1_COMPA_vect)
 //ISR(TIMER0_OVF_vect)
 ISR(TIMER0_COMPA_vect)
 {
-	count += 4;
+	count += 2;
 	//if(count > 255)
 	//  count = 0;
 	
 	//PORTC = osc1[count];
 	
+	
+	
+	//button is released
+	if(!deb_buttons[2])
+	{
+		if(release_value > 2)
+			PORTC = fmul(release_value>>1, osc1[count]);
+		OCR0A = note_vals[2];
+	}
 	
 	if(deb_buttons[0])
 	{
@@ -651,6 +660,7 @@ ISR(TIMER0_COMPA_vect)
 		PORTC = fmul(attack_value>>1, osc1[count]);
 		OCR0A = note_vals[2];
 	}
+	/*
 	//button is released
 	else if(!deb_buttons[2])
 	{
@@ -659,6 +669,7 @@ ISR(TIMER0_COMPA_vect)
 		OCR0A = note_vals[2];
 		
 	}
+	*/
 	
 	else if(deb_buttons[3])
 	{
@@ -668,7 +679,8 @@ ISR(TIMER0_COMPA_vect)
 	
 	else if(deb_buttons[4])
 	{
-		PORTC = osc1[count];
+		//PORTC = osc1[count];
+		PORTC = fmul(0b00100000, osc1[count]);
 		OCR0A = note_vals[4];
 	}
 	
@@ -814,10 +826,11 @@ int main(void)
 	//osc1 = pseudosquare;
 	
 	//osc1 = generated_attack;
-	osc1 = square_;
+	//osc1 = square_;
 	//osc1 = triangle;
 	//osc1 = sawtooth;
 	//osc1 = sine2x;
+	osc1 = sine;
 	
 	//osc1 = square2x;
 	//memcpy(curr_wave, osc1, sizeof(square2x[0])*256);

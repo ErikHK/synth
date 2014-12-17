@@ -124,32 +124,48 @@ cylinder(r=4.5, h=4);
 
 module 4_buttons()
 {
-holder(h=6);
+holder(h=5);
 translate([0,36.195,0])
-holder(h=6);
+holder(h=5);
 
 translate([26.67,36.195,0])
-holder(h=6);
+holder(h=5);
 
 translate([26.67,0,0])
-holder(h=6);
+holder(h=5);
+}
+
+module button_hole()
+{
+cylinder(r=5,h=10);
+translate([0,0,2])
+cylinder(r=5+2.2,h=1.25);
 }
 
 module 4_buttons_holes()
 {
-translate([13.335, 3.175,0])
-cylinder(r=5,h=10);
 
-translate([3.175, 13.97,0])
-cylinder(r=5,h=10);
-
-
-translate([13.335, 24.765,0])
-cylinder(r=5,h=10);
+translate([13.335, 3.175,-.1])
+{
+button_hole();
+}
 
 
-translate([23.495, 13.97,0])
-cylinder(r=5,h=10);
+
+translate([3.175, 13.97,-.1])
+{
+//cylinder(r=5,h=10);
+button_hole();
+}
+
+translate([13.335, 24.765,-.1])
+//cylinder(r=5,h=10);
+button_hole();
+
+
+translate([23.495, 13.97,-.1])
+//cylinder(r=5,h=10);
+button_hole();
 }
 
 
@@ -411,7 +427,7 @@ module case_top()
 
 
   //spacers for 4 buttons
-  translate([90,55+2,cth-ctth-6])
+  translate([90,55+2,cth-ctth-5])
   rotate([0,0,90])
   4_buttons();
 
@@ -446,8 +462,8 @@ module case_top()
 
 
     //pot hole
-    //translate([160, 68, 10])
-    //cylinder(r=4, h=10);
+    translate([102, 68+2, 10])
+    cylinder(r=4, h=10);
 
 
     //ISP programmer hole
@@ -619,7 +635,7 @@ rotate([90,0,0])
 AAA_battery();
 */
 
-
+/*
 translate([20,35,-10])
 battery_holder();
 
@@ -650,7 +666,7 @@ rCube(55,52.5,1.3,1.2);
 //cube([.5,200,200]);
 
 }
-
+*/
 
 rotate([0,180,0])
 difference()
