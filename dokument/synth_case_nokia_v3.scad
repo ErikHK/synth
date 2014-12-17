@@ -1,7 +1,7 @@
 $fn = 20;
 
 include <roundCornersCube.scad>
-//include <all_keys.scad>
+include <all_keys.scad>
 
 
 /////CASE SIZE/////
@@ -49,36 +49,35 @@ cdhr = 2;
 
 module button_holders()
 {
-holder(r=1.20,h=10-1.6);
+holder(r=1.20,h=9-1.6);
 
 translate([91.44,0,0])
-holder(r=1.20,h=10-1.6);
+holder(r=1.20,h=9-1.6);
 
 
 translate([91.44,15.875,0])
-holder(h=10-1.6);
+holder(h=9-1.6);
 
 
 translate([0,15.875,0])
-holder(h=10-1.6);
+holder(h=9-1.6);
 
 
 
 //translate([44.45,0,0])
 translate([46.99,0,0])
-holder(r=1.2,h=10-1.6);
+holder(r=1.2,h=9-1.6);
 
 
 //translate([44.45,7.62,0])
 translate([46.99,7.62,0])
-holder(h=10-1.6);
-
+holder(h=9-1.6);
 
 }
 
 module pcb_holders()
 {
-holder(h=4, r=0.95);
+holder(h=4, r=1.5); //changed since v2!
 
 translate([78.74,-28.575,0])
 holder(h=4, r=0.95);
@@ -96,7 +95,7 @@ holder(h=4, r=.95);
 module corner_holders()
 {
 translate([6,6,-cbh+cbth])
-holder(h=10);
+holder(h=10, w=2.5);
 
 
 //translate([6,85-1+5,-cbh+cbth])
@@ -253,7 +252,6 @@ hole();
 
 module case_bottom()
 {
-  
 
   difference()
   {
@@ -315,7 +313,17 @@ module case_bottom()
 module key_holder()
 {
   translate([0,0,-1])
+  difference()
+  {
   cube([106,8,3]);
+
+  for(i=[0:4])
+  {
+  translate([wktw/2+i*(dbwk*7-key_tol-wktw)/4,2.5+1,-3])
+  cylinder(r=1.4, h=120);
+  }
+  }
+
 
 }
 
@@ -409,7 +417,7 @@ module case_top()
 
 
   //holders for keys
-  translate([cwth*2+4+2,44,10])
+  translate([cwth*2+4+2,44,10]) //+2 compared to v2!
   key_holder();
 
 
@@ -654,12 +662,22 @@ lcd_housing();
 translate([0,0,10])
 corner_holders_top();
 case_top();
-}
 
 //translate([80+10,-2,-30])
 //cube([.5,100,100]);
 
 
+}
+
+
+
+//holes for key holder
+translate([cwth*2+4+2,44,10]) //+2 compared to v2!
+for(i=[0:4])
+  {
+  translate([wktw/2+i*(dbwk*7-key_tol-wktw)/4,2.5+1,-.5])
+  cylinder(r=1.4, h=4);
+  }
 }
 
 //4_button();
@@ -668,3 +686,5 @@ case_top();
 //translate([140,0,0])
 //cylinder(d=50, h=25);
 
+//translate([-120+2+1,7,-10])
+//all_white_keys();
