@@ -129,6 +129,12 @@
     <Compile Include="lcd.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="lcd_5110_menu.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="lcd_5110_menu.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="outputtest.c">
       <SubType>compile</SubType>
     </Compile>

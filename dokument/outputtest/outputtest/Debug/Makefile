@@ -39,6 +39,7 @@ SUBDIRS :=
 C_SRCS +=  \
 ../l74hc165.c \
 ../lcd.c \
+../lcd_5110_menu.c \
 ../outputtest.c
 
 
@@ -51,21 +52,25 @@ ASM_SRCS +=
 OBJS +=  \
 l74hc165.o \
 lcd.o \
+lcd_5110_menu.o \
 outputtest.o
 
 OBJS_AS_ARGS +=  \
 l74hc165.o \
 lcd.o \
+lcd_5110_menu.o \
 outputtest.o
 
 C_DEPS +=  \
 l74hc165.d \
 lcd.d \
+lcd_5110_menu.d \
 outputtest.d
 
 C_DEPS_AS_ARGS +=  \
 l74hc165.d \
 lcd.d \
+lcd_5110_menu.d \
 outputtest.d
 
 OUTPUT_FILE_PATH +=outputtest.elf
@@ -82,6 +87,8 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

@@ -3,8 +3,10 @@
  *
  * Created: 11/12/2014 6:51:16 PM
  *  Author: erikhk
- */ 
+ */
 
+//GAMLA!!
+/*
 #define LCD_DDR		DDRD
 #define LCD_PORT	PORTD
 #define CLK			PD7
@@ -12,6 +14,17 @@
 #define	DC			PD4
 #define CE			PD0
 #define	RST			PD1
+*/
+
+//NYA!
+
+#define LCD_DDR		DDRD
+#define LCD_PORT	PORTD
+#define CLK			PD5
+#define	DIN			PD7
+#define	DC			PD0
+#define CE			PD4
+#define	RST			PD2
 
 #define LCD_COMMAND 0
 #define LCD_DATA	1
@@ -19,13 +32,14 @@
 //#define F_CPU 20000000L
 #define F_CPU 8000000L
 #include "l74hc165.h"
+#include "lcd_5110_menu.h"
+
 //#include "lcd.h"
 //#include "lcd.c"
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #include <stdio.h>
-
 
 //NOTE VALUES!
 static const uint8_t note_vals[12] = {240,226,214,202,190,180,170,160,151,143,135,127};
@@ -44,106 +58,7 @@ uint8_t sawtooth[] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,2
 
 uint8_t curr_wave[256];
 
-uint8_t lcd_buffer[504];
 uint8_t pot_data;
-
-const uint8_t font6x8[][6] =
-{
-	{ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },   // sp
-	{ 0x00, 0x00, 0x00, 0x2f, 0x00, 0x00 },   // !
-	{ 0x00, 0x00, 0x07, 0x00, 0x07, 0x00 },   // "
-	{ 0x00, 0x14, 0x7f, 0x14, 0x7f, 0x14 },   // #
-	{ 0x00, 0x24, 0x2a, 0x7f, 0x2a, 0x12 },   // $
-	{ 0x00, 0x62, 0x64, 0x08, 0x13, 0x23 },   // %
-	{ 0x00, 0x36, 0x49, 0x55, 0x22, 0x50 },   // &
-	{ 0x00, 0x00, 0x05, 0x03, 0x00, 0x00 },   // '
-	{ 0x00, 0x00, 0x1c, 0x22, 0x41, 0x00 },   // (
-	{ 0x00, 0x00, 0x41, 0x22, 0x1c, 0x00 },   // )
-	{ 0x00, 0x14, 0x08, 0x3E, 0x08, 0x14 },   // *
-	{ 0x00, 0x08, 0x08, 0x3E, 0x08, 0x08 },   // +
-	{ 0x00, 0x00, 0x00, 0xA0, 0x60, 0x00 },   // ,
-	{ 0x00, 0x08, 0x08, 0x08, 0x08, 0x08 },   // -
-	{ 0x00, 0x00, 0x60, 0x60, 0x00, 0x00 },   // .
-	{ 0x00, 0x20, 0x10, 0x08, 0x04, 0x02 },   // /
-	{ 0x00, 0x3E, 0x51, 0x49, 0x45, 0x3E },   // 0
-	{ 0x00, 0x00, 0x42, 0x7F, 0x40, 0x00 },   // 1
-	{ 0x00, 0x42, 0x61, 0x51, 0x49, 0x46 },   // 2
-	{ 0x00, 0x21, 0x41, 0x45, 0x4B, 0x31 },   // 3
-	{ 0x00, 0x18, 0x14, 0x12, 0x7F, 0x10 },   // 4
-	{ 0x00, 0x27, 0x45, 0x45, 0x45, 0x39 },   // 5
-	{ 0x00, 0x3C, 0x4A, 0x49, 0x49, 0x30 },   // 6
-	{ 0x00, 0x01, 0x71, 0x09, 0x05, 0x03 },   // 7
-	{ 0x00, 0x36, 0x49, 0x49, 0x49, 0x36 },   // 8
-	{ 0x00, 0x06, 0x49, 0x49, 0x29, 0x1E },   // 9
-	{ 0x00, 0x00, 0x36, 0x36, 0x00, 0x00 },   // :
-	{ 0x00, 0x00, 0x56, 0x36, 0x00, 0x00 },   // ;
-	{ 0x00, 0x08, 0x14, 0x22, 0x41, 0x00 },   // <
-	{ 0x00, 0x14, 0x14, 0x14, 0x14, 0x14 },   // =
-	{ 0x00, 0x00, 0x41, 0x22, 0x14, 0x08 },   // >
-	{ 0x00, 0x02, 0x01, 0x51, 0x09, 0x06 },   // ?
-	{ 0x00, 0x32, 0x49, 0x59, 0x51, 0x3E },   // @
-	{ 0x00, 0x7C, 0x12, 0x11, 0x12, 0x7C },   // A
-	{ 0x00, 0x7F, 0x49, 0x49, 0x49, 0x36 },   // B
-	{ 0x00, 0x3E, 0x41, 0x41, 0x41, 0x22 },   // C
-	{ 0x00, 0x7F, 0x41, 0x41, 0x22, 0x1C },   // D
-	{ 0x00, 0x7F, 0x49, 0x49, 0x49, 0x41 },   // E
-	{ 0x00, 0x7F, 0x09, 0x09, 0x09, 0x01 },   // F
-	{ 0x00, 0x3E, 0x41, 0x49, 0x49, 0x7A },   // G
-	{ 0x00, 0x7F, 0x08, 0x08, 0x08, 0x7F },   // H
-	{ 0x00, 0x00, 0x41, 0x7F, 0x41, 0x00 },   // I
-	{ 0x00, 0x20, 0x40, 0x41, 0x3F, 0x01 },   // J
-	{ 0x00, 0x7F, 0x08, 0x14, 0x22, 0x41 },   // K
-	{ 0x00, 0x7F, 0x40, 0x40, 0x40, 0x40 },   // L
-	{ 0x00, 0x7F, 0x02, 0x0C, 0x02, 0x7F },   // M
-	{ 0x00, 0x7F, 0x04, 0x08, 0x10, 0x7F },   // N
-	{ 0x00, 0x3E, 0x41, 0x41, 0x41, 0x3E },   // O
-	{ 0x00, 0x7F, 0x09, 0x09, 0x09, 0x06 },   // P
-	{ 0x00, 0x3E, 0x41, 0x51, 0x21, 0x5E },   // Q
-	{ 0x00, 0x7F, 0x09, 0x19, 0x29, 0x46 },   // R
-	{ 0x00, 0x46, 0x49, 0x49, 0x49, 0x31 },   // S
-	{ 0x00, 0x01, 0x01, 0x7F, 0x01, 0x01 },   // T
-	{ 0x00, 0x3F, 0x40, 0x40, 0x40, 0x3F },   // U
-	{ 0x00, 0x1F, 0x20, 0x40, 0x20, 0x1F },   // V
-	{ 0x00, 0x3F, 0x40, 0x38, 0x40, 0x3F },   // W
-	{ 0x00, 0x63, 0x14, 0x08, 0x14, 0x63 },   // X
-	{ 0x00, 0x07, 0x08, 0x70, 0x08, 0x07 },   // Y
-	{ 0x00, 0x61, 0x51, 0x49, 0x45, 0x43 },   // Z
-	{ 0x00, 0x00, 0x7F, 0x41, 0x41, 0x00 },   // [
-	{ 0x00, 0x55, 0x2A, 0x55, 0x2A, 0x55 },   // 55
-	{ 0x00, 0x00, 0x41, 0x41, 0x7F, 0x00 },   // ]
-	{ 0x00, 0x04, 0x02, 0x01, 0x02, 0x04 },   // ^
-	{ 0x00, 0x40, 0x40, 0x40, 0x40, 0x40 },   // _
-	{ 0x00, 0x00, 0x01, 0x02, 0x04, 0x00 },   // '
-	{ 0x00, 0x20, 0x54, 0x54, 0x54, 0x78 },   // a
-	{ 0x00, 0x7F, 0x48, 0x44, 0x44, 0x38 },   // b
-	{ 0x00, 0x38, 0x44, 0x44, 0x44, 0x20 },   // c
-	{ 0x00, 0x38, 0x44, 0x44, 0x48, 0x7F },   // d
-	{ 0x00, 0x38, 0x54, 0x54, 0x54, 0x18 },   // e
-	{ 0x00, 0x08, 0x7E, 0x09, 0x01, 0x02 },   // f
-	{ 0x00, 0x18, 0xA4, 0xA4, 0xA4, 0x7C },   // g
-	{ 0x00, 0x7F, 0x08, 0x04, 0x04, 0x78 },   // h
-	{ 0x00, 0x00, 0x44, 0x7D, 0x40, 0x00 },   // i
-	{ 0x00, 0x40, 0x80, 0x84, 0x7D, 0x00 },   // j
-	{ 0x00, 0x7F, 0x10, 0x28, 0x44, 0x00 },   // k
-	{ 0x00, 0x00, 0x41, 0x7F, 0x40, 0x00 },   // l
-	{ 0x00, 0x7C, 0x04, 0x18, 0x04, 0x78 },   // m
-	{ 0x00, 0x7C, 0x08, 0x04, 0x04, 0x78 },   // n
-	{ 0x00, 0x38, 0x44, 0x44, 0x44, 0x38 },   // o
-	{ 0x00, 0xFC, 0x24, 0x24, 0x24, 0x18 },   // p
-	{ 0x00, 0x18, 0x24, 0x24, 0x18, 0xFC },   // q
-	{ 0x00, 0x7C, 0x08, 0x04, 0x04, 0x08 },   // r
-	{ 0x00, 0x48, 0x54, 0x54, 0x54, 0x20 },   // s
-	{ 0x00, 0x04, 0x3F, 0x44, 0x40, 0x20 },   // t
-	{ 0x00, 0x3C, 0x40, 0x40, 0x20, 0x7C },   // u
-	{ 0x00, 0x1C, 0x20, 0x40, 0x20, 0x1C },   // v
-	{ 0x00, 0x3C, 0x40, 0x30, 0x40, 0x3C },   // w
-	{ 0x00, 0x44, 0x28, 0x10, 0x28, 0x44 },   // x
-	{ 0x00, 0x1C, 0xA0, 0xA0, 0xA0, 0x7C },   // y
-	{ 0x00, 0x44, 0x64, 0x54, 0x4C, 0x44 },   // z
-	{ 0x14, 0x14, 0x14, 0x14, 0x14, 0x14 }    // horiz lines
-};
-
-
 uint8_t * data[2];
 uint8_t * adc_value;
 uint8_t count = 0;
@@ -153,15 +68,17 @@ uint8_t buttons[12]; //pressed buttons, 1 is C, 2 is C# etc
 uint8_t deb_buttons[12];	//debounced buttons
 uint8_t pressed[12] = {0,0,0,0,0,0,0,0,0,0,0,0};	//pressed confidence
 uint8_t released[12] = {0,0,0,0,0,0,0,0,0,0,0,0};	//released confidence
+uint8_t keys_playing[3] = {0,0,0};					//Only allow three keys playing (for now)
 uint8_t output = 0;
 uint8_t * osc1;
 uint8_t attack_value = 0;
 uint8_t release_value = 255;
 
-
+uint8_t lcd_buffer[504];
 
 uint8_t fmul(uint8_t frac, uint8_t x)
 {
+	//disable interrupts, bad things can and will happen otherwise!
 	cli();
 	uint8_t * result =  0x01; //points to r1 where the value is stored
 	uint8_t * ptr = 23;			//point to R23
@@ -171,6 +88,11 @@ uint8_t fmul(uint8_t frac, uint8_t x)
 	asm("fmul r23,r22");
 	sei();
 	return (uint8_t)*result;
+}
+
+void determine_keys_playing()
+{
+	
 }
 
 void lowpass(uint8_t * signal, uint8_t * orig, uint8_t a, uint8_t b)
@@ -216,244 +138,6 @@ void debounce(uint8_t key, uint8_t i)
 		
 	}
 	
-}
-
-void LCD_Write(uint8_t data_or_command, uint8_t byte)
-{
-	uint8_t i;
-	
-	//set CE low (chip enable, inverted input)
-	LCD_PORT &= ~(1<<CE);
-	
-	//tell the display it's a command or data
-	//if(data_or_command == LCD_COMMAND)
-	if(data_or_command==LCD_DATA)
-	LCD_PORT |= (1<<DC);
-	else
-	LCD_PORT &= ~(1<<DC);
-	
-	
-	for (i = 0; i < 8; i++)
-	{
-
-		// consider leftmost bit
-		// set line high if bit is 1, low if bit is 0
-		if (byte & 0x80)
-		LCD_PORT |= (1<<DIN);
-		else
-		LCD_PORT &= ~(1<<DIN);
-		
-		// pulse clock to indicate that bit value should be read
-		LCD_PORT &= ~(1<<CLK);
-		// shift byte left so next bit will be leftmost
-		byte <<= 1;
-		LCD_PORT |= (1<<CLK);
-	}
-	
-	//reset DC
-	//if(data_or_command!=LCD_DATA)
-	//	LCD_PORT |= (1<<DC);
-	//else
-	//	LCD_PORT &= ~(1<<DC);
-	
-	
-	//set CE high
-	LCD_PORT |= (1<<CE);
-}
-
-void LCD_Write_data(uint8_t byte)
-{
-	uint8_t i;
-	
-	//set CE low (chip enable, inverted input)
-	LCD_PORT &= ~(1<<CE);
-	
-	LCD_PORT |= (1<<DC);	
-	
-	for (i = 0; i < 8; i++)
-	{
-		// consider leftmost bit
-		// set line high if bit is 1, low if bit is 0
-		if (byte & 0x80)
-		LCD_PORT |= (1<<DIN);
-		else
-		LCD_PORT &= ~(1<<DIN);
-		
-		// pulse clock to indicate that bit value should be read
-		LCD_PORT &= ~(1<<CLK);
-		// shift byte left so next bit will be leftmost
-		byte <<= 1;
-		//_delay_us(10);
-		asm("nop");
-		LCD_PORT |= (1<<CLK);
-	}
-	
-	//set CE high
-	LCD_PORT |= (1<<CE);
-}
-
-
-void LCD_write_char(uint8_t c)
-{
-	//LCD_Write(LCD_DATA, 0x00);
-	uint8_t line;
-
-	for (line=0; line<6; line++)
-	{
-		LCD_Write(LCD_DATA, font6x8[c-0x20][line]);
-	}
-	
-	//LCD_Write(LCD_DATA, 0x00);
-}
-
-void LCD_set_XY(unsigned char X, unsigned char Y)
-{
-	LCD_Write(0, 0x40 | Y);		// column
-	LCD_Write(0, 0x80 | X);          	// row
-}
-
-void LCD_write_buffer()
-{
-	LCD_Write(LCD_COMMAND, 0x40 | 0x00);
-	LCD_Write(LCD_COMMAND, 0x80 | 0x00);
-	
-	for (uint8_t i=0;i<504;i++)
-	{
-		LCD_Write(LCD_DATA, lcd_buffer[i]);
-		//LCD_Write(LCD_DATA, 0xAA);
-	}
-	
-}
-
-void LCD_set_pixel(uint8_t X, uint8_t Y)
-{
-	uint8_t row = Y>>3;
-	uint8_t shift = Y-row*8;
-	
-	//set Y address
-	LCD_Write(LCD_COMMAND, 0x40 | row);
-	//set X address
-	LCD_Write(LCD_COMMAND, 0x80 | X);
-	//write out a pixel
-	LCD_Write(LCD_DATA, 0x01<<shift);
-	//LCD_Write(LCD_DATA, 1<<(Y%8));
-	//LCD_Write(LCD_DATA, 0xFF);
-	//lcd_buffer[X + row*84] |= 1<<shift;
-}
-
-void LCD_draw_square(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2)
-{
-	
-	for (uint8_t i=y1;i<y2;i++)
-	{
-	  for (uint8_t j=x1;j<x2;j++)
-	  {
-	    LCD_set_pixel(j,i);
-	  }
-	
-	}
-	
-}
-
-void LCD_write_string(unsigned char X,unsigned char Y,char *s)
-{
-	LCD_set_XY(X,Y);
-	while (*s)
-	{
-		LCD_write_char(*s++);
-		//s++;
-	}
-}
-
-
-void LCD_clear(void)          // clear the LCD
-{
-	uint16_t i;
-
-	//LCD_Write(0, 0x0C);
-	//LCD_Write(0, 0x80);		//set address of RAM, 0x80 is 0,0
-
-	for (i=0; i<504; i++)	//504 = 84*48/8
-	{
-		LCD_Write(LCD_DATA, 0x00);
-	}
-}
-
-void Disable_LCD()
-{
-	//LCD_PORT |= (1<<RST);
-	LCD_PORT |= (1<<CE);
-}
-
-void Init_LCD()
-{
-	//try some shit
-	LCD_DDR = 0xFF;
-	LCD_PORT &= ~(1<<RST);
-	_delay_ms(100);
-	LCD_PORT |= (1<<RST);
-	LCD_PORT &= ~(1<<CE);
-	_delay_ms(5);
-	LCD_PORT &= ~(1<<RST);
-	asm("nop");
-	LCD_PORT |= (1<<RST);
-	
-	
-	
-	//set output
-	//LCD_DDR = (1<<CLK)|(1<<DIN)|(1<<DC)|(1<<CE)|(1<<RST);
-	//DDRD |= 0xff;
-	
-	//LCD_PORT = 0;
-	
-	//reset
-	LCD_PORT &= ~(1<<RST);
-	_delay_us(1);
-	LCD_PORT |= (1<<RST);
-	
-	LCD_PORT &= ~(1<<CE);
-	_delay_us(1);
-	LCD_PORT |= (1<<CE);
-	_delay_us(1);
-	
-	LCD_PORT |= (1<<RST);
-	
-	LCD_Write(LCD_COMMAND, 0x21);	//Tell LCD that extended commands follow
-	LCD_Write(LCD_COMMAND, 0xC1);	//Set LCD Vop (Contrast): Try 0xB1(good @ 3.3V) or 0xBF if your display is too dark
-	LCD_Write(LCD_COMMAND, 0x06);	//Set temp coeff
-	LCD_Write(LCD_COMMAND, 0x13);	//LCD bias mode 1:48: Try 0x13 or 0x14
-	
-	LCD_Write(LCD_COMMAND, 0x20);	//We must send 0x20 before modifying the display control mode
-	LCD_clear();
-	LCD_Write(LCD_COMMAND, 0x0C);	//Set display control, normal mode. 0x0D for inverse, 0x0C for non-inverse
-	//LCD_Write(LCD_COMMAND, 0x09);	//all segments on
-	
-	LCD_PORT &= ~(1<<CE);
-	
-	/*
-	for (uint8_t i=0;i<504;i++)
-	{
-		lcd_buffer[i] = 0x00;
-	}
-	*/
-	
-}
-
-void send_bit(uint8_t bit)
-{
-	
-	//if((bit>>7) == 0)
-	if((bit & 0x01) == 0)
-	//if(bit == 0)
-	  LCD_PORT &= ~(1<<DIN); //set DIN to 0
-	else
-	  LCD_PORT |= (1<<DIN); //set DIN to 1
-	  
-	
-	_delay_us(20);
-	LCD_PORT &= ~(1<<CLK); //set CLK low  
-	_delay_us(20);
-	LCD_PORT |= (1<<CLK); //set CLK high
 }
 
 
@@ -610,17 +294,7 @@ ISR(TIMER2_COMPA_vect)
 
 ISR(TIMER1_COMPA_vect)
 {
-	//count += 1;
 	populate_buttons();
-	//asm("nop");
-	//LCD_write_string(0,20,"<3<3<3");
-	/*
-	LCD_Write(LCD_DATA, 0xaa);
-	LCD_Write(LCD_DATA, 0xab);
-	LCD_Write(LCD_DATA, 0x10);
-	LCD_Write(LCD_DATA, 0x14);
-	LCD_Write(LCD_DATA, 0x03);
-	*/
 }
 
 
@@ -632,8 +306,6 @@ ISR(TIMER0_COMPA_vect)
 	//  count = 0;
 	
 	//PORTC = osc1[count];
-	
-	
 	
 	//button is released
 	if(!deb_buttons[2])
@@ -679,8 +351,8 @@ ISR(TIMER0_COMPA_vect)
 	
 	else if(deb_buttons[4])
 	{
-		//PORTC = osc1[count];
-		PORTC = fmul(0b00100000, osc1[count]);
+		PORTC = osc1[count];
+		//PORTC = fmul(0b00100000, osc1[count]);
 		OCR0A = note_vals[4];
 	}
 	
@@ -816,7 +488,6 @@ void setup_adc()
 	//enable ADC, 1 1 1 = 128 prescaler = 8 MHz/128 = 62.5 kHz
 	ADCSRA |= (1<<ADEN) | (1<<ADPS0) | (1<<ADPS1) | (1<<ADPS2) | (1<<ADIE) | (1<<ADSC);
 	ADMUX |= (1<<ADLAR);
-	
 }
 
 int main(void)
@@ -828,9 +499,9 @@ int main(void)
 	//osc1 = generated_attack;
 	//osc1 = square_;
 	//osc1 = triangle;
-	//osc1 = sawtooth;
+	osc1 = sawtooth;
 	//osc1 = sine2x;
-	osc1 = sine;
+	//osc1 = sine;
 	
 	//osc1 = square2x;
 	//memcpy(curr_wave, osc1, sizeof(square2x[0])*256);
@@ -850,10 +521,11 @@ int main(void)
 	//osc1 = prutt;
 	//int n;
 	DDRC = 0xff;
-	/*
-	Init_LCD();
-	LCD_clear();
 	
+	//Init_LCD();
+	LCD_init();
+	LCD_clear();
+	/*
 	char test[10];
 	memset(test,0,sizeof(test[0])*10); // Clear all to 0 so string properly represented
 	
@@ -864,10 +536,11 @@ int main(void)
 	//LCD_write_string(0,0,"Erik <3 Klara!");
 	LCD_write_string(0,0,test);
 	*/
-	
+	LCD_fill_buffer();
+	LCD_write_string(0,0,"Erik <3 Klara!", 1);
+	LCD_write_string(1,3,"Erik <3 Klara!", 1);
+	LCD_write_buffer();
 	/*
-	LCD_write_string(0,0,"Erik <3 Klara!");
-	
 	LCD_write_string(0,0,"Erik <3 Klara!");
 	
 	LCD_write_string(0,0,"Erik <3 Klara!");
@@ -889,22 +562,33 @@ int main(void)
 	
 	//LCD_draw_square(1,1,20,20);
 	
-	
 	setup_timer1();
 	setup_timer0();
 	setup_timer2();
 	//setup_adc();
-	
-	
+	LCD_clear_buffer();
 	
     while(1)
     {
+		/*
+		static uint8_t iii = 0;
+		LCD_write_string(iii++, 3, "Erik <3 Klara!", 0);
+		LCD_write_buffer();
+		if(iii > 14)
+			iii = 0;
+		_delay_ms(100);
+		LCD_clear_buffer();
+		*/
+		
 		l74hc165_shiftin(&data);
 		_delay_us(10);
 		for (uint8_t i=0;i<12;i++)
 		{
 			debounce(buttons[i],i);
 		}
+		
+		
+		
 		/*
 		itoa(pot_data, test, 10);
 		LCD_write_string(5,5,&test);
@@ -945,4 +629,3 @@ int main(void)
 		//_delay_ms(1000);
     }
 }
-
