@@ -1,0 +1,7 @@
+fixa resistorstege
+mer avstånd mellan alla IDC-kontakter
+flytta shiftregister till knappbrädan? egen liten atmega som avstudsar??
+göra större hål på 4-knappsbrädan
+Fixa bättre text etc, allt nästan oläsligt
+fixa ett kort för 3.5 mm-grej, med monteringshål
+gör ett bättre kort för mikrofon-preamp
