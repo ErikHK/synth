@@ -11,9 +11,12 @@
 
 const uint8_t font6x8[92][6];
 uint8_t lcd_buffer[504];
+struct menu;
+typedef struct menu menu;
 
 void read_4_buttons();
 void setup_4_buttons();
+void navigate_menu(menu * mnu);
 
 void LCD_draw_square(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, uint8_t inverted);
 void LCD_write_char(uint8_t x, uint8_t y, uint8_t c, uint8_t inverted);

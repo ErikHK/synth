@@ -547,6 +547,7 @@ int main(void)
 	
 	//setup_adc();
 	//LCD_clear_buffer();
+	setup_menu();
 	
     while(1)
     {

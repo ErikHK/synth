@@ -146,6 +146,11 @@ const uint8_t font6x8[][6] =
 	{ 0x14, 0x14, 0x14, 0x14, 0x14, 0x14 }    // horiz lines
 };
 
+//menus
+#define MAIN 0;
+#define ADSR 1;
+#define OSC 2;
+
 const char *main_menu[] = {"Oscillators", "ADSR", "Filters", "Sounds"};
 const char *adsr_menu[] = {"Attack", "Decay", "Sustain", "Release"};
 const char *oscs_menu[] = {"Osc 1", "Osc 2", "Osc 3", "LFO"};
@@ -156,12 +161,44 @@ const char waveforms[4][12] = {"squ", "sin", "saw", "tri"};
 const char filters[2][12] = {"low", "high"};
 
 uint8_t lcd_buffer[504];
-uint8_t buttons[] = {0,0,0,0};
+uint8_t buttons[] = {0, 0, 0, 0};
 uint8_t menuchoice = 0;
-uint8_t ** current_menu = adsr_menu;
+uint8_t ** current_menu = main_menu;
+
+struct menu
+{
+	char * title;
+	void (*command)();
+	short num_submenus;
+	struct menu * submenu[4];	//array of submenus
+};
+
+typedef struct menu menu;
+
+menu attack;
+menu release;
+menu adsrmenu;
+menu mainmenu;
+menu oscmenu;
+menu osc1menu;
+menu waveformmenu;
+menu levelmenu;
+menu osc2menu;
+menu lfomenu;
+menu filtersmenu;
+
+
+void attack_command()
+{
+	LCD_write_string(0,0,"BAAAAJS",0);
+	LCD_write_buffer();
+}
+
+menu * currentmenu;
 
 void setup_4_buttons()
-{
+{	
+	
 	//set inputs
 	DDRLEFT &= ~(1 << LEFT);
 	DDRPORT3 &= ~(1 << RIGHT);
@@ -171,13 +208,60 @@ void setup_4_buttons()
 	//enable pull-up
 	PORTLEFT |= (1 << LEFT);
 	PORT3 |= (1 << RIGHT) | (1 << DOWN) | (1 << UP);
-	
-	//pull-down?
-	//PORTLEFT &= ~(1 << LEFT);
-	//PORT3 &= ~(1 << RIGHT);
-	//PORT3 &= ~(1 << DOWN);
-	//PORT3 &= ~(1 << UP);
 }
+
+void navigate_menu(menu * mnu)
+{
+	
+	
+}
+
+
+void setup_menu()
+{
+	filtersmenu.title = "Filters";
+	
+	lfomenu.title = "LFO";
+	lfomenu.submenu[0] = &waveformmenu;
+	lfomenu.submenu[1] = &levelmenu;
+	
+	waveformmenu.title = "Waveform";
+	levelmenu.title = "Level";
+	
+	osc1menu.title = "Oscillator 1";
+	osc1menu.submenu[0] = &waveformmenu;
+	osc1menu.submenu[1] = &levelmenu;
+	
+	osc2menu.title = "Oscillator 2";
+	osc2menu.submenu[0] = &waveformmenu;
+	osc2menu.submenu[1] = &levelmenu;
+	
+	oscmenu.title = "Oscillators";
+	oscmenu.submenu[0] = &osc1menu;
+	oscmenu.submenu[1] = &osc2menu;
+	oscmenu.submenu[2] = &lfomenu;
+	
+	//strcpy(attack->title, "attack");
+	attack.title = "Attack";
+	//attack.submenu = NULL;
+	
+	release.title = "Release";
+	//release.submenu = NULL;
+	
+	adsrmenu.title = "ADSR";
+	adsrmenu.command = *attack_command;
+	adsrmenu.submenu[0] = &attack;
+	adsrmenu.submenu[1] = &release;
+	adsrmenu.submenu[2] = NULL;		//NULL-terminate, might work without
+	
+	mainmenu.title = NULL;
+	mainmenu.submenu[0] = &oscmenu;
+	mainmenu.submenu[1] = &adsrmenu;
+	mainmenu.submenu[2] = &filtersmenu;
+	
+	currentmenu = &mainmenu;
+}
+
 
 void read_4_buttons()
 {
@@ -204,17 +288,18 @@ void read_4_buttons()
 		
 	if(buttons[0])
 		current_menu = main_menu;
-	if(buttons[2])
+	if(buttons[3])
 	    current_menu = adsr_menu;
+		//currentmenu.command();
 		
 	//up
 	if(buttons[1] && menuchoice > 0)
 	  menuchoice--;
 	
 	//down
-	if(buttons[3] && menuchoice < 5)
+	if(buttons[2] && menuchoice < 3)
 	  menuchoice++;
-	
+	  
 }
 
 void LCD_init()
@@ -402,8 +487,6 @@ void LCD_clear()          // clear the LCD
 	LCD_write_buffer();
 }
 
-
-
 void LCD_write_buffer()
 {
 	uint8_t i;
@@ -433,12 +516,9 @@ void LCD_write_buffer()
 			LCD_PORT |= (1<<CLK);
 		}
 	}
-	
 	//set CE high
 	LCD_PORT |= (1<<CE);
-	
 }
-
 
 void LCD_fill_buffer()
 {
@@ -466,12 +546,32 @@ void LCD_invert_row(uint8_t row)
 	}
 }
 
+/*
 void LCD_draw_menu(uint8_t inverted)
 {
-	for (uint8_t i=0;i<12;i++)
+	for (uint8_t i=0;i<4;i++)
 	{
 		LCD_write_string(0, i, current_menu[i], inverted);
 		if(i == menuchoice)
 		  LCD_invert_row(i);
 	}
+}
+*/
+
+void LCD_draw_menu(uint8_t inverted)
+{
+	//struct menu * currmenu = currentmenu;
+	//menu * currmenuitems = *currentmenu->submenu;
+	
+	uint8_t i=0;
+	//for (uint8_t i=0;i<3;i++)
+	while(currentmenu->submenu[i])
+	{
+		LCD_write_string(0, i, currentmenu->submenu[i]->title, 0);
+		//LCD_write_string(0, i, currmenuitems->title, 0);
+		i++;
+		//currmenuitems++;
+	}
+	
+	//currmenu = currmenu->submenu;
 }
