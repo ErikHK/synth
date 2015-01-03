@@ -551,7 +551,7 @@ int main(void)
 	
     while(1)
     {
-		
+		navigate_menu();
 		read_4_buttons();
 		LCD_clear_buffer();
 		LCD_draw_menu(0);

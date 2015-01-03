@@ -165,28 +165,30 @@ uint8_t buttons[] = {0, 0, 0, 0};
 uint8_t menuchoice = 0;
 uint8_t ** current_menu = main_menu;
 
+
 struct menu
 {
 	char * title;
+	uint8_t selected;
 	void (*command)();
 	short num_submenus;
 	struct menu * submenu[4];	//array of submenus
-};
+	struct menu * parent;
+} menu_default = {NULL, 0, NULL, 0, NULL};
 
 typedef struct menu menu;
 
-menu attack;
-menu release;
-menu adsrmenu;
-menu mainmenu;
-menu oscmenu;
-menu osc1menu;
-menu waveformmenu;
-menu levelmenu;
-menu osc2menu;
-menu lfomenu;
-menu filtersmenu;
-
+menu attack = {NULL, 0, NULL, 0, NULL};
+menu release = {NULL, 0, NULL, 0, NULL};
+menu adsrmenu = {NULL, 0, NULL, 0, NULL};
+menu mainmenu = {NULL, 0, NULL, 0, NULL};
+menu oscmenu = {NULL, 0, NULL, 0, NULL};
+menu osc1menu = {NULL, 0, NULL, 0, NULL};
+menu waveformmenu = {NULL, 0, NULL, 0, NULL};
+menu levelmenu = {NULL, 0, NULL, 0, NULL};
+menu osc2menu = {NULL, 0, NULL, 0, NULL};
+menu lfomenu = {NULL, 0, NULL, 0, NULL};
+menu filtersmenu = {NULL, 0, NULL, 0, NULL};
 
 void attack_command()
 {
@@ -210,10 +212,24 @@ void setup_4_buttons()
 	PORT3 |= (1 << RIGHT) | (1 << DOWN) | (1 << UP);
 }
 
-void navigate_menu(menu * mnu)
+void navigate_menu()
 {
-	
-	
+	if(buttons[2])
+		currentmenu->selected++;
+	if(buttons[1])
+		currentmenu->selected--;
+		
+	if(buttons[3])
+	{
+		//set submenu's parent
+		currentmenu->submenu[currentmenu->selected]->parent = currentmenu;
+		//set current menu as selected submenu
+		currentmenu = currentmenu->submenu[currentmenu->selected];
+	}
+		
+		
+	if(buttons[0])
+		currentmenu = currentmenu->parent;
 }
 
 
@@ -292,6 +308,7 @@ void read_4_buttons()
 	    current_menu = adsr_menu;
 		//currentmenu.command();
 		
+	/*
 	//up
 	if(buttons[1] && menuchoice > 0)
 	  menuchoice--;
@@ -299,7 +316,7 @@ void read_4_buttons()
 	//down
 	if(buttons[2] && menuchoice < 3)
 	  menuchoice++;
-	  
+	*/
 }
 
 void LCD_init()
@@ -568,6 +585,10 @@ void LCD_draw_menu(uint8_t inverted)
 	while(currentmenu->submenu[i])
 	{
 		LCD_write_string(0, i, currentmenu->submenu[i]->title, 0);
+		
+		if(currentmenu->selected == i)
+			LCD_invert_row(i);
+		
 		//LCD_write_string(0, i, currmenuitems->title, 0);
 		i++;
 		//currmenuitems++;
