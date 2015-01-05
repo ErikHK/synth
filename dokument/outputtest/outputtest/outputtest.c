@@ -237,6 +237,7 @@ void lfsr()
 }
 */
 
+/*
 ISR(ADC_vect)
 {
 	
@@ -245,12 +246,28 @@ ISR(ADC_vect)
 	//itoa(pot_data, adc_res, 10);
 	//LCD_write_string(5,5,&adc_res);
 	
-	ADCSRA |= (1<<ADSC);
+	//disable ADC again
+	ADCSRA &= ~(1<<ADEN);
+	
+	//ADCSRA |= (1<<ADSC);
 }
-
+*/
 
 ISR(TIMER2_COMPA_vect)
 {
+	static uint8_t c = 0;
+	c++;
+	
+	if(c == 100)
+	{
+		navigate_menu();
+		read_4_buttons();
+		LCD_clear_buffer();
+		LCD_draw_menu(0);
+		LCD_write_buffer();
+		c = 0;
+	}
+	
 	//button is pressed
 	if(deb_buttons[2])
 	{
@@ -276,13 +293,14 @@ ISR(TIMER2_COMPA_vect)
 }
 
 ISR(TIMER1_COMPA_vect)
-{
+{	
 	populate_buttons();
 }
 
 //ISR(TIMER0_OVF_vect)
 ISR(TIMER0_COMPA_vect)
 {
+	
 	count += 2;
 	//if(count > 255)
 	//  count = 0;
@@ -422,6 +440,7 @@ void setup_timer1()
 
 void setup_timer2()
 {
+	
 	TCCR2A = 0;
 	TCCR2B = 0;
 	TCNT2 = 0;
@@ -463,9 +482,14 @@ void setup_timer0()
 
 void setup_adc()
 {
+	ADMUX = 0;
+	ADCSRA = 0;
 	//enable ADC, 1 1 1 = 128 prescaler = 8 MHz/128 = 62.5 kHz
-	ADCSRA |= (1<<ADEN) | (1<<ADPS0) | (1<<ADPS1) | (1<<ADPS2) | (1<<ADIE) | (1<<ADSC);
-	ADMUX |= (1<<ADLAR);
+	//ADCSRA |= (1<<ADEN) | (1<<ADPS0) | (1<<ADPS1) | (1<<ADPS2) | (1<<ADIE) | (1<<ADSC);
+	//no interrupts!
+	ADCSRA |= (1<<ADEN) | (1<<ADPS0) | (1<<ADPS1) | (1<<ADPS2) | (1<<ADSC);
+	
+	ADMUX |= (1<<ADLAR) | (1<<REFS0);
 }
 
 int main(void)
@@ -493,6 +517,7 @@ int main(void)
 	
 	LCD_init();
 	LCD_clear();
+	//setup_adc();
 	/*
 	char test[10];
 	memset(test,0,sizeof(test[0])*10); // Clear all to 0 so string properly represented
@@ -504,25 +529,10 @@ int main(void)
 	//LCD_write_string(0,0,"Erik <3 Klara!");
 	LCD_write_string(0,0,test);
 	*/
-	/*
-	LCD_write_string(0,0,"Erik <3 Klara!", 0);
-	LCD_write_string(0,1,"Erik <3 Klara", 0);
-	LCD_write_string(0,2,"Klara <3 Erik!", 0);
-	LCD_invert_row(0);
-	LCD_write_buffer();
-	*/
 	
 	//LCD_draw_menu(0);
 	//LCD_write_buffer();
 	
-	/*
-	LCD_write_string(0,0,"Erik <3 Klara!");
-	
-	LCD_write_string(0,0,"Erik <3 Klara!");
-	LCD_write_string(0,0,"Erik <3 Klara!");
-	LCD_write_string(0,0,"Erik <3 Klara!");
-	LCD_write_string(0,0,"Erik <3 Klara!");
-	*/
 	/*
 	LCD_set_XY(0,0);
 	LCD_clear();
@@ -532,32 +542,34 @@ int main(void)
 		LCD_set_pixel(i-1,0+osc1[3*i]>>3);
 	}
 	*/
-	//LCD_clear();
 	
 	
-	//LCD_draw_square(1,1,20,20);
-	
-	/*
-	setup_timer1();
-	setup_timer0();
+	//setup_timer1();
+	//setup_timer0();
 	setup_timer2();
-	*/
-	
 	setup_4_buttons();
-	
-	//setup_adc();
-	//LCD_clear_buffer();
+	setup_adc();
 	setup_menu();
 	
-    while(1)
+	while(1)
     {
+		/*
 		navigate_menu();
 		read_4_buttons();
 		LCD_clear_buffer();
 		LCD_draw_menu(0);
 		LCD_write_buffer();
 		_delay_ms(200);
+		*/
+		//trigger new adc thingy
+		//ADCSRA |= (1<<ADSC);
 		
+		l74hc165_shiftin(&data);
+		_delay_us(10);
+		for (uint8_t i=0;i<12;i++)
+		{
+			debounce(buttons[i],i);
+		}
 		
 		/*
 		static uint8_t iii = 0;
@@ -568,15 +580,6 @@ int main(void)
 		_delay_ms(100);
 		LCD_clear_buffer();
 		*/
-		
-		l74hc165_shiftin(&data);
-		_delay_us(10);
-		for (uint8_t i=0;i<12;i++)
-		{
-			debounce(buttons[i],i);
-		}
-		
-		
 		
 		/*
 		itoa(pot_data, test, 10);

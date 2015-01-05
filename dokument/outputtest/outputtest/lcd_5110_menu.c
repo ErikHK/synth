@@ -165,6 +165,9 @@ uint8_t buttons[] = {0, 0, 0, 0};
 uint8_t menuchoice = 0;
 uint8_t ** current_menu = main_menu;
 
+uint8_t attack_top = 0;
+uint8_t release_top = 0;
+uint8_t * pot_data;
 
 struct menu
 {
@@ -174,26 +177,59 @@ struct menu
 	short num_submenus;
 	struct menu * submenu[4];	//array of submenus
 	struct menu * parent;
-} menu_default = {NULL, 0, NULL, 0, NULL};
+} menu_default = {NULL, 0, NULL, 0, NULL, NULL};
 
 typedef struct menu menu;
 
-menu attack = {NULL, 0, NULL, 0, NULL};
-menu release = {NULL, 0, NULL, 0, NULL};
-menu adsrmenu = {NULL, 0, NULL, 0, NULL};
-menu mainmenu = {NULL, 0, NULL, 0, NULL};
-menu oscmenu = {NULL, 0, NULL, 0, NULL};
-menu osc1menu = {NULL, 0, NULL, 0, NULL};
-menu waveformmenu = {NULL, 0, NULL, 0, NULL};
-menu levelmenu = {NULL, 0, NULL, 0, NULL};
-menu osc2menu = {NULL, 0, NULL, 0, NULL};
-menu lfomenu = {NULL, 0, NULL, 0, NULL};
-menu filtersmenu = {NULL, 0, NULL, 0, NULL};
+menu attack = {NULL, 0, NULL, 0, NULL, NULL};
+menu release = {NULL, 0, NULL, 0, NULL, NULL};
+menu adsrmenu = {NULL, 0, NULL, 0, NULL, NULL};
+menu mainmenu = {NULL, 0, NULL, 0, NULL, NULL};
+menu oscmenu = {NULL, 0, NULL, 0, NULL, NULL};
+menu osc1menu = {NULL, 0, NULL, 0, NULL, NULL};
+menu waveformmenu = {NULL, 0, NULL, 0, NULL, NULL};
+menu levelmenu = {NULL, 0, NULL, 0, NULL, NULL};
+menu osc2menu = {NULL, 0, NULL, 0, NULL, NULL};
+menu lfomenu = {NULL, 0, NULL, 0, NULL, NULL};
+menu filtersmenu = {NULL, 0, NULL, 0, NULL, NULL};
+
+/*
+ISR(ADC_vect)
+{
+	*pot_data = ADCH;
+	//ADCSRA |= (1<<ADSC);
+	
+	//disable ADC again
+	ADCSRA &= ~(1<<ADEN);
+}
+*/
 
 void attack_command()
 {
-	LCD_write_string(0,0,"BAAAAJS",0);
-	LCD_write_buffer();
+	//LCD_write_string(0,0,"BAAAAJS",0);
+	//LCD_write_buffer();
+	pot_data = &attack_top;
+	
+	//enable ADC and start conversion
+	//ADCSRA |= (1<<ADEN) | (1<<ADSC);
+}
+
+void release_command()
+{
+	pot_data = &release_top;
+	
+	//enable ADC
+	//ADCSRA |= (1<<ADEN) | (1<<ADSC);
+}
+
+uint8_t get_attack_value()
+{
+	return attack_top;
+}
+
+uint8_t get_release_value()
+{
+	return release_top;
 }
 
 menu * currentmenu;
@@ -226,8 +262,12 @@ void navigate_menu()
 		//set current menu as selected submenu
 		currentmenu = currentmenu->submenu[currentmenu->selected];
 	}
-		
-		
+	
+	//if the selected menu item has a command
+	if(currentmenu->submenu[currentmenu->selected]->command != NULL)
+		currentmenu->submenu[currentmenu->selected]->command();
+	//currentmenu->submenu[currentmenu->selected]->command();
+	
 	if(buttons[0])
 		currentmenu = currentmenu->parent;
 }
@@ -242,6 +282,7 @@ void setup_menu()
 	lfomenu.submenu[1] = &levelmenu;
 	
 	waveformmenu.title = "Waveform";
+	waveformmenu.command = &attack_command;
 	levelmenu.title = "Level";
 	
 	osc1menu.title = "Oscillator 1";
@@ -259,9 +300,12 @@ void setup_menu()
 	
 	//strcpy(attack->title, "attack");
 	attack.title = "Attack";
+	attack.command = *attack_command;
 	//attack.submenu = NULL;
 	
 	release.title = "Release";
+	release.command = *release_command;
+	
 	//release.submenu = NULL;
 	
 	adsrmenu.title = "ADSR";
@@ -271,6 +315,7 @@ void setup_menu()
 	adsrmenu.submenu[2] = NULL;		//NULL-terminate, might work without
 	
 	mainmenu.title = NULL;
+	mainmenu.parent = &mainmenu;
 	mainmenu.submenu[0] = &oscmenu;
 	mainmenu.submenu[1] = &adsrmenu;
 	mainmenu.submenu[2] = &filtersmenu;
@@ -302,10 +347,10 @@ void read_4_buttons()
 	else
 		buttons[3] = 1;
 		
-	if(buttons[0])
-		current_menu = main_menu;
-	if(buttons[3])
-	    current_menu = adsr_menu;
+	//if(buttons[0])
+	//	current_menu = main_menu;
+	//if(buttons[3])
+	//    current_menu = adsr_menu;
 		//currentmenu.command();
 		
 	/*
@@ -419,7 +464,6 @@ void LCD_write_string(uint8_t x, uint8_t y, char *s, uint8_t inverted)
 		LCD_write_char(x + i++, y, *s++, inverted);
 	}
 }
-
 
 void LCD_write_char(uint8_t x, uint8_t y, uint8_t c, uint8_t inverted)
 {
@@ -580,6 +624,18 @@ void LCD_draw_menu(uint8_t inverted)
 	//struct menu * currmenu = currentmenu;
 	//menu * currmenuitems = *currentmenu->submenu;
 	
+	//if(ADCSRA | ADIF)
+	//{
+	//attack_top = ADCH;
+	
+	//ADCSRA &= ~(1<<ADEN) & ~(1<<ADSC);
+		//ADCSRA |= (1<<ADSC);
+	//}
+	attack_top = 12;
+	char adc_res[4];
+	itoa(attack_top, adc_res, 10);
+	//LCD_write_string(5,5,&adc_res);
+	
 	uint8_t i=0;
 	//for (uint8_t i=0;i<3;i++)
 	while(currentmenu->submenu[i])
@@ -588,7 +644,10 @@ void LCD_draw_menu(uint8_t inverted)
 		
 		if(currentmenu->selected == i)
 			LCD_invert_row(i);
-		
+			
+		if(currentmenu->submenu[i]->command == attack_command)
+			LCD_write_string(11, i, adc_res, 0);
+			
 		//LCD_write_string(0, i, currmenuitems->title, 0);
 		i++;
 		//currmenuitems++;

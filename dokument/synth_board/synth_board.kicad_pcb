@@ -3,7 +3,7 @@
   (general
     (links 174)
     (no_connects 5)
-    (area 19.753223 12.2428 119.946777 111.810001)
+    (area 19.753223 12.649999 119.946777 111.810001)
     (thickness 1.6)
     (drawings 14)
     (tracks 632)
@@ -53,8 +53,8 @@
     (mod_edge_width 0.15)
     (mod_text_size 1 1)
     (mod_text_width 0.15)
-    (pad_size 4 4)
-    (pad_drill 3)
+    (pad_size 2 4)
+    (pad_drill 0.8128)
     (pad_to_mask_clearance 0)
     (aux_axis_origin 0 0)
     (visible_elements 7FFFFFFF)
@@ -1395,7 +1395,7 @@
     )
   )
 
-  (module buttons (layer F.Cu) (tedit 544A1C64) (tstamp 544A1C9D)
+  (module buttons (layer F.Cu) (tedit 544A1C64) (tstamp 54A8B060)
     (at 31.75 63.5)
     (path /544A1A95)
     (fp_text reference U7 (at 0 -2.54) (layer F.SilkS)
