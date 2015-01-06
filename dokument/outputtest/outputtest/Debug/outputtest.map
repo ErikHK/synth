@@ -119,8 +119,12 @@ Discarded input sections
  .text.lowpass  0x00000000       0x7a outputtest.o
  .text.setup_timer1
                 0x00000000       0x44 outputtest.o
+ .text.setup_timer2
+                0x00000000       0x2a outputtest.o
  .text.setup_timer0
                 0x00000000       0x1e outputtest.o
+ .text.setup_adc
+                0x00000000       0x1a outputtest.o
  .bss.output    0x00000000        0x1 outputtest.o
  .bss.keys_playing
                 0x00000000        0x3 outputtest.o
@@ -316,7 +320,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0xbb8
+.text           0x00000000      0xb94
  *(.vectors)
  .vectors       0x00000000       0x8c c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51/crtm1284p.o
                 0x00000000                __vector_default
@@ -475,33 +479,27 @@ END GROUP
  .text.__vector_16
                 0x0000086a      0x224 outputtest.o
                 0x0000086a                __vector_16
- .text.setup_timer2
-                0x00000a8e       0x2a outputtest.o
-                0x00000a8e                setup_timer2
- .text.setup_adc
-                0x00000ab8       0x1a outputtest.o
-                0x00000ab8                setup_adc
- .text.main     0x00000ad2       0x62 outputtest.o
-                0x00000ad2                main
+ .text.main     0x00000a8e       0x82 outputtest.o
+                0x00000a8e                main
  .text.avr-libc
-                0x00000b34       0x16 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(itoa.o)
-                0x00000b34                __itoa
-                0x00000b34                itoa
+                0x00000b10       0x16 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(itoa.o)
+                0x00000b10                __itoa
+                0x00000b10                itoa
  .text.avr-libc
-                0x00000b4a       0x16 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(itoa_ncheck.o)
-                0x00000b4a                __itoa_ncheck
+                0x00000b26       0x16 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(itoa_ncheck.o)
+                0x00000b26                __itoa_ncheck
  .text.avr-libc
-                0x00000b60       0x34 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(utoa_ncheck.o)
-                0x00000b60                __utoa_ncheck
-                0x00000b62                __utoa_common
+                0x00000b3c       0x34 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(utoa_ncheck.o)
+                0x00000b3c                __utoa_ncheck
+                0x00000b3e                __utoa_common
  .text.avr-libc
-                0x00000b94       0x20 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(strrev.o)
-                0x00000b94                strrev
-                0x00000bb4                . = ALIGN (0x2)
+                0x00000b70       0x20 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(strrev.o)
+                0x00000b70                strrev
+                0x00000b90                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000bb4        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
-                0x00000bb4                _exit
-                0x00000bb4                exit
+ .fini9         0x00000b90        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
+                0x00000b90                _exit
+                0x00000b90                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -520,11 +518,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000bb4        0x4 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
+ .fini0         0x00000b90        0x4 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000bb8                _etext = .
+                0x00000b94                _etext = .
 
-.data           0x00800100      0x3a6 load address 0x00000bb8
+.data           0x00800100      0x3a6 load address 0x00000b94
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -606,8 +604,8 @@ END GROUP
                 0x00800792                data
                 0x00800796                curr_wave
                 0x00800896                PROVIDE (__bss_end, .)
-                0x00000bb8                __data_load_start = LOADADDR (.data)
-                0x00000f5e                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00000b94                __data_load_start = LOADADDR (.data)
+                0x00000f3a                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800896        0x0
                 0x00800896                PROVIDE (__noinit_start, .)
@@ -687,23 +685,23 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x1505
+.debug_info     0x00000000     0x15c1
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x1b8 l74hc165.o
  .debug_info    0x000001b8      0xbf6 lcd_5110_menu.o
- .debug_info    0x00000dae      0x757 outputtest.o
+ .debug_info    0x00000dae      0x813 outputtest.o
 
-.debug_abbrev   0x00000000      0x690
+.debug_abbrev   0x00000000      0x699
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x131 l74hc165.o
  .debug_abbrev  0x00000131      0x2bf lcd_5110_menu.o
- .debug_abbrev  0x000003f0      0x2a0 outputtest.o
+ .debug_abbrev  0x000003f0      0x2a9 outputtest.o
 
-.debug_line     0x00000000      0x7d0
+.debug_line     0x00000000      0x7dc
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x164 l74hc165.o
  .debug_line    0x00000164      0x39b lcd_5110_menu.o
- .debug_line    0x000004ff      0x2d1 outputtest.o
+ .debug_line    0x000004ff      0x2dd outputtest.o
 
 .debug_frame    0x00000000      0x438
  *(.debug_frame)
@@ -718,7 +716,7 @@ END GROUP
  .debug_str     0x000001a2      0x2d3 lcd_5110_menu.o
                                 0x483 (size before relaxing)
  .debug_str     0x00000475      0x150 outputtest.o
-                                0x3ea (size before relaxing)
+                                0x3f9 (size before relaxing)
 
 .debug_loc      0x00000000      0xdb1
  *(.debug_loc)

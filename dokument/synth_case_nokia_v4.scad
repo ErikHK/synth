@@ -485,6 +485,7 @@ module case_top()
 
 
   //side bars
+  /*
   translate([ckhl+cwth*3,0,0])
   cube([cwth,52,cth]);
 
@@ -493,6 +494,7 @@ module case_top()
 
   translate([7,0,0])
   cube([2,5,cth]);
+  */
 
 
 

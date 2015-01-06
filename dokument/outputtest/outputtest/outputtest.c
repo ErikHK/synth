@@ -30,8 +30,8 @@
 #define LCD_DATA	1
 */
 
-//#define F_CPU 20000000L
-#define F_CPU 8000000L
+#define F_CPU 20000000L
+//#define F_CPU 8000000L
 #include "l74hc165.h"
 #include "lcd_5110_menu.h"
 #include "sounds.h"
@@ -546,10 +546,10 @@ int main(void)
 	
 	//setup_timer1();
 	//setup_timer0();
-	setup_timer2();
-	setup_4_buttons();
-	setup_adc();
-	setup_menu();
+	//setup_timer2();
+	//setup_4_buttons();
+	//setup_adc();
+	//setup_menu();
 	
 	while(1)
     {
