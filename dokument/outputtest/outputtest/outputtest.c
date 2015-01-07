@@ -542,9 +542,9 @@ int main(void)
 	//setup_timer1();
 	//setup_timer0();
 	//setup_timer2();
-	//setup_4_buttons();
-	//setup_adc();
-	//setup_menu();
+	setup_4_buttons();
+	setup_adc();
+	setup_menu();
 	
 	while(1)
     {

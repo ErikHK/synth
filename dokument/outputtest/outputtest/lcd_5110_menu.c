@@ -173,6 +173,7 @@ struct menu
 {
 	char * title;
 	uint8_t selected;
+	uint8_t value;
 	void (*command)();
 	short num_submenus;
 	struct menu * submenu[4];	//array of submenus
@@ -200,9 +201,15 @@ ISR(ADC_vect)
 	//ADCSRA |= (1<<ADSC);
 	
 	//disable ADC again
-	ADCSRA &= ~(1<<ADEN);
+	//ADCSRA &= ~(1<<ADEN);
 }
 */
+
+void update_value(menu * mnu)
+{
+	mnu->value = *pot_data;
+	
+}
 
 void attack_command()
 {
@@ -265,7 +272,10 @@ void navigate_menu()
 	
 	//if the selected menu item has a command
 	if(currentmenu->submenu[currentmenu->selected]->command != NULL)
+	{
 		currentmenu->submenu[currentmenu->selected]->command();
+		update_value(&currentmenu->selected);
+	}
 	//currentmenu->submenu[currentmenu->selected]->command();
 	
 	if(buttons[0])
@@ -309,7 +319,7 @@ void setup_menu()
 	//release.submenu = NULL;
 	
 	adsrmenu.title = "ADSR";
-	adsrmenu.command = *attack_command;
+	//adsrmenu.command = *attack_command;
 	adsrmenu.submenu[0] = &attack;
 	adsrmenu.submenu[1] = &release;
 	adsrmenu.submenu[2] = NULL;		//NULL-terminate, might work without
@@ -624,16 +634,22 @@ void LCD_draw_menu(uint8_t inverted)
 	//struct menu * currmenu = currentmenu;
 	//menu * currmenuitems = *currentmenu->submenu;
 	
-	//if(ADCSRA | ADIF)
+	if(ADCSRA | ADIF)
+	{
+		//save pot data
+		*pot_data = ADCH;
+		//start new conversion
+		ADCSRA |= (1<<ADSC);
+	}
 	//{
 	//attack_top = ADCH;
 	
 	//ADCSRA &= ~(1<<ADEN) & ~(1<<ADSC);
 		//ADCSRA |= (1<<ADSC);
 	//}
-	attack_top = 12;
+	
 	char adc_res[4];
-	itoa(attack_top, adc_res, 10);
+	itoa(*pot_data, adc_res, 10);
 	//LCD_write_string(5,5,&adc_res);
 	
 	uint8_t i=0;
@@ -645,8 +661,13 @@ void LCD_draw_menu(uint8_t inverted)
 		if(currentmenu->selected == i)
 			LCD_invert_row(i);
 			
-		if(currentmenu->submenu[i]->command == attack_command)
-			LCD_write_string(11, i, adc_res, 0);
+		//if(currentmenu->submenu[i]->command == attack_command)
+		//	LCD_write_string(11, i, attack_top, 0);
+		//else if(currentmenu->submenu[i]->command == release_command)
+		//	LCD_write_string(11, i, release_top, 0);
+		
+		if(currentmenu->submenu[i]->command)
+			LCD_write_string(11, i, currentmenu->submenu[i]->value, 0);
 			
 		//LCD_write_string(0, i, currmenuitems->title, 0);
 		i++;
