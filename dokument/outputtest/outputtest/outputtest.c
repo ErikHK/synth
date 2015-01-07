@@ -54,6 +54,7 @@ uint8_t pot_data;
 uint8_t * data[2];
 uint8_t * adc_value;
 uint8_t count = 0;
+uint16_t count16 = 0;
 uint8_t * buffer[2];
 uint8_t inc = 1;
 uint8_t buttons[12]; //pressed buttons, 1 is C, 2 is C# etc
@@ -302,11 +303,14 @@ ISR(TIMER0_COMPA_vect)
 {
 	
 	count += 2;
+	count16++;
 	//if(count > 255)
 	//  count = 0;
 	
-	//PORTC = osc1[count];
+	PORTC = hejhej[count16];
 	
+	//PORTC = osc1[count];
+	/*
 	//button is released
 	if(!deb_buttons[2])
 	{
@@ -332,16 +336,6 @@ ISR(TIMER0_COMPA_vect)
 		PORTC = fmul(attack_value>>1, osc1[count]);
 		OCR0A = note_vals[2];
 	}
-	/*
-	//button is released
-	else if(!deb_buttons[2])
-	{
-		if(release_value > 2)
-			PORTC = fmul(release_value>>1, osc1[count]);
-		OCR0A = note_vals[2];
-		
-	}
-	*/
 	
 	else if(deb_buttons[3])
 	{
@@ -406,6 +400,7 @@ ISR(TIMER0_COMPA_vect)
 		PORTC = 0;
 	
 	//TCNT0=0;
+	*/
 }
 
 void setup_timer1()
@@ -463,13 +458,13 @@ void setup_timer0()
 	
 	TCCR0A |= (1<<WGM01) | (1<<WGM00);
 	// Prescaler = FCPU
-	TCCR0B |= (1<<CS00) | (1<<WGM02);
+	//TCCR0B |= (1<<CS00) | (1<<WGM02);
 	//prescaler = x
 	//TCCR0B |= (1<<CS00) | (1<<CS01) | (1<<WGM02);
 	//prescaler FCPU/1024
 	//TCCR0B |= (1<<CS00) | (1<<CS02) | (1<<WGM02);
 	//prescaler FCPU/8
-	//TCCR0B |= (1<<CS01) | (1<<WGM02);
+	TCCR0B |= (1<<CS01) | (1<<WGM02);
 	
 	//TCCR0B |= (1<<FOC0B);
 	
@@ -553,14 +548,14 @@ int main(void)
 	
 	while(1)
     {
-		/*
+		
 		navigate_menu();
 		read_4_buttons();
 		LCD_clear_buffer();
 		LCD_draw_menu(0);
 		LCD_write_buffer();
 		_delay_ms(200);
-		*/
+		
 		//trigger new adc thingy
 		//ADCSRA |= (1<<ADSC);
 		
