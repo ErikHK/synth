@@ -305,7 +305,7 @@ ISR(TIMER0_COMPA_vect)
 	//if(count > 255)
 	//  count = 0;
 	
-	//PORTC = osc1[count];
+	PORTC = osc1[count];
 	
 	//button is released
 	if(!deb_buttons[2])
@@ -544,9 +544,9 @@ int main(void)
 	*/
 	
 	
-	//setup_timer1();
-	//setup_timer0();
-	//setup_timer2();
+	setup_timer1();
+	setup_timer0();
+	setup_timer2();
 	//setup_4_buttons();
 	//setup_adc();
 	//setup_menu();
