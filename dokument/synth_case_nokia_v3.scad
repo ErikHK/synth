@@ -115,9 +115,9 @@ holder(h=10);
 
 module 4_button()
 {
-cylinder(r=6, h=2);
-translate([0,0,2])
-cylinder(r=4.5, h=4);
+cylinder(d=13.5, h=.75);
+translate([0,0,.75])
+cylinder(d=8.7, h=1.2+2);
 
 
 }
@@ -592,7 +592,7 @@ translate([width+3+3,52-20,0])
 rotate([-90,0,0])
 cylinder(r=2.5,h=20, $fn=4);
 
-translate([width,52-21,-5])
+translate([width,52-21,-5.01])
 cube([20,25,5]);
 }
 
@@ -667,7 +667,7 @@ rCube(55,52.5,1.3,1.2);
 
 }
 */
-
+/*
 rotate([0,180,0])
 difference()
 {
@@ -695,8 +695,10 @@ for(i=[0:4])
   cylinder(r=1.4, h=4);
   }
 }
+*/
 
-//4_button();
+
+4_button();
 
 //speaker
 //translate([140,0,0])

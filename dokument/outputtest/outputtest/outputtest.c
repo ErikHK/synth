@@ -258,7 +258,8 @@ ISR(TIMER2_COMPA_vect)
 	static uint8_t c = 0;
 	c++;
 	
-	if(c == 100)
+	
+	if(c == 200)
 	{
 		navigate_menu();
 		read_4_buttons();
@@ -267,6 +268,7 @@ ISR(TIMER2_COMPA_vect)
 		LCD_write_buffer();
 		c = 0;
 	}
+	
 	
 	//button is pressed
 	if(deb_buttons[2])
@@ -463,13 +465,13 @@ void setup_timer0()
 	
 	TCCR0A |= (1<<WGM01) | (1<<WGM00);
 	// Prescaler = FCPU
-	TCCR0B |= (1<<CS00) | (1<<WGM02);
+	//TCCR0B |= (1<<CS00) | (1<<WGM02);
 	//prescaler = x
 	//TCCR0B |= (1<<CS00) | (1<<CS01) | (1<<WGM02);
 	//prescaler FCPU/1024
 	//TCCR0B |= (1<<CS00) | (1<<CS02) | (1<<WGM02);
 	//prescaler FCPU/8
-	//TCCR0B |= (1<<CS01) | (1<<WGM02);
+	TCCR0B |= (1<<CS01) | (1<<WGM02);
 	
 	//TCCR0B |= (1<<FOC0B);
 	
@@ -542,12 +544,11 @@ int main(void)
 		LCD_set_pixel(i-1,0+osc1[3*i]>>3);
 	}
 	*/
-	
-	setup_timer1();
+	//setup_timer1();
 	setup_timer0();
 	setup_timer2();
 	setup_4_buttons();
-	//setup_adc();
+	setup_adc();
 	setup_menu();
 	
 	while(1)
@@ -560,6 +561,7 @@ int main(void)
 		LCD_write_buffer();
 		_delay_ms(200);
 		*/
+		
 		//trigger new adc thingy
 		//ADCSRA |= (1<<ADSC);
 		

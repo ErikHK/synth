@@ -124,7 +124,7 @@ module black_key()
   }
 
   //spring
-  translate([0,bktl,wkth-sth])
+  translate([0,bktl,wkth-sth-.5])
   cube([bktw,sl,sth]);
 
 
@@ -211,7 +211,8 @@ module all_black_keys()
   translate([-dbwk+bktw/2+key_tol/2,bktl+sl,0])
   holder_bar();
 
-
+translate([0,0,.5])
+{
   black_key();
   translate([1*dbwk, 0,0])
   black_key();
@@ -224,6 +225,7 @@ module all_black_keys()
 
   translate([5*dbwk, 0,0])
   black_key();
+}
 }
 
 

@@ -179,7 +179,7 @@ module button_hole()
 {
 cylinder(r=5,h=10);
 translate([0,0,2])
-cylinder(r=5+2.2,h=1.25);
+cylinder(r=5+2.2,h=1.25-.25);
 }
 
 module 4_buttons_holes()
@@ -206,6 +206,9 @@ button_hole();
 translate([23.495, 13.97,-.1])
 //cylinder(r=5,h=10);
 button_hole();
+
+
+
 }
 
 
@@ -216,8 +219,8 @@ holder(h=cth-ctth,w=1.8);
 
 
 //speaker corner
-//translate([6+30,6,-cth+2*ctth])
-//holder(h=cth-ctth,w=1.8);
+translate([6+118,6,-cth+2*ctth])
+holder(h=cth-ctth,w=3);
 
 
 
@@ -496,7 +499,7 @@ module case_top()
 
 
 
-  translate([cl-10-cwth,cwth*1+12,8])
+  translate([cl-13-cwth,cwth*1+12,8])
   speaker_holder();
 
 

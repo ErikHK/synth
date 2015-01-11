@@ -166,6 +166,8 @@ uint8_t menuchoice = 0;
 uint8_t ** current_menu = main_menu;
 
 uint8_t attack_top = 0;
+uint8_t decay_top = 0;
+uint8_t sustain_top = 0;
 uint8_t release_top = 0;
 uint8_t * pot_data;
 
@@ -173,15 +175,18 @@ struct menu
 {
 	char * title;
 	uint8_t selected;
+	uint8_t * value;
 	void (*command)();
 	short num_submenus;
-	struct menu * submenu[4];	//array of submenus
+	struct menu * submenu[6];	//array of submenus
 	struct menu * parent;
 } menu_default = {NULL, 0, NULL, 0, NULL, NULL};
 
 typedef struct menu menu;
 
 menu attack = {NULL, 0, NULL, 0, NULL, NULL};
+menu decay = {NULL, 0, NULL, 0, NULL, NULL};
+menu sustain = {NULL, 0, NULL, 0, NULL, NULL};
 menu release = {NULL, 0, NULL, 0, NULL, NULL};
 menu adsrmenu = {NULL, 0, NULL, 0, NULL, NULL};
 menu mainmenu = {NULL, 0, NULL, 0, NULL, NULL};
@@ -214,6 +219,26 @@ void attack_command()
 	//ADCSRA |= (1<<ADEN) | (1<<ADSC);
 }
 
+void decay_command()
+{
+	//LCD_write_string(0,0,"BAAAAJS",0);
+	//LCD_write_buffer();
+	pot_data = &decay_top;
+	
+	//enable ADC and start conversion
+	//ADCSRA |= (1<<ADEN) | (1<<ADSC);
+}
+
+void sustain_command()
+{
+	//LCD_write_string(0,0,"BAAAAJS",0);
+	//LCD_write_buffer();
+	pot_data = &sustain_top;
+	
+	//enable ADC and start conversion
+	//ADCSRA |= (1<<ADEN) | (1<<ADSC);
+}
+
 void release_command()
 {
 	pot_data = &release_top;
@@ -236,7 +261,6 @@ menu * currentmenu;
 
 void setup_4_buttons()
 {	
-	
 	//set inputs
 	DDRLEFT &= ~(1 << LEFT);
 	DDRPORT3 &= ~(1 << RIGHT);
@@ -250,9 +274,9 @@ void setup_4_buttons()
 
 void navigate_menu()
 {
-	if(buttons[2])
+	if(buttons[2] && currentmenu->selected < 3)
 		currentmenu->selected++;
-	if(buttons[1])
+	if(buttons[1] && currentmenu->selected > 0)
 		currentmenu->selected--;
 		
 	if(buttons[3])
@@ -303,16 +327,25 @@ void setup_menu()
 	attack.command = *attack_command;
 	//attack.submenu = NULL;
 	
+	decay.title = "Decay";
+	decay.command = *decay_command;
+	
+	sustain.title = "Sustain";
+	sustain.command = *sustain_command;
+	
+	
 	release.title = "Release";
 	release.command = *release_command;
 	
 	//release.submenu = NULL;
 	
 	adsrmenu.title = "ADSR";
-	adsrmenu.command = *attack_command;
+	//adsrmenu.command = *attack_command;
 	adsrmenu.submenu[0] = &attack;
-	adsrmenu.submenu[1] = &release;
-	adsrmenu.submenu[2] = NULL;		//NULL-terminate, might work without
+	adsrmenu.submenu[1] = &decay;
+	adsrmenu.submenu[2] = &sustain;
+	adsrmenu.submenu[3] = &release;
+	//adsrmenu.submenu[4] = NULL;		//NULL-terminate, might work without
 	
 	mainmenu.title = NULL;
 	mainmenu.parent = &mainmenu;
@@ -619,21 +652,23 @@ void LCD_draw_menu(uint8_t inverted)
 }
 */
 
+
 void LCD_draw_menu(uint8_t inverted)
 {
 	//struct menu * currmenu = currentmenu;
 	//menu * currmenuitems = *currentmenu->submenu;
 	
-	//if(ADCSRA | ADIF)
-	//{
+	if(ADCSRA | ADIF)
+	{
 	//attack_top = ADCH;
+	*pot_data = ADCH;
 	
 	//ADCSRA &= ~(1<<ADEN) & ~(1<<ADSC);
-		//ADCSRA |= (1<<ADSC);
-	//}
-	attack_top = 12;
+	ADCSRA |= (1<<ADSC);
+	}
+	//attack_top = 12;
 	char adc_res[4];
-	itoa(attack_top, adc_res, 10);
+	itoa(&pot_data, adc_res, 10);
 	//LCD_write_string(5,5,&adc_res);
 	
 	uint8_t i=0;
@@ -644,10 +679,47 @@ void LCD_draw_menu(uint8_t inverted)
 		
 		if(currentmenu->selected == i)
 			LCD_invert_row(i);
-			
-		if(currentmenu->submenu[i]->command == attack_command)
+		
+		//if it has a value, print it!
+		if(currentmenu->submenu[i]->value)
+		{
+			itoa(*currentmenu->submenu[i]->value, adc_res, 10);
 			LCD_write_string(11, i, adc_res, 0);
-			
+			//LCD_write_string(11, i, currentmenu->submenu[i]->value, 0);
+		}
+		
+		if(currentmenu->submenu[i]->command == attack_command)
+		{
+			itoa(attack_top, adc_res, 10);
+			//attack_top = adc_res;
+			*currentmenu->submenu[i]->value = attack_top;
+			LCD_write_string(11, i, adc_res, 0);
+		}
+		
+		if(currentmenu->submenu[i]->command == release_command)
+		{
+			itoa(release_top, adc_res, 10);
+			//release_top = adc_res;
+			*currentmenu->submenu[i]->value = release_top;
+			LCD_write_string(11, i, adc_res, 0);
+		}
+		
+		if(currentmenu->submenu[i]->command == decay_command)
+		{
+			itoa(decay_top, adc_res, 10);
+			//release_top = adc_res;
+			*currentmenu->submenu[i]->value = decay_top;
+			LCD_write_string(11, i, adc_res, 0);
+		}
+		
+		if(currentmenu->submenu[i]->command == sustain_command)
+		{
+			itoa(sustain_top, adc_res, 10);
+			//release_top = adc_res;
+			*currentmenu->submenu[i]->value = sustain_top;
+			LCD_write_string(11, i, adc_res, 0);
+		}
+		
 		//LCD_write_string(0, i, currmenuitems->title, 0);
 		i++;
 		//currmenuitems++;
