@@ -170,6 +170,7 @@ uint8_t decay_top = 0;
 uint8_t sustain_top = 0;
 uint8_t release_top = 0;
 uint8_t * pot_data;
+uint8_t prev_pot_data = 0;
 
 struct menu
 {
@@ -213,6 +214,7 @@ void attack_command()
 {
 	//LCD_write_string(0,0,"BAAAAJS",0);
 	//LCD_write_buffer();
+	//if(*pot_data != prev_pot_data)
 	pot_data = &attack_top;
 	
 	//enable ADC and start conversion
@@ -223,6 +225,7 @@ void decay_command()
 {
 	//LCD_write_string(0,0,"BAAAAJS",0);
 	//LCD_write_buffer();
+	//if(*pot_data != prev_pot_data)
 	pot_data = &decay_top;
 	
 	//enable ADC and start conversion
@@ -233,6 +236,7 @@ void sustain_command()
 {
 	//LCD_write_string(0,0,"BAAAAJS",0);
 	//LCD_write_buffer();
+	//if(*pot_data != prev_pot_data)
 	pot_data = &sustain_top;
 	
 	//enable ADC and start conversion
@@ -241,6 +245,7 @@ void sustain_command()
 
 void release_command()
 {
+	//if(*pot_data != prev_pot_data)
 	pot_data = &release_top;
 	
 	//enable ADC
@@ -652,7 +657,6 @@ void LCD_draw_menu(uint8_t inverted)
 }
 */
 
-
 void LCD_draw_menu(uint8_t inverted)
 {
 	//struct menu * currmenu = currentmenu;
@@ -660,12 +664,14 @@ void LCD_draw_menu(uint8_t inverted)
 	
 	if(ADCSRA | ADIF)
 	{
-	//attack_top = ADCH;
-	*pot_data = ADCH;
+		//attack_top = ADCH;
+		prev_pot_data = *pot_data;
+		*pot_data = ADCH;
 	
-	//ADCSRA &= ~(1<<ADEN) & ~(1<<ADSC);
-	ADCSRA |= (1<<ADSC);
+		//trigger new conversion
+		ADCSRA |= (1<<ADSC);
 	}
+	
 	//attack_top = 12;
 	char adc_res[4];
 	itoa(&pot_data, adc_res, 10);
@@ -690,7 +696,7 @@ void LCD_draw_menu(uint8_t inverted)
 		
 		if(currentmenu->submenu[i]->command == attack_command)
 		{
-			itoa(attack_top, adc_res, 10);
+			itoa(fmul(50, attack_top), adc_res, 10);
 			//attack_top = adc_res;
 			*currentmenu->submenu[i]->value = attack_top;
 			LCD_write_string(11, i, adc_res, 0);
@@ -698,7 +704,7 @@ void LCD_draw_menu(uint8_t inverted)
 		
 		if(currentmenu->submenu[i]->command == release_command)
 		{
-			itoa(release_top, adc_res, 10);
+			itoa(fmul(50, release_top), adc_res, 10);
 			//release_top = adc_res;
 			*currentmenu->submenu[i]->value = release_top;
 			LCD_write_string(11, i, adc_res, 0);
@@ -706,7 +712,7 @@ void LCD_draw_menu(uint8_t inverted)
 		
 		if(currentmenu->submenu[i]->command == decay_command)
 		{
-			itoa(decay_top, adc_res, 10);
+			itoa(fmul(50, decay_top), adc_res, 10);
 			//release_top = adc_res;
 			*currentmenu->submenu[i]->value = decay_top;
 			LCD_write_string(11, i, adc_res, 0);
@@ -714,7 +720,7 @@ void LCD_draw_menu(uint8_t inverted)
 		
 		if(currentmenu->submenu[i]->command == sustain_command)
 		{
-			itoa(sustain_top, adc_res, 10);
+			itoa(fmul(50, sustain_top), adc_res, 10);
 			//release_top = adc_res;
 			*currentmenu->submenu[i]->value = sustain_top;
 			LCD_write_string(11, i, adc_res, 0);

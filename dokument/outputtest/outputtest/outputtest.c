@@ -45,7 +45,18 @@
 
 //NOTE VALUES!
 static const uint8_t note_vals[12] = {240,226,214,202,190,180,170,160,151,143,135,127};
+//20 Mhz/(128*freq) where freq = C0-B0 = 
+//{16.35, 17.32, 18.35, 19.45, 20.60, 21.83, 23.12, 24.50, 25.96, 27.50, 29.14, 30.87}
+//static const uint16_t note_vals[12] = {9557, 9021, 8515, 8033, 7585, 7158, 6758, 6378, 6019, 5682, 5362, 5062};
 
+//C2 - B2, 65.41 - 123.47
+//20000000/(1420*128) = 110.035.. => A4 = 440.1408... OK!
+//const uint8_t top_values[12] = {215, 203, 192, 181, 171, 161, 152, 144, 136, 128, 121, 114};
+//const uint8_t timer_top = 1420;
+
+//uint8_t detune[11] = {7, 14, 21, 26, 32, 38, 43, 47, 52, 56, 60};
+//128/detune, i.e. skip every x:th sample
+//uint8_t detune1[5] = {18, 9, 6, 5, 4};
 //volatile uint8_t count;
 
 uint8_t curr_wave[256];
@@ -54,6 +65,7 @@ uint8_t pot_data;
 uint8_t * data[2];
 uint8_t * adc_value;
 uint8_t count = 0;
+uint8_t count2 = 0;
 uint8_t * buffer[2];
 uint8_t inc = 1;
 uint8_t buttons[12]; //pressed buttons, 1 is C, 2 is C# etc
@@ -63,10 +75,27 @@ uint8_t released[12] = {0,0,0,0,0,0,0,0,0,0,0,0};	//released confidence
 uint8_t keys_playing[3] = {0,0,0};					//Only allow three keys playing (for now)
 uint8_t output = 0;
 uint8_t * osc1;
+uint8_t * osc2;
 uint8_t attack_value = 0;
 uint8_t release_value = 255;
+//uint8_t num_keys_playing = 0;
 
 uint8_t lcd_buffer[504];
+
+uint16_t freq1;
+
+
+uint8_t num_keys_playing()
+{
+	uint8_t playing=0;
+	for (uint8_t i=0;i<12;i++)
+	{
+		if(deb_buttons[i])
+			playing++;
+	}
+	
+	return playing;
+}
 
 uint8_t fmul(uint8_t frac, uint8_t x)
 {
@@ -274,7 +303,7 @@ ISR(TIMER2_COMPA_vect)
 	if(deb_buttons[2])
 	{
 		//increase attack!
-		if(attack_value < 254-25)
+		if(attack_value < get_attack_value())
 		  attack_value+=1;
 		  
 		//reset release_value
@@ -286,7 +315,7 @@ ISR(TIMER2_COMPA_vect)
 	if(!deb_buttons[2])
 	{
 		attack_value = 0;
-		if(release_value > 0)
+		if(release_value > get_release_value())
 		release_value--;
 		
 	}
@@ -302,13 +331,19 @@ ISR(TIMER1_COMPA_vect)
 //ISR(TIMER0_OVF_vect)
 ISR(TIMER0_COMPA_vect)
 {
+	static uint16_t freq1_counter=0;
+	//count += 2;
+	//count2 += 2;
 	
-	count += 2;
 	//if(count > 255)
 	//  count = 0;
 	
 	//PORTC = osc1[count];
 	
+	//PORTC = osc1[count] + osc2[count2];
+	PORTC = freq1*sine[(freq1_counter++)>>8];
+	
+	/*
 	//button is released
 	if(!deb_buttons[2])
 	{
@@ -334,16 +369,7 @@ ISR(TIMER0_COMPA_vect)
 		PORTC = fmul(attack_value>>1, osc1[count]);
 		OCR0A = note_vals[2];
 	}
-	/*
-	//button is released
-	else if(!deb_buttons[2])
-	{
-		if(release_value > 2)
-			PORTC = fmul(release_value>>1, osc1[count]);
-		OCR0A = note_vals[2];
-		
-	}
-	*/
+	
 	
 	else if(deb_buttons[3])
 	{
@@ -408,6 +434,7 @@ ISR(TIMER0_COMPA_vect)
 		PORTC = 0;
 	
 	//TCNT0=0;
+	*/
 }
 
 void setup_timer1()
@@ -428,7 +455,6 @@ void setup_timer1()
 	
 	//prescaler = 256
 	//TCCR1B |= (1<<WGM13) | (1<<WGM12) | (1<<CS12);
-	
 	
 	//OCR1A = 0xC000;	//set
 	//OCR1A = 0xA000;
@@ -455,13 +481,14 @@ void setup_timer2()
 	TIMSK2 = (1<<OCIE2A);
 }
 
+//f = 20000000/512 = 39062.5 Hz
 void setup_timer0()
 {
-	
 	TCCR0A = 0;
 	TCCR0B = 0;
 	TCNT0 = 0;
-	OCR0A = 200;
+	//OCR0A = 200;
+	OCR0A = 64;
 	
 	TCCR0A |= (1<<WGM01) | (1<<WGM00);
 	// Prescaler = FCPU
@@ -480,6 +507,8 @@ void setup_timer0()
 	TIMSK0 = (1<<OCIE0A);
 	//TIMSK0 |=(1<<OCIE0B);
 	
+	uint16_t Fs = 20000000>>9;
+	freq1 = (15<<16)/Fs;
 }
 
 void setup_adc()
@@ -501,6 +530,7 @@ int main(void)
 	//osc1 = pseudosquare;
 	
 	osc1 = square_;
+	osc2 = sawtooth;
 	
 	//0.1
 	//lowpass(osc1, square2x, 0b01100000, 0b00010100);
