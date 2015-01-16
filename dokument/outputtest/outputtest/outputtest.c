@@ -30,8 +30,8 @@
 #define LCD_DATA	1
 */
 
-//#define F_CPU 20000000L
-#define F_CPU 8000000L
+#define F_CPU 20000000L
+//#define F_CPU 8000000L
 #include "l74hc165.h"
 #include "lcd_5110_menu.h"
 #include "sounds.h"
@@ -332,6 +332,8 @@ ISR(TIMER1_COMPA_vect)
 ISR(TIMER0_COMPA_vect)
 {
 	static uint16_t freq1_counter=0;
+	static uint16_t freq2_counter=0;
+	//static uint8_t freq1_counter=0;
 	//count += 2;
 	//count2 += 2;
 	
@@ -341,7 +343,17 @@ ISR(TIMER0_COMPA_vect)
 	//PORTC = osc1[count];
 	
 	//PORTC = osc1[count] + osc2[count2];
-	PORTC = freq1*sine[(freq1_counter++)>>8];
+	
+	//while(freq1_counter > 0xff)
+	//	freq1_counter = freq1_counter>>1;
+	//uint8_t out = sine[freq1_counter>>8]>>2 + sine[freq2_counter>>8]>>2;
+	uint8_t out1 = sine[freq1_counter>>8]>>2;
+	uint8_t out2 = sine[freq2_counter>>8]>>2;
+	PORTC = out1+out2;
+	//freq1_counter += freq1;
+	freq1_counter += 336; // 200 Hz
+	freq2_counter += 403; // 240 Hz
+
 	
 	/*
 	//button is released
@@ -508,7 +520,7 @@ void setup_timer0()
 	//TIMSK0 |=(1<<OCIE0B);
 	
 	uint16_t Fs = 20000000>>9;
-	freq1 = (15<<16)/Fs;
+	freq1 = (200<<16)/Fs;
 }
 
 void setup_adc()
@@ -576,10 +588,10 @@ int main(void)
 	*/
 	//setup_timer1();
 	setup_timer0();
-	setup_timer2();
-	setup_4_buttons();
-	setup_adc();
-	setup_menu();
+	//setup_timer2();
+	//setup_4_buttons();
+	//setup_adc();
+	//setup_menu();
 	
 	while(1)
     {
