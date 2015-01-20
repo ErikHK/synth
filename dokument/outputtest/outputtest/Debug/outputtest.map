@@ -596,11 +596,11 @@ END GROUP
                 0x0080062e                attack_top
  .bss.buttons   0x0080062f        0x4 lcd_5110_menu.o
                 0x0080062f                buttons
- .bss.freq2_counter.1863
+ .bss.freq2_counter.1864
                 0x00800633        0x2 outputtest.o
- .bss.freq1_counter.1862
+ .bss.freq1_counter.1863
                 0x00800635        0x2 outputtest.o
- .bss.c.1845    0x00800637        0x1 outputtest.o
+ .bss.c.1846    0x00800637        0x1 outputtest.o
  .bss.attack_value
                 0x00800638        0x1 outputtest.o
                 0x00800638                attack_value
@@ -704,11 +704,11 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x18cd
+.debug_info     0x00000000     0x18ed
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x1b8 l74hc165.o
  .debug_info    0x000001b8      0xed3 lcd_5110_menu.o
- .debug_info    0x0000108b      0x842 outputtest.o
+ .debug_info    0x0000108b      0x862 outputtest.o
 
 .debug_abbrev   0x00000000      0x732
  *(.debug_abbrev)
@@ -728,14 +728,14 @@ END GROUP
  .debug_frame   0x0000003c      0x228 lcd_5110_menu.o
  .debug_frame   0x00000264      0x1e8 outputtest.o
 
-.debug_str      0x00000000      0x690
+.debug_str      0x00000000      0x665
  *(.debug_str)
  .debug_str     0x00000000      0x1a2 l74hc165.o
                                 0x1db (size before relaxing)
  .debug_str     0x000001a2      0x31f lcd_5110_menu.o
                                 0x4de (size before relaxing)
- .debug_str     0x000004c1      0x1cf outputtest.o
-                                0x43d (size before relaxing)
+ .debug_str     0x000004c1      0x1a4 outputtest.o
+                                0x453 (size before relaxing)
 
 .debug_loc      0x00000000      0xe29
  *(.debug_loc)
