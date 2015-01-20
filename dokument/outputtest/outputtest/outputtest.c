@@ -349,13 +349,28 @@ ISR(TIMER0_COMPA_vect)
 	//while(freq1_counter > 0xff)
 	//	freq1_counter = freq1_counter>>1;
 	//uint8_t out = sine[freq1_counter>>8]>>2 + sine[freq2_counter>>8]>>2;
+	
+	
 	uint8_t out1 = sine[freq1_counter>>8]>>2;
 	uint8_t out2 = sine[freq2_counter>>8]>>2;
-	PORTC = out1+out2;
+	//PORTC = out1+out2;
 	//freq1_counter += freq1;
-	freq1_counter += 336; // 200 Hz
-	freq2_counter += 403; // 240 Hz
+	freq1_counter += 336*2; // 200 Hz
+	freq2_counter += 403*2; // 240 Hz
 
+
+
+	if(deb_buttons[0])
+	{
+		PORTC = sine[freq1_counter>>8]>>1;
+	}
+	
+	else if(deb_buttons[1])
+	{
+		PORTC = sine[freq2_counter>>8]>>1;
+	}
+	
+	
 	
 	/*
 	//button is released
@@ -588,7 +603,7 @@ int main(void)
 		LCD_set_pixel(i-1,0+osc1[3*i]>>3);
 	}
 	*/
-	//setup_timer1();
+	setup_timer1();
 	setup_timer0();
 	//setup_timer2();
 	//setup_4_buttons();
