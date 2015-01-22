@@ -64,7 +64,7 @@ static const uint8_t division_values[] = {64, 42, 32, 26, 21, 18, 16, 14, 13, 12
 uint8_t curr_wave[256];
 
 uint8_t pot_data;
-uint8_t * data[2];
+uint16_t * data=0;
 uint8_t * adc_value;
 uint8_t count = 0;
 uint8_t count2 = 0;
@@ -98,6 +98,7 @@ uint8_t num_keys_playing()
 	
 	return playing;
 }
+
 
 uint8_t fmul(uint8_t frac, uint8_t x)
 {
@@ -157,78 +158,141 @@ void debounce(uint8_t key, uint8_t i)
 
 void populate_buttons()
 {
-	if((uint16_t)*data & 1) //4:th button
+	/*
+	if(data & 1)
+		buttons[11] = 1;
+	else
+		buttons[11] = 0;
+		
+	if(data & (1<<1))
+	buttons[10] = 1;
+	else
+	buttons[10] = 0;
+	
+	if(data & (1<<2))
+	buttons[9] = 1;
+	else
+	buttons[9] = 0;
+	
+	if(data & (1<<3))
+	buttons[8] = 1;
+	else
+	buttons[8] = 0;
+	
+	if(data & (1<<4))
+	buttons[7] = 1;
+	else
+	buttons[7] = 0;
+	
+	if(data & (1<<5))
+	buttons[6] = 1;
+	else
+	buttons[6] = 0;
+	
+	if(data & (1<<6))
+	buttons[5] = 1;
+	else
+	buttons[5] = 0;
+	
+	if(data & (1<<7))
+	buttons[4] = 1;
+	else
+	buttons[4] = 0;
+	
+	if(data & (1<<8))
+	buttons[3] = 1;
+	else
+	buttons[3] = 0;
+	
+	if(data & (1<<9))
+	buttons[2] = 1;
+	else
+	buttons[2] = 0;
+	
+	if(data & (1<<10))
+	buttons[1] = 1;
+	else
+	buttons[1] = 0;
+	
+	if(data & (1<<11))
+	buttons[0] = 1;
+	else
+	buttons[0] = 0;
+	*/
+	
+	/*
+	if(data & 1) //4:th button
 	  //buttons |= (1<<3);
 	  buttons[3] = 1;
 	else
 	  buttons[3] = 0;
 	
-	if((uint16_t)*data & 2)
+	if(data & 2)
 	  //buttons |= (1<<2);
 	  buttons[2] = 1;
 	else
 	  buttons[2] = 0;
 	
-	if((uint16_t)*data & 4)
+	if(data & 4)
 	  //buttons |= (1<<1);
 	  buttons[1] = 1;
 	else
 	  buttons[1] = 0;
 	
-	if((uint16_t)*data & 8)
+	if(data & 8)
 	  //buttons |= (1<<0);
 	  buttons[0] = 1;
 	else
 	  buttons[0] = 0;
 	  
-	if((uint16_t)*data & 256)
+	if(data & 256)
 	  //buttons |= (1<<11);
 	  buttons[11] = 1;
 	else
 	  buttons[11] = 0;
 	  
-	if((uint16_t)*data & 512)
+	if(data & 512)
 	  //buttons |= (1<<10);
 	  buttons[10] = 1;
 	else
 	  buttons[10] = 0;
 	  
-	if((uint16_t)*data & 1024)
+	if(data & 1024)
 	  //buttons |= (1<<9);
 	  buttons[9] = 1;
 	else
 	  buttons[9] = 0;
 	
-	if((uint16_t)*data & 2048)
+	if(data & 2048)
 	  //buttons |= (1<<8);
 	  buttons[8] = 1;
 	else
 	  buttons[8] = 0;
 	  
-	if((uint16_t)*data & 4096)
+	if(data & 4096)
 	  //buttons |= (1<<7);
 	  buttons[7] = 1;
 	else
 	  buttons[7] = 0;
 	
-	if((uint16_t)*data & 8192)
+	if(data & 8192)
 	  //buttons |= (1<<6);
 	  buttons[6] = 1;
 	else
 	  buttons[6] = 0;
 	
-	if((uint16_t)*data & 16384)
+	if(data & 16384)
 	  //buttons |= (1<<5);
 	  buttons[5] = 1;
 	else
 	  buttons[5] = 0;
 	  
-	if((uint16_t)*data & 32768) //5:th button
+	if(data & 32768) //5:th button
 	  //buttons |= (1<<4);
 	  buttons[4] = 1;
 	else
 	  buttons[4] = 0;
-	  
+	  */
 	  
 	  
 	  //debounce
@@ -286,6 +350,8 @@ ISR(ADC_vect)
 
 ISR(TIMER2_COMPA_vect)
 {
+	populate_buttons();
+	/*
 	static uint8_t c = 0;
 	c++;
 	
@@ -321,13 +387,48 @@ ISR(TIMER2_COMPA_vect)
 		release_value--;
 		
 	}
-	
+	*/
 	//PORTC = osc1[count];
 }
 
 ISR(TIMER1_COMPA_vect)
 {	
-	populate_buttons();
+	//l74hc165_shiftin(&data);
+	
+	
+	
+	//shift in data
+	static uint8_t i = 0;
+	static uint16_t dat = 0;
+	//parallel load to freeze the state of the data lines
+	if(i==0)
+	{
+	L74HC165_PORT &= ~(1 << L74HC165_LOADPIN);
+	asm("nop");
+	//_delay_us(50);
+	L74HC165_PORT |= (1 << L74HC165_LOADPIN);
+	}
+	
+	dat |= ((L74HC165_PIN & (1 << L74HC165_DATAPIN))>>L74HC165_DATAPIN)<<(15-i);
+	//get next
+	L74HC165_PORT |= (1 << L74HC165_CLOCKPIN);
+	//_delay_us(5);
+	asm("nop");
+	L74HC165_PORT &= ~(1 << L74HC165_CLOCKPIN);
+	i++;
+	
+	//reset i
+	if(i > 15)
+	{
+		i = 0;
+		//copy 2 bytes of data
+		//memcpy(&data, &dat, 2);
+		data = &dat;
+	}
+	
+	//data = 100;
+	//populate_buttons();
+	
 }
 
 //ISR(TIMER0_OVF_vect)
@@ -335,7 +436,7 @@ ISR(TIMER0_COMPA_vect)
 {
 	static uint16_t freq1_counter=0;
 	static uint16_t freq2_counter=0;
-	//static uint8_t freq1_counter=0;
+	static uint16_t freq3_counter=0;
 	//count += 2;
 	//count2 += 2;
 	
@@ -351,26 +452,21 @@ ISR(TIMER0_COMPA_vect)
 	//uint8_t out = sine[freq1_counter>>8]>>2 + sine[freq2_counter>>8]>>2;
 	
 	
-	uint8_t out1 = sine[freq1_counter>>8]>>2;
-	uint8_t out2 = sine[freq2_counter>>8]>>2;
-	//PORTC = out1+out2;
+	uint8_t out1 = sawtooth[freq1_counter>>8]>>3;
+	uint8_t out2 = square_[freq2_counter>>8]>>3;
+	uint8_t out3 = sawtooth[freq3_counter>>8]>>3;
+	//PORTC = out1+out2+out3;
 	//freq1_counter += freq1;
 	freq1_counter += 336*2; // 200 Hz
 	freq2_counter += 403*2; // 240 Hz
-
-
-
-	if(deb_buttons[0])
+	freq3_counter += 423*2; // 252?
+	
+	
+	if(*data & (1<<4))
 	{
-		PORTC = sine[freq1_counter>>8]>>1;
+		PORTC = sawtooth[freq1_counter>>8]>>3;
 	}
-	
-	else if(deb_buttons[1])
-	{
-		PORTC = sine[freq2_counter>>8]>>1;
-	}
-	
-	
+
 	
 	/*
 	//button is released
@@ -558,8 +654,8 @@ int main(void)
 	l74hc165_init();
 	//osc1 = pseudosquare;
 	
-	osc1 = square_;
-	osc2 = sawtooth;
+	//osc1 = square_;
+	//osc2 = sawtooth;
 	
 	//0.1
 	//lowpass(osc1, square2x, 0b01100000, 0b00010100);
@@ -576,8 +672,8 @@ int main(void)
 	//int n;
 	DDRC = 0xff;
 	
-	LCD_init();
-	LCD_clear();
+	//LCD_init();
+	//LCD_clear();
 	//setup_adc();
 	/*
 	char test[10];
@@ -624,13 +720,15 @@ int main(void)
 		//trigger new adc thingy
 		//ADCSRA |= (1<<ADSC);
 		
-		l74hc165_shiftin(&data);
-		_delay_us(10);
+		//l74hc165_shiftin(&data);
+		//populate_buttons();
+		//_delay_us(10);
+		/*
 		for (uint8_t i=0;i<12;i++)
 		{
 			debounce(buttons[i],i);
 		}
-		
+		*/
 		/*
 		static uint8_t iii = 0;
 		LCD_write_string(iii++, 3, "Erik <3 Klara!", 0);
@@ -647,37 +745,5 @@ int main(void)
 		_delay_ms(100);
 		LCD_clear();
 		*/
-		//populate_buttons();
-		//Init_LCD();
-		
-		//LCD_clear();
-		//_delay_ms(1000);
-		//LCD_Write(LCD_DATA, 0xAA);
-		//Init_LCD();
-		//LCD_clear();
-		//LCD_write_string(20,20,"<3");
-		
-		//_delay_ms(4000);
-		//LCD_PORT |= (1<<DC);
-		//_delay_ms(4000);
-		//LCD_PORT &= ~(1<<DC);
-		
-		//_delay_ms(1000);
-		//LCD_write_string(0,0,"Erik <3 Klara");
-		//asm("nop");
-		//LCD_write_string(10,10,"HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEJ!!!");
-		//LCD_write_char('E');
-		
-		//l74hc165_shiftin(&data);
-		//_delay_ms(10);
-		//LCD_clear();
-		//_delay_ms(1000);
-		
-		//LCD_Write_data(0xAA);
-		//_delay_ms(1000);
-		//LCD_Write_data(0x00);
-		//asm("nop");
-		//LCD_clear();
-		//_delay_ms(1000);
     }
 }

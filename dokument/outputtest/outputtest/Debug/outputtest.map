@@ -26,7 +26,6 @@ adc_value           0x2               outputtest.o
 pot_data            0x2               lcd_5110_menu.o
 buffer              0x4               outputtest.o
 currentmenu         0x2               lcd_5110_menu.o
-data                0x4               outputtest.o
 osc2                0x2               outputtest.o
 curr_wave           0x100             outputtest.o
 
@@ -37,6 +36,8 @@ Discarded input sections
  .text          0x00000000        0x0 l74hc165.o
  .data          0x00000000        0x0 l74hc165.o
  .bss           0x00000000        0x0 l74hc165.o
+ .text.l74hc165_shiftin
+                0x00000000       0x4c l74hc165.o
  .text          0x00000000        0x0 lcd.o
  .data          0x00000000        0x0 lcd.o
  .bss           0x00000000        0x0 lcd.o
@@ -81,12 +82,34 @@ Discarded input sections
  .text          0x00000000        0x0 lcd_5110_menu.o
  .data          0x00000000        0x0 lcd_5110_menu.o
  .bss           0x00000000        0x0 lcd_5110_menu.o
+ .text.attack_command
+                0x00000000        0xe lcd_5110_menu.o
+ .text.decay_command
+                0x00000000        0xe lcd_5110_menu.o
+ .text.sustain_command
+                0x00000000        0xe lcd_5110_menu.o
+ .text.release_command
+                0x00000000        0xe lcd_5110_menu.o
+ .text.get_attack_value
+                0x00000000        0x6 lcd_5110_menu.o
+ .text.get_release_value
+                0x00000000        0x6 lcd_5110_menu.o
  .text.setup_4_buttons
                 0x00000000       0x12 lcd_5110_menu.o
+ .text.navigate_menu
+                0x00000000       0xbc lcd_5110_menu.o
  .rodata.str1.1
                 0x00000000       0x7c lcd_5110_menu.o
  .text.setup_menu
                 0x00000000      0x196 lcd_5110_menu.o
+ .text.read_4_buttons
+                0x00000000       0x42 lcd_5110_menu.o
+ .text.LCD_write_command
+                0x00000000       0x1e lcd_5110_menu.o
+ .text.LCD_write_char
+                0x00000000       0x56 lcd_5110_menu.o
+ .text.LCD_write_string
+                0x00000000       0x60 lcd_5110_menu.o
  .text.LCD_Write_data
                 0x00000000       0x4a lcd_5110_menu.o
  .text.LCD_Write_data_at
@@ -95,8 +118,20 @@ Discarded input sections
                 0x00000000       0x58 lcd_5110_menu.o
  .text.LCD_draw_square
                 0x00000000       0x4c lcd_5110_menu.o
+ .text.LCD_write_buffer
+                0x00000000       0x3e lcd_5110_menu.o
  .text.LCD_fill_buffer
                 0x00000000       0x14 lcd_5110_menu.o
+ .text.LCD_clear_buffer
+                0x00000000       0x12 lcd_5110_menu.o
+ .text.LCD_clear
+                0x00000000        0xa lcd_5110_menu.o
+ .text.LCD_init
+                0x00000000       0x70 lcd_5110_menu.o
+ .text.LCD_invert_row
+                0x00000000       0x1e lcd_5110_menu.o
+ .text.LCD_draw_menu
+                0x00000000      0x2c0 lcd_5110_menu.o
  .bss.ii.1851   0x00000000        0x2 lcd_5110_menu.o
  .bss.ii.1844   0x00000000        0x2 lcd_5110_menu.o
  .bss.filtersmenu
@@ -117,10 +152,21 @@ Discarded input sections
  .bss.attack    0x00000000       0x17 lcd_5110_menu.o
  .bss.menu_default
                 0x00000000       0x17 lcd_5110_menu.o
+ .bss.prev_pot_data
+                0x00000000        0x1 lcd_5110_menu.o
+ .bss.release_top
+                0x00000000        0x1 lcd_5110_menu.o
+ .bss.sustain_top
+                0x00000000        0x1 lcd_5110_menu.o
+ .bss.decay_top
+                0x00000000        0x1 lcd_5110_menu.o
+ .bss.attack_top
+                0x00000000        0x1 lcd_5110_menu.o
  .data.current_menu
                 0x00000000        0x2 lcd_5110_menu.o
  .bss.menuchoice
                 0x00000000        0x1 lcd_5110_menu.o
+ .bss.buttons   0x00000000        0x4 lcd_5110_menu.o
  .rodata.filters
                 0x00000000       0x18 lcd_5110_menu.o
  .rodata.waveforms
@@ -131,21 +177,45 @@ Discarded input sections
                 0x00000000        0x8 lcd_5110_menu.o
  .data.main_menu
                 0x00000000        0x8 lcd_5110_menu.o
+ .rodata.font6x8
+                0x00000000      0x228 lcd_5110_menu.o
+ .debug_info    0x00000000      0xed3 lcd_5110_menu.o
+ .debug_abbrev  0x00000000      0x2f3 lcd_5110_menu.o
+ .debug_loc     0x00000000      0x7d7 lcd_5110_menu.o
+ .debug_aranges
+                0x00000000       0xd8 lcd_5110_menu.o
+ .debug_ranges  0x00000000       0xf8 lcd_5110_menu.o
+ .debug_line    0x00000000      0x3e4 lcd_5110_menu.o
+ .debug_str     0x00000000      0x4de lcd_5110_menu.o
+ .comment       0x00000000       0x31 lcd_5110_menu.o
+ .debug_frame   0x00000000      0x228 lcd_5110_menu.o
+ COMMON         0x00000000      0x1fc lcd_5110_menu.o
  .text          0x00000000        0x0 outputtest.o
  .data          0x00000000        0x0 outputtest.o
  .bss           0x00000000        0x0 outputtest.o
  .text.num_keys_playing
                 0x00000000       0x18 outputtest.o
+ .text.fmul     0x00000000       0x14 outputtest.o
  .text.determine_keys_playing
                 0x00000000        0x2 outputtest.o
  .text.lowpass  0x00000000       0x7a outputtest.o
+ .text.debounce
+                0x00000000       0x5a outputtest.o
+ .text.populate_buttons
+                0x00000000        0x2 outputtest.o
  .text.setup_timer2
                 0x00000000       0x2a outputtest.o
  .text.setup_adc
                 0x00000000       0x1a outputtest.o
+ .data.release_value
+                0x00000000        0x1 outputtest.o
+ .bss.attack_value
+                0x00000000        0x1 outputtest.o
  .bss.output    0x00000000        0x1 outputtest.o
  .bss.keys_playing
                 0x00000000        0x3 outputtest.o
+ .bss.released  0x00000000        0xc outputtest.o
+ .bss.pressed   0x00000000        0xc outputtest.o
  .data.inc      0x00000000        0x1 outputtest.o
  .bss.count2    0x00000000        0x1 outputtest.o
  .bss.count     0x00000000        0x1 outputtest.o
@@ -156,7 +226,9 @@ Discarded input sections
                 0x00000000      0x100 outputtest.o
  .data.square2x
                 0x00000000      0x100 outputtest.o
+ .data.square_  0x00000000      0x100 outputtest.o
  .data.sine2x   0x00000000      0x100 outputtest.o
+ .data.sine     0x00000000      0x100 outputtest.o
  .text          0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
  .data          0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
  .bss           0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
@@ -208,15 +280,23 @@ Discarded input sections
  .text          0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(itoa.o)
  .data          0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(itoa.o)
  .bss           0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(itoa.o)
+ .text.avr-libc
+                0x00000000       0x16 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(itoa.o)
  .text          0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(itoa_ncheck.o)
  .data          0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(itoa_ncheck.o)
  .bss           0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(itoa_ncheck.o)
+ .text.avr-libc
+                0x00000000       0x16 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(itoa_ncheck.o)
  .text          0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(utoa_ncheck.o)
  .data          0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(utoa_ncheck.o)
  .bss           0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(utoa_ncheck.o)
+ .text.avr-libc
+                0x00000000       0x34 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(utoa_ncheck.o)
  .text          0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(strrev.o)
  .data          0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(strrev.o)
  .bss           0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(strrev.o)
+ .text.avr-libc
+                0x00000000       0x20 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(strrev.o)
 
 Memory Configuration
 
@@ -337,7 +417,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0xb24
+.text           0x00000000      0x290
  *(.vectors)
  .vectors       0x00000000       0x8c c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51/crtm1284p.o
                 0x00000000                __vector_default
@@ -431,104 +511,28 @@ END GROUP
  .text.l74hc165_init
                 0x000000ce        0xc l74hc165.o
                 0x000000ce                l74hc165_init
- .text.l74hc165_shiftin
-                0x000000da       0x56 l74hc165.o
-                0x000000da                l74hc165_shiftin
- .text.attack_command
-                0x00000130        0xe lcd_5110_menu.o
-                0x00000130                attack_command
- .text.decay_command
-                0x0000013e        0xe lcd_5110_menu.o
-                0x0000013e                decay_command
- .text.sustain_command
-                0x0000014c        0xe lcd_5110_menu.o
-                0x0000014c                sustain_command
- .text.release_command
-                0x0000015a        0xe lcd_5110_menu.o
-                0x0000015a                release_command
- .text.get_attack_value
-                0x00000168        0x6 lcd_5110_menu.o
-                0x00000168                get_attack_value
- .text.get_release_value
-                0x0000016e        0x6 lcd_5110_menu.o
-                0x0000016e                get_release_value
- .text.navigate_menu
-                0x00000174       0xbc lcd_5110_menu.o
-                0x00000174                navigate_menu
- .text.read_4_buttons
-                0x00000230       0x42 lcd_5110_menu.o
-                0x00000230                read_4_buttons
- .text.LCD_write_command
-                0x00000272       0x1e lcd_5110_menu.o
-                0x00000272                LCD_write_command
- .text.LCD_write_char
-                0x00000290       0x56 lcd_5110_menu.o
-                0x00000290                LCD_write_char
- .text.LCD_write_string
-                0x000002e6       0x60 lcd_5110_menu.o
-                0x000002e6                LCD_write_string
- .text.LCD_write_buffer
-                0x00000346       0x3e lcd_5110_menu.o
-                0x00000346                LCD_write_buffer
- .text.LCD_clear_buffer
-                0x00000384       0x12 lcd_5110_menu.o
-                0x00000384                LCD_clear_buffer
- .text.LCD_clear
-                0x00000396        0xa lcd_5110_menu.o
-                0x00000396                LCD_clear
- .text.LCD_init
-                0x000003a0       0x70 lcd_5110_menu.o
-                0x000003a0                LCD_init
- .text.LCD_invert_row
-                0x00000410       0x1e lcd_5110_menu.o
-                0x00000410                LCD_invert_row
- .text.LCD_draw_menu
-                0x0000042e      0x2c0 lcd_5110_menu.o
-                0x0000042e                LCD_draw_menu
- .text.fmul     0x000006ee       0x14 outputtest.o
-                0x000006ee                fmul
- .text.debounce
-                0x00000702       0x5a outputtest.o
-                0x00000702                debounce
- .text.populate_buttons
-                0x0000075c       0xca outputtest.o
-                0x0000075c                populate_buttons
  .text.__vector_9
-                0x00000826       0xcc outputtest.o
-                0x00000826                __vector_9
+                0x000000da       0x14 outputtest.o
+                0x000000da                __vector_9
  .text.__vector_13
-                0x000008f2       0x50 outputtest.o
-                0x000008f2                __vector_13
+                0x000000ee       0x90 outputtest.o
+                0x000000ee                __vector_13
  .text.__vector_16
-                0x00000942       0x8e outputtest.o
-                0x00000942                __vector_16
+                0x0000017e       0x90 outputtest.o
+                0x0000017e                __vector_16
  .text.setup_timer1
-                0x000009d0       0x44 outputtest.o
-                0x000009d0                setup_timer1
+                0x0000020e       0x44 outputtest.o
+                0x0000020e                setup_timer1
  .text.setup_timer0
-                0x00000a14       0x26 outputtest.o
-                0x00000a14                setup_timer0
- .text.main     0x00000a3a       0x66 outputtest.o
-                0x00000a3a                main
- .text.avr-libc
-                0x00000aa0       0x16 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(itoa.o)
-                0x00000aa0                __itoa
-                0x00000aa0                itoa
- .text.avr-libc
-                0x00000ab6       0x16 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(itoa_ncheck.o)
-                0x00000ab6                __itoa_ncheck
- .text.avr-libc
-                0x00000acc       0x34 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(utoa_ncheck.o)
-                0x00000acc                __utoa_ncheck
-                0x00000ace                __utoa_common
- .text.avr-libc
-                0x00000b00       0x20 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51\libc.a(strrev.o)
-                0x00000b00                strrev
-                0x00000b20                . = ALIGN (0x2)
+                0x00000252       0x26 outputtest.o
+                0x00000252                setup_timer0
+ .text.main     0x00000278       0x14 outputtest.o
+                0x00000278                main
+                0x0000028c                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000b20        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
-                0x00000b20                _exit
-                0x00000b20                exit
+ .fini9         0x0000028c        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
+                0x0000028c                _exit
+                0x0000028c                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -547,92 +551,57 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000b20        0x4 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
+ .fini0         0x0000028c        0x4 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000b24                _etext = .
+                0x00000290                _etext = .
 
-.data           0x00800100      0x52a load address 0x00000b24
+.data           0x00800100      0x100 load address 0x00000290
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
- .data.release_value
-                0x00800100        0x1 outputtest.o
-                0x00800100                release_value
  .data.sawtooth
-                0x00800101      0x100 outputtest.o
-                0x00800101                sawtooth
- .data.square_  0x00800201      0x100 outputtest.o
-                0x00800201                square_
- .data.sine     0x00800301      0x100 outputtest.o
-                0x00800301                sine
+                0x00800100      0x100 outputtest.o
+                0x00800100                sawtooth
  *(.rodata)
  *(.rodata*)
- .rodata.font6x8
-                0x00800401      0x228 lcd_5110_menu.o
-                0x00800401                font6x8
  *(.gnu.linkonce.d*)
-                0x0080062a                . = ALIGN (0x2)
- *fill*         0x00800629        0x1 
-                0x0080062a                _edata = .
-                0x0080062a                PROVIDE (__data_end, .)
+                0x00800200                . = ALIGN (0x2)
+                0x00800200                _edata = .
+                0x00800200                PROVIDE (__data_end, .)
 
-.bss            0x0080062a      0x33f
-                0x0080062a                PROVIDE (__bss_start, .)
+.bss            0x00800200      0x123
+                0x00800200                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
- .bss.prev_pot_data
-                0x0080062a        0x1 lcd_5110_menu.o
-                0x0080062a                prev_pot_data
- .bss.release_top
-                0x0080062b        0x1 lcd_5110_menu.o
-                0x0080062b                release_top
- .bss.sustain_top
-                0x0080062c        0x1 lcd_5110_menu.o
-                0x0080062c                sustain_top
- .bss.decay_top
-                0x0080062d        0x1 lcd_5110_menu.o
-                0x0080062d                decay_top
- .bss.attack_top
-                0x0080062e        0x1 lcd_5110_menu.o
-                0x0080062e                attack_top
- .bss.buttons   0x0080062f        0x4 lcd_5110_menu.o
-                0x0080062f                buttons
- .bss.freq2_counter.1864
-                0x00800633        0x2 outputtest.o
- .bss.freq1_counter.1863
-                0x00800635        0x2 outputtest.o
- .bss.c.1846    0x00800637        0x1 outputtest.o
- .bss.attack_value
-                0x00800638        0x1 outputtest.o
-                0x00800638                attack_value
- .bss.released  0x00800639        0xc outputtest.o
-                0x00800639                released
- .bss.pressed   0x00800645        0xc outputtest.o
-                0x00800645                pressed
+ .bss.freq3_counter.1860
+                0x00800200        0x2 outputtest.o
+ .bss.freq2_counter.1859
+                0x00800202        0x2 outputtest.o
+ .bss.freq1_counter.1858
+                0x00800204        0x2 outputtest.o
+ .bss.dat.1852  0x00800206        0x2 outputtest.o
+ .bss.i.1851    0x00800208        0x1 outputtest.o
+ .bss.data      0x00800209        0x2 outputtest.o
+                0x00800209                data
  *(COMMON)
- COMMON         0x00800651      0x1fc lcd_5110_menu.o
-                0x00800651                lcd_buffer
-                0x00800849                pot_data
-                0x0080084b                currentmenu
- COMMON         0x0080084d      0x11c outputtest.o
-                0x0080084d                osc1
-                0x0080084f                deb_buttons
-                0x0080085b                freq1
-                0x0080085d                adc_value
-                0x0080085f                buffer
-                0x00800863                data
-                0x00800867                osc2
-                0x00800869                curr_wave
-                0x00800969                PROVIDE (__bss_end, .)
-                0x00000b24                __data_load_start = LOADADDR (.data)
-                0x0000104e                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x0080020b      0x118 outputtest.o
+                0x0080020b                osc1
+                0x0080020d                deb_buttons
+                0x00800219                freq1
+                0x0080021b                adc_value
+                0x0080021d                buffer
+                0x00800221                osc2
+                0x00800223                curr_wave
+                0x00800323                PROVIDE (__bss_end, .)
+                0x00000290                __data_load_start = LOADADDR (.data)
+                0x00000390                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800969        0x0
-                0x00800969                PROVIDE (__noinit_start, .)
+.noinit         0x00800323        0x0
+                0x00800323                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x00800969                PROVIDE (__noinit_end, .)
-                0x00800969                _end = .
-                0x00800969                PROVIDE (__heap_start, .)
+                0x00800323                PROVIDE (__noinit_end, .)
+                0x00800323                _end = .
+                0x00800323                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -675,7 +644,6 @@ END GROUP
  *(.comment)
  .comment       0x00000000       0x30 l74hc165.o
                                  0x31 (size before relaxing)
- .comment       0x00000000       0x31 lcd_5110_menu.o
  .comment       0x00000000       0x31 outputtest.o
 
 .note.gnu.build-id
@@ -693,56 +661,47 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x188
+.debug_aranges  0x00000000       0xb0
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x28 l74hc165.o
  .debug_aranges
-                0x00000028       0xd8 lcd_5110_menu.o
- .debug_aranges
-                0x00000100       0x88 outputtest.o
+                0x00000028       0x88 outputtest.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x18f6
+.debug_info     0x00000000      0x76a
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000      0x1b8 l74hc165.o
- .debug_info    0x000001b8      0xed3 lcd_5110_menu.o
- .debug_info    0x0000108b      0x86b outputtest.o
+ .debug_info    0x00000000      0x100 l74hc165.o
+ .debug_info    0x00000100      0x66a outputtest.o
 
-.debug_abbrev   0x00000000      0x732
+.debug_abbrev   0x00000000      0x319
  *(.debug_abbrev)
- .debug_abbrev  0x00000000      0x131 l74hc165.o
- .debug_abbrev  0x00000131      0x2f3 lcd_5110_menu.o
- .debug_abbrev  0x00000424      0x30e outputtest.o
+ .debug_abbrev  0x00000000       0xa8 l74hc165.o
+ .debug_abbrev  0x000000a8      0x271 outputtest.o
 
-.debug_line     0x00000000      0x809
+.debug_line     0x00000000      0x2f6
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x00000000      0x164 l74hc165.o
- .debug_line    0x00000164      0x3e4 lcd_5110_menu.o
- .debug_line    0x00000548      0x2c1 outputtest.o
+ .debug_line    0x00000000       0xe5 l74hc165.o
+ .debug_line    0x000000e5      0x211 outputtest.o
 
-.debug_frame    0x00000000      0x458
+.debug_frame    0x00000000      0x1c0
  *(.debug_frame)
  .debug_frame   0x00000000       0x3c l74hc165.o
- .debug_frame   0x0000003c      0x228 lcd_5110_menu.o
- .debug_frame   0x00000264      0x1f4 outputtest.o
+ .debug_frame   0x0000003c      0x184 outputtest.o
 
-.debug_str      0x00000000      0x6a0
+.debug_str      0x00000000      0x356
  *(.debug_str)
- .debug_str     0x00000000      0x1a2 l74hc165.o
-                                0x1db (size before relaxing)
- .debug_str     0x000001a2      0x31f lcd_5110_menu.o
-                                0x4de (size before relaxing)
- .debug_str     0x000004c1      0x1df outputtest.o
-                                0x44d (size before relaxing)
+ .debug_str     0x00000000      0x151 l74hc165.o
+                                0x18a (size before relaxing)
+ .debug_str     0x00000151      0x205 outputtest.o
+                                0x381 (size before relaxing)
 
-.debug_loc      0x00000000      0xeef
+.debug_loc      0x00000000      0x5ae
  *(.debug_loc)
- .debug_loc     0x00000000      0x12f l74hc165.o
- .debug_loc     0x0000012f      0x7d7 lcd_5110_menu.o
- .debug_loc     0x00000906      0x5e9 outputtest.o
+ .debug_loc     0x00000000       0xe7 l74hc165.o
+ .debug_loc     0x000000e7      0x4c7 outputtest.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -762,11 +721,10 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000      0x188
+.debug_ranges   0x00000000       0x90
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x18 l74hc165.o
- .debug_ranges  0x00000018       0xf8 lcd_5110_menu.o
- .debug_ranges  0x00000110       0x78 outputtest.o
+ .debug_ranges  0x00000018       0x78 outputtest.o
 
 .debug_macro
  *(.debug_macro)

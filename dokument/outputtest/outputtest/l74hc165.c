@@ -35,7 +35,14 @@ void l74hc165_init() {
 void l74hc165_shiftin(uint8_t *bytearray) {
 	//parallel load to freeze the state of the data lines
 	L74HC165_PORT &= ~(1 << L74HC165_LOADPIN);
-	_delay_us(50);
+	//_delay_us(50);
+	
+	asm("nop");
+	/*
+	asm("nop");
+	asm("nop");
+	asm("nop");
+	*/
 	L74HC165_PORT |= (1 << L74HC165_LOADPIN);
 	for(uint8_t i = 0; i < L74HC165_ICNUMBER; i++){
 		//iterate through the bits in each registers
@@ -44,7 +51,13 @@ void l74hc165_shiftin(uint8_t *bytearray) {
 			currentbyte |= ((L74HC165_PIN & (1 << L74HC165_DATAPIN))>>L74HC165_DATAPIN)<<(7-j);
 	        //get next
 			L74HC165_PORT |= (1 << L74HC165_CLOCKPIN);
-	        _delay_us(5);
+	        //_delay_us(5);
+			
+			asm("nop");
+			/*
+			asm("nop");
+			asm("nop");
+			*/
 	        L74HC165_PORT &= ~(1 << L74HC165_CLOCKPIN);
 		}
 		memcpy(&bytearray[i], &currentbyte, 1);
