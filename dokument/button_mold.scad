@@ -1,4 +1,4 @@
-$fn = 30;
+$fn = 20;
 
 
 include <roundCornersCube.scad>
@@ -33,7 +33,8 @@ dome(h=.7, d=5);
 module dome_bool()
 {
 
-dome(h=.7, d=5);
+//dome(h=.6, d=5);
+cylinder(d1=5, d2=3, h=.6);
 }
 
 
@@ -58,7 +59,8 @@ for(i=[0:12])
 
 }
 
-
+module wholeshit()
+{
 translate([0,0,0])
 difference()
 {
@@ -66,8 +68,52 @@ union()
 {
 translate([-4, -4, 0])
 rCube(10*10,8,2,1);
-domes();
+
+//sprues
+translate([-3, -3, -3])
+cylinder(d=1.5, h=3);
+
+
+translate([-3, 3, -3])
+
+cylinder(d=1.5, h=3);
+
+translate([-3+30, -3, -3])
+cylinder(d=1.5, h=3);
+
+
+translate([-3+30, 3, -3])
+cylinder(d=1.5, h=3);
+
+
+translate([-3+60, -3, -3])
+cylinder(d=1.5, h=3);
+
+
+translate([-3+60, 3, -3])
+cylinder(d=1.5, h=3);
+
+
+translate([-3+97, -3, -3])
+cylinder(d=1.5, h=3);
+
+
+translate([-3+97, 3, -3])
+cylinder(d=1.5, h=3);
+
+
+//domes();
 }
 //translate([0,0,50])
+translate([0,0,0])
 dome_bools();
+}
+
+}
+
+difference()
+{
+translate([-10,-7.5,0])
+cube([110, 15, 5]);
+wholeshit();
 }
