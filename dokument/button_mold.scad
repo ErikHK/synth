@@ -61,6 +61,8 @@ for(i=[0:12])
 
 module wholeshit()
 {
+union()
+{
 translate([0,0,0])
 difference()
 {
@@ -71,35 +73,35 @@ rCube(10*10,8,2,1);
 
 //sprues
 translate([-3, -3, -3])
-cylinder(d=1.5, h=3);
+cylinder(d=2, h=3);
 
 
 translate([-3, 3, -3])
 
-cylinder(d=1.5, h=3);
+cylinder(d=2, h=3);
 
 translate([-3+30, -3, -3])
-cylinder(d=1.5, h=3);
+cylinder(d=2, h=3);
 
 
 translate([-3+30, 3, -3])
-cylinder(d=1.5, h=3);
+cylinder(d=2, h=3);
 
 
 translate([-3+60, -3, -3])
-cylinder(d=1.5, h=3);
+cylinder(d=2, h=3);
 
 
 translate([-3+60, 3, -3])
-cylinder(d=1.5, h=3);
+cylinder(d=2, h=3);
 
 
 translate([-3+97, -3, -3])
-cylinder(d=1.5, h=3);
+cylinder(d=2, h=3);
 
 
 translate([-3+97, 3, -3])
-cylinder(d=1.5, h=3);
+cylinder(d=2, h=3);
 
 
 //domes();
@@ -108,12 +110,69 @@ cylinder(d=1.5, h=3);
 translate([0,0,0])
 dome_bools();
 }
-
+}
 }
 
 difference()
 {
-translate([-10,-7.5,0])
-cube([110, 15, 5]);
+translate([-8,-7.5,-3.2])
+cube([110, 15, 5.19]);
+
 wholeshit();
+
+//screw holes
+translate([0,0,-4])
+{
+translate([-6,5.5,0])
+cylinder(d=2, h=30);
+
+translate([-6,-5.5,0])
+cylinder(d=2, h=30);
+
+
+translate([-6+50,5.5,0])
+cylinder(d=2, h=30);
+
+translate([-6+50,-5.5,0])
+cylinder(d=2, h=30);
+
+translate([-6+105,5.5,0])
+cylinder(d=2, h=30);
+
+translate([-6+105,-5.5,0])
+cylinder(d=2, h=30);
+}
+}
+
+
+
+translate([0,30,0])
+{
+difference()
+{
+translate([-8,-7.5,-3.2])
+cube([110, 15, 2]);
+
+translate([0,0,-4])
+{
+translate([-6,5.5,0])
+cylinder(d=2, h=30);
+
+translate([-6,-5.5,0])
+cylinder(d=2, h=30);
+
+
+translate([-6+50,5.5,0])
+cylinder(d=2, h=30);
+
+translate([-6+50,-5.5,0])
+cylinder(d=2, h=30);
+
+translate([-6+105,5.5,0])
+cylinder(d=2, h=30);
+
+translate([-6+105,-5.5,0])
+cylinder(d=2, h=30);
+}
+}
 }
