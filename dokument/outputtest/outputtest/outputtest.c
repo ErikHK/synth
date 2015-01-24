@@ -64,14 +64,16 @@ static const uint8_t division_values[] = {64, 42, 32, 26, 21, 18, 16, 14, 13, 12
 uint8_t curr_wave[256];
 
 uint8_t pot_data;
-uint16_t * data=0;
+uint16_t data=0;
 uint8_t * adc_value;
 uint8_t count = 0;
 uint8_t count2 = 0;
 uint8_t * buffer[2];
 uint8_t inc = 1;
-uint8_t buttons[12]; //pressed buttons, 1 is C, 2 is C# etc
-uint8_t deb_buttons[12];	//debounced buttons
+
+uint8_t keys[12] = {0,0,0,0,0,0,0,0,0,0,0,0}; //pressed buttons, 1 is C, 2 is C# etc
+//uint8_t deb_buttons[12] = {0,0,0,0,0,0,0,0,0,0,0,0};	//debounced buttons
+
 uint8_t pressed[12] = {0,0,0,0,0,0,0,0,0,0,0,0};	//pressed confidence
 uint8_t released[12] = {0,0,0,0,0,0,0,0,0,0,0,0};	//released confidence
 uint8_t keys_playing[3] = {0,0,0};					//Only allow three keys playing (for now)
@@ -86,7 +88,7 @@ uint8_t lcd_buffer[504];
 
 uint16_t freq1;
 
-
+/*
 uint8_t num_keys_playing()
 {
 	uint8_t playing=0;
@@ -98,7 +100,7 @@ uint8_t num_keys_playing()
 	
 	return playing;
 }
-
+*/
 
 uint8_t fmul(uint8_t frac, uint8_t x)
 {
@@ -127,7 +129,7 @@ void lowpass(uint8_t * signal, uint8_t * orig, uint8_t a, uint8_t b)
 		signal[i] = fmul(b,orig[i]) + fmul(b,orig[i-1]) + fmul(a,signal[i-1]);
 	}
 }
-
+/*
 void debounce(uint8_t key, uint8_t i)
 {
 	
@@ -155,70 +157,70 @@ void debounce(uint8_t key, uint8_t i)
 		}
 	}
 }
-
+*/
 void populate_buttons()
 {
-	/*
+	
 	if(data & 1)
-		buttons[11] = 1;
+		keys[11] = 1;
 	else
-		buttons[11] = 0;
+		keys[11] = 0;
 		
 	if(data & (1<<1))
-	buttons[10] = 1;
+	keys[10] = 1;
 	else
-	buttons[10] = 0;
+	keys[10] = 0;
 	
 	if(data & (1<<2))
-	buttons[9] = 1;
+	keys[9] = 1;
 	else
-	buttons[9] = 0;
+	keys[9] = 0;
 	
 	if(data & (1<<3))
-	buttons[8] = 1;
+	keys[8] = 1;
 	else
-	buttons[8] = 0;
+	keys[8] = 0;
 	
 	if(data & (1<<4))
-	buttons[7] = 1;
+	keys[7] = 1;
 	else
-	buttons[7] = 0;
+	keys[7] = 0;
 	
 	if(data & (1<<5))
-	buttons[6] = 1;
+	keys[6] = 1;
 	else
-	buttons[6] = 0;
+	keys[6] = 0;
 	
 	if(data & (1<<6))
-	buttons[5] = 1;
+	keys[5] = 1;
 	else
-	buttons[5] = 0;
+	keys[5] = 0;
 	
 	if(data & (1<<7))
-	buttons[4] = 1;
+	keys[4] = 1;
 	else
-	buttons[4] = 0;
+	keys[4] = 0;
 	
 	if(data & (1<<8))
-	buttons[3] = 1;
+	keys[3] = 1;
 	else
-	buttons[3] = 0;
+	keys[3] = 0;
 	
 	if(data & (1<<9))
-	buttons[2] = 1;
+	keys[2] = 1;
 	else
-	buttons[2] = 0;
+	keys[2] = 0;
 	
 	if(data & (1<<10))
-	buttons[1] = 1;
+	keys[1] = 1;
 	else
-	buttons[1] = 0;
+	keys[1] = 0;
 	
 	if(data & (1<<11))
-	buttons[0] = 1;
+	keys[0] = 1;
 	else
-	buttons[0] = 0;
-	*/
+	keys[0] = 0;
+	
 	
 	/*
 	if(data & 1) //4:th button
@@ -395,8 +397,6 @@ ISR(TIMER1_COMPA_vect)
 {	
 	//l74hc165_shiftin(&data);
 	
-	
-	
 	//shift in data
 	static uint8_t i = 0;
 	static uint16_t dat = 0;
@@ -404,6 +404,8 @@ ISR(TIMER1_COMPA_vect)
 	if(i==0)
 	{
 	L74HC165_PORT &= ~(1 << L74HC165_LOADPIN);
+	asm("nop");
+	asm("nop");
 	asm("nop");
 	//_delay_us(50);
 	L74HC165_PORT |= (1 << L74HC165_LOADPIN);
@@ -414,6 +416,7 @@ ISR(TIMER1_COMPA_vect)
 	L74HC165_PORT |= (1 << L74HC165_CLOCKPIN);
 	//_delay_us(5);
 	asm("nop");
+	asm("nop");
 	L74HC165_PORT &= ~(1 << L74HC165_CLOCKPIN);
 	i++;
 	
@@ -422,8 +425,9 @@ ISR(TIMER1_COMPA_vect)
 	{
 		i = 0;
 		//copy 2 bytes of data
-		//memcpy(&data, &dat, 2);
-		data = &dat;
+		memcpy(&data, &dat, 2);
+		dat = 0;
+		//data = &dat;
 	}
 	
 	//data = 100;
@@ -452,22 +456,54 @@ ISR(TIMER0_COMPA_vect)
 	//uint8_t out = sine[freq1_counter>>8]>>2 + sine[freq2_counter>>8]>>2;
 	
 	
-	uint8_t out1 = sawtooth[freq1_counter>>8]>>3;
-	uint8_t out2 = square_[freq2_counter>>8]>>3;
+	static uint8_t out1 = 0;//sawtooth[freq1_counter>>8]>>3;
+	static uint8_t out2 = 0;//square_[freq2_counter>>8]>>3;
 	uint8_t out3 = sawtooth[freq3_counter>>8]>>3;
-	//PORTC = out1+out2+out3;
+	PORTC = out1+out2;
 	//freq1_counter += freq1;
 	freq1_counter += 336*2; // 200 Hz
 	freq2_counter += 403*2; // 240 Hz
 	freq3_counter += 423*2; // 252?
 	
+	//populate_buttons();
 	
+	if(keys[0])
+	{
+		out1 = sawtooth[freq1_counter>>8]>>2;
+	}else
+		out1 = 0;
+	
+	if(keys[1])
+	{
+		out2 = sawtooth[freq2_counter>>8]>>2;
+	}else
+		out2 = 0;
+	/*
 	if(*data & (1<<4))
+	{
+		PORTC = sawtooth[freq1_counter>>8]>>2;
+	}
+	
+	if(*data & (1<<5))
+	{
+		PORTC = sawtooth[freq2_counter>>8]>>2;
+	}
+	
+	if(*data & (1<<6))
+	{
+		PORTC = sawtooth[freq3_counter>>8]>>3;
+	}
+	
+	if(*data & (1<<7))
 	{
 		PORTC = sawtooth[freq1_counter>>8]>>3;
 	}
-
 	
+	if(*data & (1<<8))
+	{
+		PORTC = sawtooth[freq2_counter>>8]>>3;
+	}
+	*/
 	/*
 	//button is released
 	if(!deb_buttons[2])
@@ -576,10 +612,10 @@ void setup_timer1()
 	//TCCR1B |= (1<<WGM13) | (1<<WGM12) | (1<<CS11);
 	
 	//prescaler = 1024
-	TCCR1B |= (1<<WGM13) | (1<<WGM12) | (1<<CS10) | (1<<CS12);
+	//TCCR1B |= (1<<WGM13) | (1<<WGM12) | (1<<CS10) | (1<<CS12);
 	
 	//prescaler = 256
-	//TCCR1B |= (1<<WGM13) | (1<<WGM12) | (1<<CS12);
+	TCCR1B |= (1<<WGM13) | (1<<WGM12) | (1<<CS12);
 	
 	//OCR1A = 0xC000;	//set
 	//OCR1A = 0xA000;
@@ -587,17 +623,17 @@ void setup_timer1()
 	//ICR1 = 0xF000;	//clear
 	ICR1 = 100;	//clear
 	OCR1A = 50;
+	
 	TIMSK1 =(1<<OCIE1A);
 	//TIFR1 &= ~(1<<OCF1A);
 }
 
 void setup_timer2()
 {
-	
 	TCCR2A = 0;
 	TCCR2B = 0;
 	TCNT2 = 0;
-	OCR2A = 200;
+	OCR2A = 5;
 	
 	TCCR2A |= (1<<WGM21) | (1<<WGM20);
 	// Prescaler = FCPU/1024
@@ -632,8 +668,8 @@ void setup_timer0()
 	TIMSK0 = (1<<OCIE0A);
 	//TIMSK0 |=(1<<OCIE0B);
 	
-	uint16_t Fs = 20000000>>9;
-	freq1 = (200<<16)/Fs;
+	//uint16_t Fs = 20000000>>9;
+	//freq1 = (200<<16)/Fs;
 }
 
 void setup_adc()
@@ -708,6 +744,7 @@ int main(void)
 	
 	while(1)
     {
+		populate_buttons();
 		/*
 		navigate_menu();
 		read_4_buttons();

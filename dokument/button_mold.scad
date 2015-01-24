@@ -34,7 +34,7 @@ module dome_bool()
 {
 
 //dome(h=.6, d=5);
-cylinder(d1=5, d2=3, h=.6);
+cylinder(d1=5, d2=3, h=1);
 }
 
 
