@@ -34,7 +34,7 @@ module dome_bool()
 {
 
 //dome(h=.6, d=5);
-cylinder(d1=5, d2=3, h=1);
+cylinder(d1=6.5, d2=4, h=1.5);
 }
 
 
@@ -69,40 +69,42 @@ difference()
 union()
 {
 translate([-4, -4, 0])
-rCube(10*10,8,2,1);
+rCube(10*10,8,2+1,1);
 
 //sprues
+color("blue")
+{
 translate([-3, -3, -3])
-cylinder(d=2, h=3);
+cylinder(d=3, h=3);
 
 
 translate([-3, 3, -3])
 
-cylinder(d=2, h=3);
+cylinder(d=3, h=3);
 
 translate([-3+30, -3, -3])
-cylinder(d=2, h=3);
+cylinder(d=3, h=3);
 
 
 translate([-3+30, 3, -3])
-cylinder(d=2, h=3);
+cylinder(d=3, h=3);
 
 
-translate([-3+60, -3, -3])
-cylinder(d=2, h=3);
+translate([-3+57, -3, -3])
+cylinder(d=3, h=3);
 
 
-translate([-3+60, 3, -3])
-cylinder(d=2, h=3);
+translate([-3+57, 3, -3])
+cylinder(d=3, h=3);
 
 
-translate([-3+97, -3, -3])
-cylinder(d=2, h=3);
+translate([-3+98, -3, -3])
+cylinder(d=3, h=3);
 
 
-translate([-3+97, 3, -3])
-cylinder(d=2, h=3);
-
+translate([-3+98, 3, -3])
+cylinder(d=3, h=3);
+}
 
 //domes();
 }
@@ -116,11 +118,12 @@ dome_bools();
 difference()
 {
 translate([-8,-7.5,-3.2])
-cube([110, 15, 5.19]);
+cube([110, 15, 5.19+1]);
 
 wholeshit();
 
 //screw holes
+color("red")
 translate([0,0,-4])
 {
 translate([-6,5.5,0])
