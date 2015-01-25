@@ -210,6 +210,7 @@ Discarded input sections
  .data.inc      0x00000000        0x1 outputtest.o
  .bss.count2    0x00000000        0x1 outputtest.o
  .bss.count     0x00000000        0x1 outputtest.o
+ .data.hejhej   0x00000000     0x28be outputtest.o
  .data.sawtooth
                 0x00000000      0x100 outputtest.o
  .data.pseudosquare
@@ -570,11 +571,11 @@ END GROUP
                 0x00800200                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
- .bss.freq_counter.1847
+ .bss.freq_counter.1848
                 0x00800200       0x18 outputtest.o
- .bss.out.1848  0x00800218        0xc outputtest.o
- .bss.dat.1840  0x00800224        0x2 outputtest.o
- .bss.i.1839    0x00800226        0x1 outputtest.o
+ .bss.out.1849  0x00800218        0xc outputtest.o
+ .bss.dat.1841  0x00800224        0x2 outputtest.o
+ .bss.i.1840    0x00800226        0x1 outputtest.o
  .bss.keys      0x00800227        0xc outputtest.o
                 0x00800227                keys
  .bss.data      0x00800233        0x2 outputtest.o
@@ -666,10 +667,10 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0x6f4
+.debug_info     0x00000000      0x717
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x100 l74hc165.o
- .debug_info    0x00000100      0x5f4 outputtest.o
+ .debug_info    0x00000100      0x617 outputtest.o
 
 .debug_abbrev   0x00000000      0x2bd
  *(.debug_abbrev)
@@ -686,12 +687,12 @@ END GROUP
  .debug_frame   0x00000000       0x3c l74hc165.o
  .debug_frame   0x0000003c      0x1d4 outputtest.o
 
-.debug_str      0x00000000      0x310
+.debug_str      0x00000000      0x358
  *(.debug_str)
  .debug_str     0x00000000      0x151 l74hc165.o
                                 0x18a (size before relaxing)
- .debug_str     0x00000151      0x1bf outputtest.o
-                                0x32b (size before relaxing)
+ .debug_str     0x00000151      0x207 outputtest.o
+                                0x338 (size before relaxing)
 
 .debug_loc      0x00000000      0x54d
  *(.debug_loc)

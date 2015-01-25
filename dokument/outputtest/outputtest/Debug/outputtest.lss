@@ -13,19 +13,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   4 .debug_aranges 000000a0  00000000  00000000  00000634  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   000006f4  00000000  00000000  000006d4  2**0
+  5 .debug_info   00000717  00000000  00000000  000006d4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 000002bd  00000000  00000000  00000dc8  2**0
+  6 .debug_abbrev 000002bd  00000000  00000000  00000deb  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00000303  00000000  00000000  00001085  2**0
+  7 .debug_line   00000303  00000000  00000000  000010a8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000210  00000000  00000000  00001388  2**2
+  8 .debug_frame  00000210  00000000  00000000  000013ac  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000310  00000000  00000000  00001598  2**0
+  9 .debug_str    00000358  00000000  00000000  000015bc  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    0000054d  00000000  00000000  000018a8  2**0
+ 10 .debug_loc    0000054d  00000000  00000000  00001914  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000080  00000000  00000000  00001df5  2**0
+ 11 .debug_ranges 00000080  00000000  00000000  00001e61  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -110,22 +110,10 @@ Disassembly of section .text:
   ca:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 000000ce <l74hc165_init>:
-/*
- * init the shift register
- */
-void l74hc165_init() {
-	//output
-	L74HC165_DDR |= (1 << L74HC165_CLOCKPIN);
   ce:	24 9a       	sbi	0x04, 4	; 4
-	L74HC165_DDR |= (1 << L74HC165_LOADPIN);
   d0:	20 9a       	sbi	0x04, 0	; 4
-	//input
-	L74HC165_DDR &= ~(1 << L74HC165_DATAPIN);
   d2:	26 98       	cbi	0x04, 6	; 4
-	//low
-	L74HC165_PORT &= ~(1 << L74HC165_CLOCKPIN);
   d4:	2c 98       	cbi	0x05, 4	; 5
-	L74HC165_PORT &= ~(1 << L74HC165_LOADPIN);
   d6:	28 98       	cbi	0x05, 0	; 5
   d8:	08 95       	ret
 
@@ -537,7 +525,6 @@ ISR(TIMER0_COMPA_vect)
  348:	31 83       	std	Z+1, r19	; 0x01
  34a:	20 83       	st	Z, r18
 	
-	
 	for (uint8_t i=0;i<12;i++)
 	{
 		if(keys[i])
@@ -552,8 +539,8 @@ ISR(TIMER0_COMPA_vect)
  35e:	12 e0       	ldi	r17, 0x02	; 2
  360:	23 e3       	ldi	r18, 0x33	; 51
  362:	32 e0       	ldi	r19, 0x02	; 2
-	
-	
+	freq_counter[2] += 493; // 252?
+	freq_counter[3] += 522; // 252?
 	
 	for (uint8_t i=0;i<12;i++)
 	{
@@ -577,10 +564,10 @@ ISR(TIMER0_COMPA_vect)
  382:	22 96       	adiw	r28, 0x02	; 2
  384:	0f 5f       	subi	r16, 0xFF	; 255
  386:	1f 4f       	sbci	r17, 0xFF	; 255
+	freq_counter[0] += 439; // 200 Hz
+	freq_counter[1] += 465; // 240 Hz
 	freq_counter[2] += 493; // 252?
 	freq_counter[3] += 522; // 252?
-	
-	
 	
 	for (uint8_t i=0;i<12;i++)
  388:	e2 17       	cp	r30, r18
