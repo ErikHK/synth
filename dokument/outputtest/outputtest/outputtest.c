@@ -438,9 +438,9 @@ ISR(TIMER1_COMPA_vect)
 //ISR(TIMER0_OVF_vect)
 ISR(TIMER0_COMPA_vect)
 {
-	static uint16_t freq1_counter=0;
-	static uint16_t freq2_counter=0;
-	static uint16_t freq3_counter=0;
+	static uint16_t freq_counter[] = {0,0,0,0,0,0,0,0,0,0,0,0};
+	//static uint16_t freq2_counter=0;
+	//static uint16_t freq3_counter=0;
 	//count += 2;
 	//count2 += 2;
 	
@@ -456,146 +456,49 @@ ISR(TIMER0_COMPA_vect)
 	//uint8_t out = sine[freq1_counter>>8]>>2 + sine[freq2_counter>>8]>>2;
 	
 	
-	static uint8_t out1 = 0;//sawtooth[freq1_counter>>8]>>3;
-	static uint8_t out2 = 0;//square_[freq2_counter>>8]>>3;
-	uint8_t out3 = sawtooth[freq3_counter>>8]>>3;
-	PORTC = out1+out2;
+	static uint8_t out[] = {0,0,0,0,0,0,0,0,0,0,0,0};//sawtooth[freq1_counter>>8]>>3;
+	//static uint8_t out2 = 0;//square_[freq2_counter>>8]>>3;
+	//uint8_t out3 = sawtooth[freq3_counter>>8]>>3;
+	//PORTC = out1+out2;
+	PORTC = out[0] + out[1] + out[2] + out[3] + out[4] + out[5] + out[6] + out[7] + out[8] + out[9] + out[10] + out[11];
 	//freq1_counter += freq1;
-	freq1_counter += 336*2; // 200 Hz
-	freq2_counter += 403*2; // 240 Hz
-	freq3_counter += 423*2; // 252?
+	freq_counter[0] += 439; // 200 Hz
+	freq_counter[1] += 465; // 240 Hz
+	freq_counter[2] += 493; // 252?
+	freq_counter[3] += 522; // 252?
+	
+	for (uint8_t i=0;i<12;i++)
+	{
+		if(keys[i])
+			out[i] = osc1[freq_counter[i]>>8]>>3;
+	}
 	
 	//populate_buttons();
-	
+	/*
 	if(keys[0])
 	{
-		out1 = sawtooth[freq1_counter>>8]>>2;
+		out[0] = sawtooth[freq_counter[0]>>8]>>2;
 	}else
-		out1 = 0;
+		out[0] = 0;
 	
 	if(keys[1])
 	{
-		out2 = sawtooth[freq2_counter>>8]>>2;
+		out[1] = sawtooth[freq_counter[1]>>8]>>2;
 	}else
-		out2 = 0;
-	/*
-	if(*data & (1<<4))
+		out[1] = 0;
+		
+	if(keys[2])
 	{
-		PORTC = sawtooth[freq1_counter>>8]>>2;
-	}
+		out[2] = sawtooth[freq_counter[2]>>8]>>2;
+	}else
+		out[2] = 0;
 	
-	if(*data & (1<<5))
+	if(keys[3])
 	{
-		PORTC = sawtooth[freq2_counter>>8]>>2;
-	}
-	
-	if(*data & (1<<6))
-	{
-		PORTC = sawtooth[freq3_counter>>8]>>3;
-	}
-	
-	if(*data & (1<<7))
-	{
-		PORTC = sawtooth[freq1_counter>>8]>>3;
-	}
-	
-	if(*data & (1<<8))
-	{
-		PORTC = sawtooth[freq2_counter>>8]>>3;
-	}
-	*/
-	/*
-	//button is released
-	if(!deb_buttons[2])
-	{
-		if(release_value > 2)
-			PORTC = fmul(release_value>>1, osc1[count]);
-		OCR0A = note_vals[2];
-	}
-	
-	if(deb_buttons[0])
-	{
-		PORTC = osc1[count];
-		OCR0A = note_vals[0];
-	}
-	
-	else if(deb_buttons[1])
-	{
-		PORTC = osc1[count];
-		OCR0A = note_vals[1];
-	}
-	
-	else if(deb_buttons[2])
-	{
-		PORTC = fmul(attack_value>>1, osc1[count]);
-		OCR0A = note_vals[2];
-	}
-	
-	
-	else if(deb_buttons[3])
-	{
-		PORTC = osc1[count];
-		OCR0A = note_vals[3];
-	}
-	
-	else if(deb_buttons[4])
-	{
-		PORTC = osc1[count];
-		//PORTC = fmul(0b00100000, osc1[count]);
-		OCR0A = note_vals[4];
-	}
-	
-	else if(deb_buttons[5])
-	{
-		PORTC = osc1[count];
-		OCR0A = note_vals[5];
-	}
-	
-	
-	else if(deb_buttons[6])
-	{
-		PORTC = osc1[count];
-		OCR0A = note_vals[6];
-	}
-	
-	
-	else if(deb_buttons[7])
-	{
-		PORTC = osc1[count];
-		OCR0A = note_vals[7];
-	}
-	
-	
-	else if(deb_buttons[8])
-	{
-		PORTC = osc1[count];
-		OCR0A = note_vals[8];
-	}
-	
-	else if(deb_buttons[9])
-	{
-		PORTC = osc1[count];
-		OCR0A = note_vals[9];
-	}
-	
-	
-	else if(deb_buttons[10])
-	{
-		PORTC = osc1[count];
-		OCR0A = note_vals[10];
-	}
-	
-	
-	else if(deb_buttons[11])
-	{
-		PORTC = osc1[count];
-		OCR0A = note_vals[11];
-	}
-	else
-		PORTC = 0;
-	
-	//TCNT0=0;
-	*/
+		out[3] = sawtooth[freq_counter[3]>>8]>>2;
+	}else
+		out[3] = 0;
+		*/
 }
 
 void setup_timer1()
@@ -690,7 +593,7 @@ int main(void)
 	l74hc165_init();
 	//osc1 = pseudosquare;
 	
-	//osc1 = square_;
+	osc1 = square_;
 	//osc2 = sawtooth;
 	
 	//0.1
@@ -737,14 +640,14 @@ int main(void)
 	*/
 	setup_timer1();
 	setup_timer0();
-	//setup_timer2();
+	setup_timer2();
 	//setup_4_buttons();
 	//setup_adc();
 	//setup_menu();
 	
 	while(1)
     {
-		populate_buttons();
+		//populate_buttons();
 		/*
 		navigate_menu();
 		read_4_buttons();
