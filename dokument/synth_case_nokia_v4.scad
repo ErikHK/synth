@@ -134,12 +134,13 @@ holder(h=10);
 
 module slide_switch_holder()
 {
+  
   difference()
   {
   translate([-2, -2,0])
   cube([4,6,4.7]);
-  translate([0,1,0])
-  cylinder(d=2,h=4.7);
+  translate([0,1-.01,0])
+  cylinder(d=2,h=4.71);
   }
 
   translate([15.5,0,0])
@@ -147,8 +148,8 @@ module slide_switch_holder()
   {
   translate([-2, -2,0])
   cube([4,6,4.7]);
-  translate([0,1,0])
-  cylinder(d=2,h=4.7);
+  translate([0,1-.01,0])
+  cylinder(d=2,h=4.71);
   }
 
 }
@@ -344,7 +345,7 @@ module case_bottom()
   rCube(cl, cw, cbh,crr);
   
 
-  translate([cwth,cwth,ctth])
+  translate([cwth,cwth,ctth+.01])
   cube([cl-cwth*2, cw-cwth*2, cbh]);
 
   //lcd housing hole
@@ -715,7 +716,6 @@ translate([130,cw-4,-cbh+cbth])
 //cube([11,6,6]);
 
 
-
 translate([-2,1,2])
 rotate([90,0,0])
 slide_switch_holder();
@@ -729,6 +729,7 @@ union()
 translate([0,0,-cbh])
 case_bottom();
 
+
 translate([18+3,16+4,-cbh+cbth]) //+3 in difference between v3 and v2
 button_holders();
 
@@ -738,6 +739,7 @@ pcb_holders();
 
 //corner_holders();
 }
+
 
 //slide switch hole
 translate([130,cw-4,-cbh+cbth])
