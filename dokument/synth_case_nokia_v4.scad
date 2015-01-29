@@ -47,29 +47,29 @@ cdhr = 2;
 
 module button_holders()
 {
-holder(r=1.20,h=9-1.6);
+holder(r=1.20,h=9-1.6+2);
 
 translate([91.44,0,0])
-holder(r=1.20,h=9-1.6);
+holder(r=1.20,h=9-1.6+2);
 
 
 translate([91.44,15.875,0])
-holder(h=9-1.6);
+holder(h=9-1.6+2);
 
 
 translate([0,15.875,0])
-holder(h=9-1.6);
+holder(h=9-1.6+2);
 
 
 
 //translate([44.45,0,0])
 translate([46.99,0,0])
-holder(r=1.2,h=9-1.6);
+holder(r=1.2,h=9-1.6+2);
 
 
 //translate([44.45,7.62,0])
 translate([46.99,7.62,0])
-holder(h=9-1.6);
+holder(h=9-1.6+2);
 
 }
 
@@ -331,12 +331,14 @@ module case_bottom()
 
 
   //headphone jack holders
+
   translate([155,6,2])
   holder(r=1.4,h=3);
 
   translate([155-2.54*10,6,2])
   holder(r=1.4,h=3);
 
+  
   difference()
   {
   rCube(cl, cw, cbh,crr);
@@ -353,10 +355,12 @@ module case_bottom()
   translate([155-2.54*5,5,8.5])
   rotate([90,0,0])
   cylinder(d=6, h=10);
+
   }
 
   translate([0,0,cbh])
   corner_holders();
+
   }
 
   //sunk holes
@@ -372,6 +376,7 @@ module case_bottom()
   //lcd housing sunk hole
   translate([3+48/2,100.5,-.01])
   cylinder(r=3.5, h=5);
+
   }
 }
 
@@ -701,8 +706,8 @@ rotate([90,0,0])
 AAA_battery();
 */
 
-/*
-translate([20,35,-10])
+
+translate([20,35+4,-10])
 battery_holder();
 
 translate([130,cw-4,-cbh+cbth])
@@ -714,6 +719,7 @@ translate([130,cw-4,-cbh+cbth])
 translate([-2,1,2])
 rotate([90,0,0])
 slide_switch_holder();
+
 }
 
 difference()
@@ -723,7 +729,7 @@ union()
 translate([0,0,-cbh])
 case_bottom();
 
-translate([18+3,16,-cbh+cbth]) //+3 in difference between v3 and v2
+translate([18+3,16+4,-cbh+cbth]) //+3 in difference between v3 and v2
 button_holders();
 
 
@@ -733,24 +739,24 @@ pcb_holders();
 //corner_holders();
 }
 
+//slide switch hole
 translate([130,cw-4,-cbh+cbth])
-
 cube([11.5,6,6]);
 
 
 color("red")
-translate([23,37,-cbh+cbth-1.25])
-rCube(55,52.5,1.3,1.2);
+translate([23,37+4,-cbh+cbth-1.25])
+rCube(55,52.5-2,1.3,1.2);
 
 
 //translate([80,-2,-30])
 //cube([.5,200,200]);
 
 }
-*/
 
 
 
+/*
 rotate([0,180,0])
 difference()
 {
@@ -783,7 +789,7 @@ for(i=[0:4])
   cylinder(r=1.4, h=4);
   }
 }
-
+*/
 //4_button();
 
 //speaker

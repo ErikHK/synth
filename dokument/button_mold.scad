@@ -114,7 +114,7 @@ dome_bools();
 }
 }
 }
-
+/*
 difference()
 {
 translate([-8,-7.5,-3.2])
@@ -179,3 +179,6 @@ cylinder(d=2, h=30);
 }
 }
 }
+*/
+
+wholeshit();
