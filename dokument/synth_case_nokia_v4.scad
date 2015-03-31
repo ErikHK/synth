@@ -47,29 +47,32 @@ cdhr = 2;
 
 module button_holders()
 {
-holder(r=1.20,h=9-1.6+2);
+//translate([10,0,0])
+//holder(r=1.20,h=9-1.6);
 
-translate([91.44,0,0])
-holder(r=1.20,h=9-1.6+2);
+//translate([91.44-10,0,0])
+//holder(r=1.20,h=9-1.6);
 
 
 translate([91.44,15.875,0])
-holder(h=9-1.6+2);
+holder(h=9-1.6);
 
 
 translate([0,15.875,0])
-holder(h=9-1.6+2);
+holder(h=9-1.6);
 
 
 
 //translate([44.45,0,0])
-translate([46.99,0,0])
-holder(r=1.2,h=9-1.6+2);
-
+translate([46.99-10-5,-5,0])
+//holder(r=1.2,h=9-1.6);
+rCube(8,20,9-1.6,3);
 
 //translate([44.45,7.62,0])
-translate([46.99,7.62,0])
-holder(h=9-1.6+2);
+//translate([46.99+10,7.62,0])
+translate([46.99+10,-5,0])
+//holder(h=9-1.6);
+rCube(8,20,9-1.6,3);
 
 }
 
@@ -800,3 +803,8 @@ for(i=[0:4])
 
 //translate([-120+2+1,7,-10])
 //all_white_keys();
+
+//lm386
+//translate([87,5,-10])
+
+//cube([22,25,1.6]);

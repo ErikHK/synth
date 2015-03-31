@@ -3,7 +3,7 @@ $fn = 20;
 wktl = 38-3;
 
 //black key total length
-bktl = 26-3;
+bktl = 26-3-.5;
 
 //white key total width
 wktw = 14.23;
@@ -15,7 +15,7 @@ dbk = 8;
 
 
 //white key thickness
-wkth = 2;
+wkth = 2.5;
 
 //black key thickness
 bkth = 4;
@@ -24,7 +24,10 @@ bkth = 4;
 wklh = 5;
 
 //spring length
-sl = 1.5;
+sl = 1.75;
+
+//black spring length
+bsl = 2;
 
 //spring width
 sw = 10;
@@ -34,6 +37,9 @@ sth = .75;
 
 //key tolerance
 key_tol = .9;
+
+//black key tolerance
+black_key_tol = 1.5;
 
 //distance between white keys
 dbwk = wktw+key_tol;
@@ -58,15 +64,15 @@ module white_key(leftnotch=true, rightnotch=true)
   //notch for black key
   if(leftnotch)
   {
-  translate([-.01,wktl-bktl-key_tol/2+.01,-.1])
-  cube([bktw/2+key_tol/2,bktl+key_tol/2,5]);
+  translate([-.01,wktl-bktl-black_key_tol+.01,-.1])
+  cube([bktw/2+key_tol/2,bktl+black_key_tol,5]);
 
   }
 
   if(rightnotch)
   {
-  translate([.01+wktw-bktw/2-key_tol/2,wktl-bktl-key_tol/2+.01,-.1])
-  cube([bktw/2+key_tol/2,bktl+key_tol/2,5]);
+  translate([.01+wktw-bktw/2-key_tol/2,wktl-bktl-black_key_tol+.01,-.1])
+  cube([bktw/2+key_tol/2,bktl+black_key_tol,5]);
   
 
   //translate([-.01,wktl-bktl-key_tol/2+.01,-.1])
@@ -125,7 +131,7 @@ module black_key()
 
   //spring
   translate([0,bktl,wkth-sth-.5])
-  cube([bktw,sl,sth]);
+  cube([bktw,bsl,sth]);
 
 
   //translate([bktw/2,0,bkth])
@@ -136,14 +142,20 @@ module black_key()
 module foil_holder()
 {
   height=2;
-  diameter=6;
+  diameter=6+1;
   thickness=1;
+  d = diameter;
 
-  translate([0,diameter/2,0])
+  translate([0,diameter/2-3,0])
   difference()
   {
+    scale([1,1.5,1])
     cylinder(d=diameter, h=height);
-    cylinder(d=diameter-thickness*2, h=height);
+    //cylinder(d=diameter-thickness*2, h=height);
+    scale([1,1.5,1])
+    translate([-d/2,-d/2,height-.8])
+    rotate([6,0,0])
+    cube([d,d+.2,10]);
   }
 
 
@@ -208,7 +220,7 @@ module holder_bar(length=dbwk*7-key_tol)
 
 module all_black_keys()
 {
-  translate([-dbwk+bktw/2+key_tol/2,bktl+sl,0])
+  translate([-dbwk+bktw/2+key_tol/2,bktl+bsl,0])
   holder_bar();
 
 translate([0,0,.5])
@@ -238,7 +250,7 @@ module all_white_keys()
   holder_bar();
 
 
-  translate([2,-7+3,0])
+  translate([2,-7+3+4,0])
   {
   translate([wktw/2-2,15,wkth])
   foil_holder();
@@ -262,7 +274,7 @@ module all_white_keys()
   foil_holder();
 
 
-  translate([wktw/2-2+11*8+2.5,15,2])
+  translate([wktw/2-2+11*8+2.5,15,wkth])
   foil_holder();
   }
 
@@ -289,6 +301,6 @@ translate([6*dbwk, 0,0])
 white_key(true,false);
 }
 
-//translate([dbwk-bktw/2-key_tol/2,wktl-bktl,-3])
-//all_black_keys();
+//translate([dbwk-bktw/2-key_tol/2,wktl-bktl-(bsl-sl),-3])
+all_black_keys();
 //all_white_keys();
