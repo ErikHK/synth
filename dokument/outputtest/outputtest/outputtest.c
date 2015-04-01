@@ -460,17 +460,27 @@ ISR(TIMER0_COMPA_vect)
 	//static uint8_t out2 = 0;//square_[freq2_counter>>8]>>3;
 	//uint8_t out3 = sawtooth[freq3_counter>>8]>>3;
 	//PORTC = out1+out2;
-	PORTC = out[0] + out[1] + out[2] + out[3] + out[4] + out[5] + out[6] + out[7] + out[8] + out[9] + out[10] + out[11];
+	//PORTC = out[0] + out[1] + out[2] + out[3] + out[4] + out[5] + out[6] + out[7] + out[8] + out[9] + out[10] + out[11];
+	PORTC = out[0] + out[1];
 	//freq1_counter += freq1;
 	freq_counter[0] += 439; // 200 Hz
 	freq_counter[1] += 465; // 240 Hz
-	freq_counter[2] += 493; // 252?
-	freq_counter[3] += 522; // 252?
+	freq_counter[2] += 493; //etc
+	freq_counter[3] += 522; 
+	freq_counter[4] += 553;
+	freq_counter[5] += 586;
+	freq_counter[6] += 621;
+	freq_counter[7] += 658;
+	freq_counter[8] += 697;
+	freq_counter[9] += 738;
+	freq_counter[10] += 782;
+	freq_counter[11] += 829;
+	
 	
 	for (uint8_t i=0;i<12;i++)
 	{
 		if(keys[i])
-			out[i] = osc1[freq_counter[i]>>8]>>3;
+			out[i] = osc1[freq_counter[i]>>8]>>1;
 	}
 	
 	//populate_buttons();
@@ -593,8 +603,8 @@ int main(void)
 	l74hc165_init();
 	//osc1 = pseudosquare;
 	
-	osc1 = square_;
-	//osc2 = sawtooth;
+	//osc1 = square_;
+	osc1 = sine;
 	
 	//0.1
 	//lowpass(osc1, square2x, 0b01100000, 0b00010100);

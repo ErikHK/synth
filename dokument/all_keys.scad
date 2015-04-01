@@ -24,7 +24,7 @@ bkth = 4;
 wklh = 5;
 
 //spring length
-sl = 1.75;
+sl = 2;
 
 //black spring length
 bsl = 2;
@@ -141,6 +141,7 @@ module black_key()
 
 module foil_holder()
 {
+  /*
   height=2;
   diameter=6+1;
   thickness=1;
@@ -157,6 +158,10 @@ module foil_holder()
     rotate([6,0,0])
     cube([d,d+.2,10]);
   }
+  */
+  translate([0,0,-2])
+  scale([1,1.8,1])
+  cylinder(d=6, h=2.2);
 
 
 }
@@ -244,11 +249,41 @@ translate([0,0,.5])
 module all_white_keys()
 {
   //total length
-  tl = dbwk*7-key_tol;
+  //tl = dbwk*7-key_tol;
+  tl = dbwk*7;
 
   translate([0,wktl+sl,0])
   holder_bar();
 
+
+  difference()
+  {
+
+union()
+{
+white_key(false,true);
+translate([dbwk, 0,0])
+white_key();
+
+translate([2*dbwk, 0,0])
+white_key();
+
+translate([3*dbwk, 0,0])
+white_key(true,false);
+
+
+translate([4*dbwk, 0,0])
+white_key(false,true);
+
+
+translate([5*dbwk, 0,0])
+white_key(true,true);
+
+
+translate([6*dbwk, 0,0])
+white_key(true,false);
+
+}
 
   translate([2,-7+3+4,0])
   {
@@ -277,30 +312,11 @@ module all_white_keys()
   translate([wktw/2-2+11*8+2.5,15,wkth])
   foil_holder();
   }
-
-white_key(false,true);
-translate([dbwk, 0,0])
-white_key();
-
-translate([2*dbwk, 0,0])
-white_key();
-
-translate([3*dbwk, 0,0])
-white_key(true,false);
-
-
-translate([4*dbwk, 0,0])
-white_key(false,true);
-
-
-translate([5*dbwk, 0,0])
-white_key(true,true);
-
-
-translate([6*dbwk, 0,0])
-white_key(true,false);
+}
 }
 
+
+
 //translate([dbwk-bktw/2-key_tol/2,wktl-bktl-(bsl-sl),-3])
-all_black_keys();
-//all_white_keys();
+//all_black_keys();
+all_white_keys();

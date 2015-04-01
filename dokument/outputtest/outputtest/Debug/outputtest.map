@@ -220,8 +220,8 @@ Discarded input sections
                 0x00000000      0x100 outputtest.o
  .data.square2x
                 0x00000000      0x100 outputtest.o
+ .data.square_  0x00000000      0x100 outputtest.o
  .data.sine2x   0x00000000      0x100 outputtest.o
- .data.sine     0x00000000      0x100 outputtest.o
  .text          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
  .data          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
  .bss           0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
@@ -410,7 +410,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x470
+.text           0x00000000      0x4ee
  *(.vectors)
  .vectors       0x00000000       0x8c c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51/crtm1284p.o
                 0x00000000                __vector_default
@@ -514,24 +514,24 @@ END GROUP
                 0x000001f4       0xa2 outputtest.o
                 0x000001f4                __vector_13
  .text.__vector_16
-                0x00000296      0x126 outputtest.o
+                0x00000296      0x1a4 outputtest.o
                 0x00000296                __vector_16
  .text.setup_timer1
-                0x000003bc       0x44 outputtest.o
-                0x000003bc                setup_timer1
+                0x0000043a       0x44 outputtest.o
+                0x0000043a                setup_timer1
  .text.setup_timer2
-                0x00000400       0x2a outputtest.o
-                0x00000400                setup_timer2
+                0x0000047e       0x2a outputtest.o
+                0x0000047e                setup_timer2
  .text.setup_timer0
-                0x0000042a       0x1e outputtest.o
-                0x0000042a                setup_timer0
- .text.main     0x00000448       0x24 outputtest.o
-                0x00000448                main
-                0x0000046c                . = ALIGN (0x2)
+                0x000004a8       0x1e outputtest.o
+                0x000004a8                setup_timer0
+ .text.main     0x000004c6       0x24 outputtest.o
+                0x000004c6                main
+                0x000004ea                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000046c        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
-                0x0000046c                _exit
-                0x0000046c                exit
+ .fini9         0x000004ea        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
+                0x000004ea                _exit
+                0x000004ea                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -550,16 +550,16 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000046c        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
+ .fini0         0x000004ea        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000470                _etext = .
+                0x000004ee                _etext = .
 
-.data           0x00800100      0x100 load address 0x00000470
+.data           0x00800100      0x100 load address 0x000004ee
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
- .data.square_  0x00800100      0x100 outputtest.o
-                0x00800100                square_
+ .data.sine     0x00800100      0x100 outputtest.o
+                0x00800100                sine
  *(.rodata)
  *(.rodata*)
  *(.gnu.linkonce.d*)
@@ -589,8 +589,8 @@ END GROUP
                 0x0080023f                osc2
                 0x00800241                curr_wave
                 0x00800341                PROVIDE (__bss_end, .)
-                0x00000470                __data_load_start = LOADADDR (.data)
-                0x00000570                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x000004ee                __data_load_start = LOADADDR (.data)
+                0x000005ee                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800341        0x0
                 0x00800341                PROVIDE (__noinit_start, .)
@@ -677,10 +677,10 @@ END GROUP
  .debug_abbrev  0x00000000       0xa8 l74hc165.o
  .debug_abbrev  0x000000a8      0x215 outputtest.o
 
-.debug_line     0x00000000      0x30f
+.debug_line     0x00000000      0x317
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000       0xeb l74hc165.o
- .debug_line    0x000000eb      0x224 outputtest.o
+ .debug_line    0x000000eb      0x22c outputtest.o
 
 .debug_frame    0x00000000      0x210
  *(.debug_frame)
