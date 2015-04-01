@@ -195,6 +195,8 @@ Discarded input sections
  .text.determine_keys_playing
                 0x00000000        0x2 outputtest.o
  .text.lowpass  0x00000000       0x7a outputtest.o
+ .text.num_keys_playing
+                0x00000000       0x18 outputtest.o
  .text.setup_adc
                 0x00000000       0x1a outputtest.o
  .data.release_value
@@ -202,8 +204,6 @@ Discarded input sections
  .bss.attack_value
                 0x00000000        0x1 outputtest.o
  .bss.output    0x00000000        0x1 outputtest.o
- .bss.keys_playing
-                0x00000000        0x3 outputtest.o
  .bss.released  0x00000000        0xc outputtest.o
  .bss.pressed   0x00000000        0xc outputtest.o
  .data.inc      0x00000000        0x1 outputtest.o
@@ -408,7 +408,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x43c
+.text           0x00000000      0x4ba
  *(.vectors)
  .vectors       0x00000000       0x8c c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr51/crtm1284p.o
                 0x00000000                __vector_default
@@ -506,32 +506,32 @@ END GROUP
                 0x000000da       0xca outputtest.o
                 0x000000da                populate_buttons
  .text.__vector_13
-                0x000001a4       0xb8 outputtest.o
+                0x000001a4       0xe6 outputtest.o
                 0x000001a4                __vector_13
- .text.shiftin  0x0000025c       0x7c outputtest.o
-                0x0000025c                shiftin
+ .text.shiftin  0x0000028a       0x7c outputtest.o
+                0x0000028a                shiftin
  .text.__vector_9
-                0x000002d8       0x54 outputtest.o
-                0x000002d8                __vector_9
+                0x00000306       0x54 outputtest.o
+                0x00000306                __vector_9
  .text.__vector_16
-                0x0000032c       0x5c outputtest.o
-                0x0000032c                __vector_16
+                0x0000035a       0xac outputtest.o
+                0x0000035a                __vector_16
  .text.setup_timer1
-                0x00000388       0x44 outputtest.o
-                0x00000388                setup_timer1
+                0x00000406       0x44 outputtest.o
+                0x00000406                setup_timer1
  .text.setup_timer2
-                0x000003cc       0x2a outputtest.o
-                0x000003cc                setup_timer2
+                0x0000044a       0x2a outputtest.o
+                0x0000044a                setup_timer2
  .text.setup_timer0
-                0x000003f6       0x1e outputtest.o
-                0x000003f6                setup_timer0
- .text.main     0x00000414       0x24 outputtest.o
-                0x00000414                main
-                0x00000438                . = ALIGN (0x2)
+                0x00000474       0x1e outputtest.o
+                0x00000474                setup_timer0
+ .text.main     0x00000492       0x24 outputtest.o
+                0x00000492                main
+                0x000004b6                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000438        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
-                0x00000438                _exit
-                0x00000438                exit
+ .fini9         0x000004b6        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
+                0x000004b6                _exit
+                0x000004b6                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -550,11 +550,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000438        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
+ .fini0         0x000004b6        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.1061/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr51\libgcc.a(_exit.o)
  *(.fini0)
-                0x0000043c                _etext = .
+                0x000004ba                _etext = .
 
-.data           0x00800100      0x100 load address 0x0000043c
+.data           0x00800100      0x100 load address 0x000004ba
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -571,8 +571,8 @@ END GROUP
                 0x00800200                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
- .bss.dat.1849  0x00800200        0x2 outputtest.o
- .bss.i.1848    0x00800202        0x1 outputtest.o
+ .bss.dat.1855  0x00800200        0x2 outputtest.o
+ .bss.i.1854    0x00800202        0x1 outputtest.o
  .bss.out       0x00800203        0xc outputtest.o
                 0x00800203                out
  .bss.freq_counter
@@ -590,8 +590,8 @@ END GROUP
                 0x0080023b                buffer
                 0x0080023f                curr_wave
                 0x0080033f                PROVIDE (__bss_end, .)
-                0x0000043c                __data_load_start = LOADADDR (.data)
-                0x0000053c                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x000004ba                __data_load_start = LOADADDR (.data)
+                0x000005ba                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x0080033f        0x0
                 0x0080033f                PROVIDE (__noinit_start, .)
@@ -658,47 +658,47 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000       0xa8
+.debug_aranges  0x00000000       0xb0
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x28 l74hc165.o
  .debug_aranges
-                0x00000028       0x80 outputtest.o
+                0x00000028       0x88 outputtest.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0x715
+.debug_info     0x00000000      0x73a
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x100 l74hc165.o
- .debug_info    0x00000100      0x615 outputtest.o
+ .debug_info    0x00000100      0x63a outputtest.o
 
-.debug_abbrev   0x00000000      0x2f1
+.debug_abbrev   0x00000000      0x30b
  *(.debug_abbrev)
  .debug_abbrev  0x00000000       0xa8 l74hc165.o
- .debug_abbrev  0x000000a8      0x249 outputtest.o
+ .debug_abbrev  0x000000a8      0x263 outputtest.o
 
-.debug_line     0x00000000      0x31d
+.debug_line     0x00000000      0x33a
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000       0xeb l74hc165.o
- .debug_line    0x000000eb      0x232 outputtest.o
+ .debug_line    0x000000eb      0x24f outputtest.o
 
-.debug_frame    0x00000000      0x21c
+.debug_frame    0x00000000      0x22c
  *(.debug_frame)
  .debug_frame   0x00000000       0x3c l74hc165.o
- .debug_frame   0x0000003c      0x1e0 outputtest.o
+ .debug_frame   0x0000003c      0x1f0 outputtest.o
 
-.debug_str      0x00000000      0x30b
+.debug_str      0x00000000      0x31c
  *(.debug_str)
  .debug_str     0x00000000      0x151 l74hc165.o
                                 0x18a (size before relaxing)
- .debug_str     0x00000151      0x1ba outputtest.o
-                                0x32e (size before relaxing)
+ .debug_str     0x00000151      0x1cb outputtest.o
+                                0x332 (size before relaxing)
 
-.debug_loc      0x00000000      0x540
+.debug_loc      0x00000000      0x5ae
  *(.debug_loc)
  .debug_loc     0x00000000       0xe7 l74hc165.o
- .debug_loc     0x000000e7      0x459 outputtest.o
+ .debug_loc     0x000000e7      0x4c7 outputtest.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -718,10 +718,10 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000       0x88
+.debug_ranges   0x00000000       0x90
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x18 l74hc165.o
- .debug_ranges  0x00000018       0x70 outputtest.o
+ .debug_ranges  0x00000018       0x78 outputtest.o
 
 .debug_macro
  *(.debug_macro)

@@ -76,7 +76,6 @@ uint8_t keys[12] = {0,0,0,0,0,0,0,0,0,0,0,0}; //pressed buttons, 1 is C, 2 is C#
 
 uint8_t pressed[12] = {0,0,0,0,0,0,0,0,0,0,0,0};	//pressed confidence
 uint8_t released[12] = {0,0,0,0,0,0,0,0,0,0,0,0};	//released confidence
-uint8_t keys_playing[3] = {0,0,0};					//Only allow three keys playing (for now)
 uint8_t output = 0;
 uint8_t * osc1;
 //uint8_t * osc2;
@@ -400,13 +399,24 @@ ISR(TIMER2_COMPA_vect)
 	//PORTC = osc1[count];
 }
 
+uint8_t num_keys_playing()
+{
+	uint8_t num=0;
+	for (uint8_t i=0;i<12;i++)
+	{
+		if(keys[i])
+		num++;
+	}
+	return num;
+}
+
 ISR(TIMER1_COMPA_vect)
 {	
 	for (uint8_t i=0;i<12;i++)
 	{
-		//out[i] = 0;
+		out[i] = 0;
 		if(keys[i])
-		out[i] = osc1[freq_counter[i]>>8];
+			out[i] = osc1[freq_counter[i]>>8];
 	}
 	
 	
@@ -414,8 +424,11 @@ ISR(TIMER1_COMPA_vect)
 	//shiftin();
 	//data = 100;
 	//populate_buttons();
-	PORTC = (out[0] + out[2] + out[4])>>2;
+	//PORTC = (out[0] + out[2] + out[4] + out[5] + out[7] + out[9] + out[11])>>num_keys_playing();
+	PORTC = (out[0] + out[2] + out[4] + out[5] + out[6] + out[7] + out[9] + out[11])>>2;
 }
+
+
 
 
 void shiftin()
@@ -451,7 +464,6 @@ void shiftin()
 		dat = 0;
 		//data = &dat;
 	}
-	
 }
 
 
@@ -465,22 +477,18 @@ ISR(TIMER0_COMPA_vect)
 	//PORTC = out1+out2;
 	//PORTC = out[0] + out[1] + out[2] + out[3] + out[4] + out[5] + out[6] + out[7] + out[8] + out[9] + out[10] + out[11];
 	//PORTC = out[0] + out[2] + out[4];
-	//freq1_counter += freq1;
 	freq_counter[0] += 439*2; // 200 Hz
-	//freq_counter[1] += 465; // 240 Hz
+	//freq_counter[1] += 465*2; // 240 Hz
 	freq_counter[2] += 493*2; //etc
-	
-	//freq_counter[3] += 522; 
+	//freq_counter[3] += 522*2; 
 	freq_counter[4] += 553*2;
-	/*
-	freq_counter[5] += 586;
-	freq_counter[6] += 621;
-	freq_counter[7] += 658;
-	freq_counter[8] += 697;
-	freq_counter[9] += 738;
-	freq_counter[10] += 782;
-	freq_counter[11] += 829;
-	*/
+	freq_counter[5] += 586*2;
+	freq_counter[6] += 621*2;
+	freq_counter[7] += 658*2;
+	//freq_counter[8] += 697*2;
+	freq_counter[9] += 738*2;
+	//freq_counter[10] += 782*2;
+	freq_counter[11] += 829*2;
 	
 // 	for (uint8_t i=0;i<12;i++)
 // 	{
@@ -612,7 +620,9 @@ int main(void)
 	//osc1 = pseudosquare;
 	
 	osc1 = square_;
+	//osc1 = triangle;
 	//osc1 = &sine2x;
+	//osc1 = prutt;
 	
 	//0.1
 	//lowpass(osc1, square2x, 0b01100000, 0b00010100);
