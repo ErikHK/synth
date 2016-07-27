@@ -316,7 +316,8 @@ white_key(true,false);
 }
 
 
-
-//translate([dbwk-bktw/2-key_tol/2,wktl-bktl-(bsl-sl),-3])
-//all_black_keys();
+/*
+translate([dbwk-bktw/2-key_tol/2,wktl-bktl-(bsl-sl),-3+.5])
+all_black_keys();
 all_white_keys();
+*/

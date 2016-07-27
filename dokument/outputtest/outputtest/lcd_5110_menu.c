@@ -165,10 +165,11 @@ uint8_t buttons[] = {0, 0, 0, 0};
 uint8_t menuchoice = 0;
 uint8_t ** current_menu = main_menu;
 
-uint8_t attack_top = 0;
+uint8_t attack_top = 240;
 uint8_t decay_top = 0;
 uint8_t sustain_top = 0;
-uint8_t release_top = 0;
+uint8_t release_top = 200;
+
 uint8_t * pot_data;
 uint8_t prev_pot_data = 0;
 

@@ -79,8 +79,8 @@ uint8_t released[12] = {0,0,0,0,0,0,0,0,0,0,0,0};	//released confidence
 uint8_t output = 0;
 uint8_t * osc1;
 //uint8_t * osc2;
-uint8_t attack_value = 0;
-uint8_t release_value = 255;
+uint8_t attack_value[12] = {{0}};
+uint8_t release_value[12] = {{255}};
 //uint8_t num_keys_playing = 0;
 
 uint8_t lcd_buffer[504];
@@ -374,26 +374,34 @@ ISR(TIMER2_COMPA_vect)
 		c = 0;
 	}
 	
+	*/
+	/*
+	for (uint8_t i=0;i<2;i++)
+	{
 	
 	//button is pressed
-	if(deb_buttons[2])
+	
+	if(keys[i])
 	{
 		//increase attack!
-		if(attack_value < get_attack_value())
-		  attack_value+=1;
+		//if(attack_value[i] < get_attack_value())
+		//  attack_value[i]+=10;
 		  
 		//reset release_value
-		release_value = attack_value;
+		release_value[i] = get_release_value();
 		
 	}
 	
 	//button is released
-	if(!deb_buttons[2])
+	if(!keys[i])
 	{
-		attack_value = 0;
-		if(release_value > get_release_value())
-		release_value--;
+		//attack_value[i] = 0;
+		if(release_value[i] > get_release_value() && release_value[i] > 0)
+			release_value[i]--;
 		
+	}
+	
+	
 	}
 	*/
 	//PORTC = osc1[count];
@@ -412,20 +420,57 @@ uint8_t num_keys_playing()
 
 ISR(TIMER1_COMPA_vect)
 {	
+	static uint8_t ii = 0;
+	static uint8_t jj = 0;
+	
+		freq_counter[0] += 439*8; // 200 Hz
+		freq_counter[1] += 621*4; // 200 Hz
+		freq_counter[2] += 621*4; // 240 Hz
+		/*
+		freq_counter[2] += 493*2; //etc
+		//freq_counter[3] += 522*2;
+		freq_counter[4] += 553*2;
+		freq_counter[5] += 586*2;
+		freq_counter[6] += 621*2;
+		freq_counter[7] += 658*2;
+		//freq_counter[8] += 697*2;
+		freq_counter[9] += 738*2;
+		//freq_counter[10] += 782*2;
+		freq_counter[11] += 829*2;
+	
+	
 	for (uint8_t i=0;i<12;i++)
 	{
-		out[i] = 0;
-		if(keys[i])
+		//out[i] = 0;
+		//if(keys[i])
+		if(i==0)
 			out[i] = osc1[freq_counter[i]>>8];
+			//out[i] = osc1[ii];
+		//else
+			//out[i] = (release_value[i]*osc1[freq_counter[i]>>8])>>8;
+			
+		//apply attack etc
+		//out[i] = (release_value[i]*out[i])>>8;
 	}
-	
+	*/
 	
 	//l74hc165_shiftin(&data);
 	//shiftin();
 	//data = 100;
 	//populate_buttons();
 	//PORTC = (out[0] + out[2] + out[4] + out[5] + out[7] + out[9] + out[11])>>num_keys_playing();
-	PORTC = (out[0] + out[2] + out[4] + out[5] + out[6] + out[7] + out[9] + out[11])>>2;
+	
+	//PORTC = (out[0] + out[2] + out[4] + out[5] + out[6] + out[7] + out[9] + out[11])>>2;
+	
+	//out[0] = (osc1[ii] + osc1[jj]);
+	
+	//out[0] = (osc1[freq_counter[0]>>8] +  osc1[freq_counter[1]>>8] + osc1[freq_counter[2]>>8]) / 4;
+	out[0] = (osc1[freq_counter[0]>>8]);
+	
+	PORTC = out[0];
+	
+	ii+=3;
+	jj+=2;
 }
 
 
@@ -477,18 +522,18 @@ ISR(TIMER0_COMPA_vect)
 	//PORTC = out1+out2;
 	//PORTC = out[0] + out[1] + out[2] + out[3] + out[4] + out[5] + out[6] + out[7] + out[8] + out[9] + out[10] + out[11];
 	//PORTC = out[0] + out[2] + out[4];
-	freq_counter[0] += 439*2; // 200 Hz
-	//freq_counter[1] += 465*2; // 240 Hz
-	freq_counter[2] += 493*2; //etc
-	//freq_counter[3] += 522*2; 
-	freq_counter[4] += 553*2;
-	freq_counter[5] += 586*2;
-	freq_counter[6] += 621*2;
-	freq_counter[7] += 658*2;
-	//freq_counter[8] += 697*2;
-	freq_counter[9] += 738*2;
-	//freq_counter[10] += 782*2;
-	freq_counter[11] += 829*2;
+// 	freq_counter[0] += 439*2; // 200 Hz
+// 	//freq_counter[1] += 465*2; // 240 Hz
+// 	freq_counter[2] += 493*2; //etc
+// 	//freq_counter[3] += 522*2; 
+// 	freq_counter[4] += 553*2;
+// 	freq_counter[5] += 586*2;
+// 	freq_counter[6] += 621*2;
+// 	freq_counter[7] += 658*2;
+// 	//freq_counter[8] += 697*2;
+// 	freq_counter[9] += 738*2;
+// 	//freq_counter[10] += 782*2;
+// 	freq_counter[11] += 829*2;
 	
 // 	for (uint8_t i=0;i<12;i++)
 // 	{
@@ -561,7 +606,7 @@ void setup_timer2()
 	TCCR2B = 0;
 	TCNT2 = 0;
 	//OCR2A = 5;
-	OCR2A = 5000;
+	OCR2A = 500;
 	
 	TCCR2A |= (1<<WGM21) | (1<<WGM20);
 	// Prescaler = FCPU/1024
@@ -619,10 +664,10 @@ int main(void)
 	l74hc165_init();
 	//osc1 = pseudosquare;
 	
-	osc1 = square_;
+	//osc1 = square_;
 	//osc1 = triangle;
-	//osc1 = &sine2x;
-	//osc1 = prutt;
+	//osc1 = sine;
+	osc1 = sawtooth;
 	
 	//0.1
 	//lowpass(osc1, square2x, 0b01100000, 0b00010100);
@@ -667,8 +712,8 @@ int main(void)
 	}
 	*/
 	setup_timer1();
-	setup_timer0();
-	setup_timer2();
+	//setup_timer0();
+	//setup_timer2();
 	//setup_4_buttons();
 	//setup_adc();
 	//setup_menu();

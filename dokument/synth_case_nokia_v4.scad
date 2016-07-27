@@ -179,52 +179,76 @@ translate([26.67,0,0])
 holder(h=6, w=3.5);
 }
 
-module button_hole()
+module button_hole(r=5)
 {
-cylinder(r=5,h=10);
-translate([0,0,2])
-cylinder(r=5+2.2,h=1.25-.25);
+cylinder(r=r,h=10);
+//translate([0,0,2])
+//cylinder(r=5+2.2,h=1.25-.25);
 }
 
-module 4_buttons_holes()
+module 4_buttons_holes(r=5)
 {
-
 translate([13.335, 3.175,-.1])
 {
-button_hole();
+button_hole(r);
 }
-
 
 
 translate([3.175, 13.97,-.1])
 {
 //cylinder(r=5,h=10);
-button_hole();
+button_hole(r);
 }
-
 translate([13.335, 24.765,-.1])
 //cylinder(r=5,h=10);
-button_hole();
+button_hole(r);
 
 
 translate([23.495, 13.97,-.1])
 //cylinder(r=5,h=10);
-button_hole();
-
-
+button_hole(r);
 
 }
 
 
-module corner_holders_top()
+module 4_buttons_holes_inset(r=6)
+{
+
+hull()
+{
+translate([13.335, 3.175,-.1])
+{
+button_hole(r);
+}
+
+
+translate([3.175, 13.97,-.1])
+{
+//cylinder(r=5,h=10);
+button_hole(r);
+}
+translate([13.335, 24.765,-.1])
+//cylinder(r=5,h=10);
+button_hole(r);
+
+
+translate([23.495, 13.97,-.1])
+//cylinder(r=5,h=10);
+button_hole(r);
+}
+}
+
+
+
+module corner_holders_top(r=1.1)
 {
 translate([6,6,-cth+2*ctth])
-holder(h=cth-ctth,w=1.8);
+holder(h=cth-ctth,w=1.8, r=r);
 
 
 //speaker corner
 translate([6+118,6,-cth+2*ctth])
-holder(h=cth-ctth,w=3);
+holder(h=cth-ctth,w=3, r=r);
 
 
 
@@ -233,20 +257,20 @@ holder(h=cth-ctth,w=3);
 
 
 translate([170-1,5+1,-cth+2*ctth])
-holder(h=cth-ctth, w=3);
+holder(h=cth-ctth, w=3, r=r);
 
 
 translate([170-1,85-1+5,-cth+2*ctth])
-holder(h=cth-ctth, w=3);
+holder(h=cth-ctth, w=3, r=r);
 
 
 //in lcd housing
 translate([cwth+48/2,101,-cth+2*ctth])
-holder(h=cth-ctth, w=1.8);
+holder(h=cth-ctth, w=1.8, r=r);
 
 }
 
-module holder(r=1.5, h=5, w=4)
+module holder(r=1.15, h=5, w=4)
 {
 difference()
 {
@@ -395,7 +419,7 @@ module key_holder()
   for(i=[0:4])
   {
   translate([wktw/2+i*(dbwk*7-key_tol-wktw)/4,2.5+1,-3])
-  cylinder(r=1.4, h=120);
+  cylinder(r=1.15, h=120);
   }
   }
 
@@ -472,33 +496,34 @@ module case_top()
 {
 
   //LCD spacers
+
   translate([cwth*2+40,46+10,cth-ctth-4])
-  holder(h=4, w=2, r=.95);
+  holder(h=4, w=2, r=1.15);
 
   translate([cwth*2,46+10,cth-ctth-4])
-  holder(h=4, w=2, r=.95);
+  holder(h=4, w=2, r=1.15);
 
   translate([cwth*2,46+40+10,cth-ctth-4])
-  holder(h=4, w=2, r=.95);
+  holder(h=4, w=2, r=1.15);
 
   translate([cwth*2+40,46+40+10,cth-ctth-4])
-  holder(h=4, w=2, r=.95);
+  holder(h=4, w=2, r=1.15);
 
 
   //spacers for 4 buttons
-  translate([90,55+2,cth-ctth-6])
+  translate([90,55+2,cth-ctth-6+2])
   rotate([0,0,90])
   4_buttons();
 
 
   //holders for keys
-  translate([cwth*2+4+2,44,10]) //+2 compared to v2!
+  translate([cwth*2+4+2.01,44.01,10]) //+2 compared to v2!
   key_holder();
 
 
   //side bars
-  translate([ckhl+cwth*3,0,0])
-  cube([cwth,52,cth]);
+  translate([ckhl+cwth*3,0,4])
+  cube([cwth,52,cth-4]);
 
   translate([cwth*2,8,0])
   cube([cwth,44,cth]);
@@ -508,8 +533,8 @@ module case_top()
 
 
 
-  translate([cl-13-cwth,cwth*1+12,8])
-  speaker_holder();
+  //translate([cl-13-cwth,cwth*1+12,8])
+  //speaker_holder();
 
 
   difference()
@@ -557,6 +582,10 @@ module case_top()
   rotate([0,0,90])
   4_buttons_holes();
 
+    //4 buttons holes inset
+  translate([90-8.255,55+2,3])
+  rotate([0,0,90])
+  4_buttons_holes_inset();
 
   }
 
@@ -595,12 +624,12 @@ module speaker_hole(d=50)
 //cylinder(d=d, h=5);
 rotate([0,0,-45])
 
-translate([-3-15,-15,-1])
+translate([-3-15-5+5+2,-15-5,-1])
 {
   for(i=[0:4])
   {
     translate([i*5,0,0])
-    rCube(1.5,20,10,1);
+    rCube(1,25,10,1);
   }
 
 }
@@ -711,6 +740,8 @@ AAA_battery();
 */
 
 
+
+/*
 translate([20,35+4,-10])
 battery_holder();
 
@@ -759,9 +790,9 @@ rCube(55,52.5-2,1.3,1.2);
 
 }
 
+*/
 
 
-/*
 rotate([0,180,0])
 difference()
 {
@@ -794,7 +825,7 @@ for(i=[0:4])
   cylinder(r=1.4, h=4);
   }
 }
-*/
+
 //4_button();
 
 //speaker
