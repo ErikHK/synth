@@ -80,17 +80,17 @@ rCube(8,20,9-1.6,3);
 
 module pcb_holders()
 {
-holder(h=4, r=1.5); //changed since v2!
+holder(h=4, r=1.15); //changed since v2!
 
 translate([78.74,-28.575,0])
-holder(h=4, r=0.95);
+holder(h=4, r=1.15);
 
 translate([0,-28.575,0])
-holder(h=4, r=.95);
+holder(h=4, r=1.15);
 
 
 translate([78.74,0,0])
-holder(h=4, r=.95);
+holder(h=4, r=1.15);
 
 
 }
@@ -128,8 +128,13 @@ translate([170-1,5+1,-cbh+cbth])
 holder(h=10);
 
 
+translate([170-1-45,5+1,-cbh+cbth])
+holder(h=10);
+
+
 translate([170-1,85-1+5,-cbh+cbth])
 holder(h=10);
+
 
 
 }
@@ -360,11 +365,11 @@ module case_bottom()
 
   //headphone jack holders
 
-  translate([155,6,2])
-  holder(r=1.4,h=3);
+  //translate([155,6,2])
+  //holder(r=1.4,h=3);
 
-  translate([155-2.54*10,6,2])
-  holder(r=1.4,h=3);
+  //translate([155-2.54*10,6,2])
+  //holder(r=1.4,h=3);
 
   
   difference()
@@ -380,9 +385,9 @@ module case_bottom()
   cube([48,6,12]);
 
   //headphone jack hole
-  translate([155-2.54*5,5,8.5])
-  rotate([90,0,0])
-  cylinder(d=6, h=10);
+  //translate([155-2.54*5,5,8.5])
+  //rotate([90,0,0])
+  //cylinder(d=6, h=10);
 
   }
 
@@ -393,17 +398,20 @@ module case_bottom()
 
   //sunk holes
   translate([6,6,-.01])
-  cylinder(r=3.5, h=5);
+  cylinder(r=3.5, h=9);
 
   translate([170-1,5+1,-.01])
-  cylinder(r=3.5, h=5);
+  cylinder(r=3.5, h=9);
+
+  translate([170-1-45,5+1,-.01])
+  cylinder(r=3.5, h=9);
 
   translate([170-1,85-1+5,-.01])
-  cylinder(r=3.5, h=5);
+  cylinder(r=3.5, h=9);
   
   //lcd housing sunk hole
   translate([3+48/2,100.5,-.01])
-  cylinder(r=3.5, h=5);
+  cylinder(r=3.5, h=9);
 
   }
 }
@@ -741,7 +749,8 @@ AAA_battery();
 
 
 
-/*
+module total_bottom()
+{
 translate([20,35+4,-10])
 battery_holder();
 
@@ -750,7 +759,7 @@ translate([130,cw-4,-cbh+cbth])
 //cube([11,6,6]);
 
 
-translate([-2,1,2])
+translate([-2,1+1.5,2])
 rotate([90,0,0])
 slide_switch_holder();
 
@@ -789,10 +798,14 @@ rCube(55,52.5-2,1.3,1.2);
 //cube([.5,200,200]);
 
 }
+}
 
-*/
 
 
+
+
+module total_top()
+{
 rotate([0,180,0])
 difference()
 {
@@ -825,6 +838,15 @@ for(i=[0:4])
   cylinder(r=1.4, h=4);
   }
 }
+
+}
+
+
+
+
+total_bottom();
+
+
 
 //4_button();
 
